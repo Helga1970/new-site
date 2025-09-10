@@ -1,48 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
+(function ($) {
+	'use strict';
 
-{% include head.html %}
+	// Preloader js
+	$(window).on('load', function () {
+		$('.preloader').fadeOut(100);
+	});
 
-<body>
-  {% include header.html %}
+	// Masonry
+	$('.masonry-container').masonry({
+		itemSelector: '.masonry-item',
+		columnWidth: '.masonry-item',
+		gutter: 0,
+		isAnimated: true
+	});
 
-  <div class="container-fluid">
-    <section class="section">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="row masonry-container pt-5">
-              {% for post in site.posts %}
-                <div class="col-lg-3 col-sm-6 mb-5 masonry-item">
-                  <div class="card p-0 border-0 rounded-0 hover-shadow">
-                    <img class="img-fluid rounded-top rounded-0" src="{{ post.featured_image | relative_url }}" alt="feature-image">
-                    <div class="card-body">
-                      <ul class="list-inline mb-3">
-                        {% for category in post.categories %}
-                        <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small"><a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a></li>
-                        {% endfor %}
-                      </ul>
-                      <a href="{{ post.url | relative_url }}">
-                        <h4 class="mb-3">{{ post.title }}</h4>
-                      </a>
-                      <p class="font-secondary mb-4">{{ post.content | strip_html | truncatewords: 25 }}</p>
-                      <a href="{{ post.url | relative_url }}" class="text-uppercase font-primary font-extra-small">Читать далее</a>
-                    </div>
-                  </div>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script src="{{ site.baseurl }}/assets/plugins/jQuery/jquery.min.js"></script>
-  <script src="{{ site.baseurl }}/assets/plugins/bootstrap/bootstrap.min.js"></script>
-  <script src="{{ site.baseurl }}/assets/plugins/slick/slick.min.js"></script>
-  <script src="{{ site.baseurl }}/assets/plugins/masonry/masonry.js"></script>
-  <script src="{{ site.baseurl }}/assets/plugins/smooth-scroll/smooth-scroll.js"></script>
-  <script src="{{ site.baseurl }}/assets/js/script.js"></script>
-</body>
+	// nav fixed
+	$(window).scroll(function () {
+		var nav = $('.navigation');
+		if ($(window).scrollTop() > 50) {
+			nav.addClass('nav-bg');
+		} else {
+			nav.removeClass('nav-bg');
+		}
+	});
 
-</html>
+	// slick slider
+	$('.slick-slider').slick({
+		dots: false,
+		autoplay: true,
+		infinite: true,
+		speed: 300,
+		slidesToShow: 1,
+		arrows: true,
+		prevArrow: '<button type=\'button\' class=\'slick-prev pull-left\'><i class=\'ti-angle-left\' aria-hidden=\'true\'></i></button>',
+		nextArrow: '<button type=\'button\' class=\'slick-next pull-right\'><i class=\'ti-angle-right\' aria-hidden=\'true\'></i></button>',
+		responsive: [{
+				breakpoint: 1024,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					infinite: true,
+					dots: false
+				}
+			},
+			{
+				breakpoint: 991,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1
+				}
+			},
+			{
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1
+				}
+			}
+		]
+	});
+
+	// Accordions
+	$('.collapse').on('shown.bs.collapse', function () {
+		$(this).parent().find('.ti-plus').removeClass('ti-plus').addClass('ti-minus');
+	}).on('hidden.bs.collapse', function () {
+		$(this).parent().find('.ti-minus').removeClass('ti-minus').addClass('ti-plus');
+	});
+
+
+})(jQuery);
