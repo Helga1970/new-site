@@ -4,54 +4,39 @@
 {% include head.html %}
 
 <body>
-  {% if site.google-analytics %}
-    {% include google-analytics.html %}
-  {% endif %}
+  {% if site.google-analytics %}
+    {% include google-analytics.html %}
+  {% endif %}
 
-  {% if site.preloader == true %}
-  <!-- preloader -->
-  <div class="preloader">
-    <div class="loader">
-      <span class="dot"></span>
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-  </div>
-  <!-- /preloader -->
-  {% endif %}
+  {% if site.preloader == true %}
+    <div class="preloader">
+    <div class="loader">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+    {% endif %}
 
-  {% include header.html %}
+  {% include header.html %}
 
-    {{ content }}
+    {{ content }}
 
-  {% include footer.html %}
+    <script src="{{ site.baseurl }}/assets/plugins/jQuery/jquery.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/plugins/slick/slick.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/plugins/masonry/masonry.js"></script>
+    <script src="{{ site.baseurl }}/assets/plugins/instafeed/instafeed.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/plugins/smooth-scroll/smooth-scroll.js"></script>
+    <script src="{{ site.baseurl }}/assets/plugins/headroom/headroom.js"></script>
+    <script src="{{ site.baseurl }}/assets/plugins/reading-time/readingTime.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/plugins/search/lunr.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/plugins/search/search.js"></script>
 
-  <!-- jQuery -->
-  <script src="{{ site.baseurl }}/assets/plugins/jQuery/jquery.min.js"></script>
-  <!-- Bootstrap JS -->
-  <script src="{{ site.baseurl }}/assets/plugins/bootstrap/bootstrap.min.js"></script>
-  <!-- slick slider -->
-  <script src="{{ site.baseurl }}/assets/plugins/slick/slick.min.js"></script>
-  <!-- masonry -->
-  <script src="{{ site.baseurl }}/assets/plugins/masonry/masonry.js"></script>
-  <!-- instafeed -->
-  <script src="{{ site.baseurl }}/assets/plugins/instafeed/instafeed.min.js"></script>
-  <!-- smooth scroll -->
-  <script src="{{ site.baseurl }}/assets/plugins/smooth-scroll/smooth-scroll.js"></script>
-  <!-- headroom -->
-  <script src="{{ site.baseurl }}/assets/plugins/headroom/headroom.js"></script>
-  <!-- reading time -->
-  <script src="{{ site.baseurl }}/assets/plugins/reading-time/readingTime.min.js"></script>
-  <!-- lunr.js -->
-  <script src="{{ site.baseurl }}/assets/plugins/search/lunr.min.js"></script>
-  <!-- search -->
-  <script src="{{ site.baseurl }}/assets/plugins/search/search.js"></script>
-
-  <!-- Main Script -->
-  <script src="{{ site.baseurl }}/assets/js/script.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/script.js"></script>
 </body>
 
 </html>
