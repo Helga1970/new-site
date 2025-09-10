@@ -1,10 +1,18 @@
-gem "bundler"
-gem "jekyll"
-gem "jekyll-paginate"
-gem 'jekyll-tagging'
-gem "jekyll-sitemap"
-gem 'jekyll-archives'
-gem 'wdm', '>= 0.1.0'
-gem "kramdown", ">= 2.3.0"
+source 'https://rubygems.org'
 
-gem "webrick", "~> 1.7"
+gem 'jekyll', '4.4.1'
+gem 'bundler'
+gem 'webrick'
+gem 'csv'
+gem 'base64'
+gem 'kramdown', '>= 2.3.0'
+gem 'wdm', '>= 0.1.0'
+
+group :jekyll_plugins do
+  gem 'jekyll-feed'
+  gem 'jekyll-paginate'
+  gem 'jekyll-seo-tag'
+  gem 'jekyll-sitemap'
+  gem 'jekyll-archives'
+  gem 'jekyll-tagging'
+end
