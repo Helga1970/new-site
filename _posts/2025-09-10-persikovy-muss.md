@@ -4,7 +4,7 @@ title: Персиковый мусс
 categories:
   - Муссы
   - Десерты
-featured_image: https://source.unsplash.com/1560x940/?peach-mousse
+featured_image: https:/assets/images/masonary-post/post-3.jpg
 recipe:
   servings: 6 порций
   prep: 10 минут
