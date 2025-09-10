@@ -1,31 +1,30 @@
 ---
-title: Home
+layout: default
 ---
-<section class="posts">
-	{% for post in paginator.posts %}
-		<article class="post">
-			{% include post-heading.html post=post %}
-			<div class="image">
-				<img src="{{ post.featured_image }}" alt="{{ post.title }}">
-			</div>
-
-			{{ post.excerpt }}
-
-			<p><a class="button" href="{{ site.baseurl }}{{ post.url }}">Read more</a></p>
-		</article>
-	{% endfor %}
-
-	{% if paginator.total_pages > 1 %}
-		<div class="pagination">
-			{% if paginator.previous_page %}
-				<a href="{{ site.baseurl }}{{ paginator.previous_page_path }}" class="previous btn">&larr; Newer posts</a>
+<section class="section">
+  <div class="container">
+    <div class="row masonry-container">
+			{% if site.posts.size > 0 %}
+			{% for post in paginator.posts %}
+      <div class="col-lg-4 col-sm-6 mb-5">
+          <article class="text-center">
+					<img class="img-fluid mb-4" src="{{post.image | relative_url}}" alt="{{post.title}}">
+					{% if post %}
+						{% assign categories = post.categories %}
+					{% else %}
+					{% assign categories = page.categories %}
+					{% endif %}
+					{% for category in post.categories %}
+            <a class="d-block mb-3 text-dark text-uppercase" href="{{ 'category/' | relative_url }}{{ category | slugify }}">{{ category }}</a>
+            {% endfor %}
+            <h4 class="title-border"><a class="text-dark" href="{{ post.url | prepend: site.baseurl }}">{{post.title}}</a></h4>
+            <p>{{ post.content | strip_html | truncatewords: 35 }}</p>
+            <a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-transparent">read more</a>
+          </article>
+        </div>
+			{% endfor %}
 			{% endif %}
-
-			<span class="page_number ">{{ paginator.page }} of {{ paginator.total_pages }}</span>
-
-			{% if paginator.next_page %}
-				<a href="{{ site.baseurl }}{{ paginator.next_page_path }}" class="next btn">Older posts &rarr;</a>
-			{% endif %}
-		</div>
-	{% endif %}
+      </div>
+      {% include pagination.html %}
+  </div>
 </section>
