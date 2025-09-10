@@ -1,4 +1,5 @@
 ---
+layout: home_layout
 date: 2017-01-05
 title: Gingernut Cookies
 categories:
