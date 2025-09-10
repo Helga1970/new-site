@@ -1,27 +1,38 @@
 ---
-layout: home_layout
-date: 2024-09-10
-title: Название вашего рецепта
+date: 2017-01-05
+title: Gingernut Cookies
 categories:
-  - Категория
-featured_image: /assets/images/masonary-post/название-картинки.jpg
+  - Cookies
+featured_image: https://images.unsplash.com/photo-1486893732792-ab0085cb2d43?w=1560&h=940&fit=crop
 recipe:
-  servings: Количество порций
-  prep: Время подготовки
-  cook: Время готовки
-  ingredients_markdown: |-
-    * Ингредиент 1
-    * Ингредиент 2
-  directions_markdown: |-
-    1. Шаг 1
-    2. Шаг 2
+  servings: 60 cookies
+  prep: 15 minutes
+  cook: 15 minutes
+  ingredients_markdown: |-
+    * 200 g butter
+    * 1 cup sugar
+    * 1 cup golden syrup
+    * 3 cups flour
+    * 1 tablespoon ground ginger
+    * 1 teaspoon baking soda
+  directions_markdown: |-
+    1. Pre heat oven to 350°F.
+    2. Cream the butter and the sugar.
+    3. Add the golden syrup and the dry ingredients.
+    4. Mix everything together and roll into little balls. Put onto a greased baking tray, pressing the balls down very slightly with a fork.
+    5. Bake at 350°F for 15 minutes.
+    6. Cool on a wire rack and keep in an airtight container once cold.
 ---
-Здесь вы можете написать описание вашего рецепта.
+These are traditionally a very hard crisp cookie made for dunking into tea or coffee. The bigger you make the balls the crunchier the end result.
 
-![Описание картинки](/assets/images/masonary-post/название-картинки.jpg)
+![Cookie](https://source.unsplash.com/euGck1ifvp0)
 
-Здесь вы можете вставить дополнительные картинки.
+Carefully placing them on the tray.
 
-![Другая картинка](/assets/images/masonary-post/другая-картинка.jpg)
+![Cookie](https://source.unsplash.com/RUPPakds28k)
 
-Здесь можно добавить ещё текст.
+Little Gavin loves them.
+
+![Cookie](https://source.unsplash.com/YnrSLOAjOEA)
+
+Delicious!
