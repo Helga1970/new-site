@@ -3,9 +3,10 @@ layout: home_layout
 date: 2017-01-05
 title: Gingernut Cookies
 categories:
-  - Cookies
+  - Cookies
 featured_image: /assets/images/masonary-post/post-1.jpg
 recipe:
+---
   servings: 60 cookies
   prep: 15 minutes
   cook: 15 minutes
