@@ -4,64 +4,38 @@
 {% include head.html %}
 
 <body>
-  {% if site.google-analytics %}
-    {% include google-analytics.html %}
-  {% endif %}
+  {% if site.google-analytics %}
+    {% include google-analytics.html %}
+  {% endif %}
 
-  {% if site.preloader == true %}
-    <div class="preloader">
-    <div class="loader">
-      <span class="dot"></span>
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-  </div>
-    {% endif %}
-
-  {% include header.html %}
-
-  <section class="section">
-    <div class="container">
-      <div class="row masonry-container">
-        {% if site.posts.size > 0 %}
-        {% for post in paginator.posts %}
-          <div class="col-lg-4 col-sm-6 mb-5">
-            <article class="text-center">
-              <img class="img-fluid mb-4" src="{{post.image | relative_url}}" alt="{{post.title}}">
-              {% if post %}
-                {% assign categories = post.categories %}
-              {% else %}
-                {% assign categories = page.categories %}
-              {% endif %}
-              {% for category in post.categories %}
-                <a class="d-block mb-3 text-dark text-uppercase" href="{{ 'category/' | relative_url }}{{ category | slugify }}">{{ category }}</a>
-              {% endfor %}
-              <h4 class="title-border"><a class="text-dark" href="{{ post.url | prepend: site.baseurl }}">{{post.title}}</a></h4>
-              <p>{{ post.content | strip_html | truncatewords: 35 }}</p>
-              <a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-transparent">read more</a>
-            </article>
-          </div>
-        {% endfor %}
-        {% endif %}
+  {% if site.preloader == true %}
+  <div class="preloader">
+    <div class="loader">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-      {% include pagination.html %}
     </div>
-  </section>
-      <script src="{{ site.baseurl }}/assets/plugins/jQuery/jquery.min.js"></script>
-    <script src="{{ site.baseurl }}/assets/plugins/bootstrap/bootstrap.min.js"></script>
-    <script src="{{ site.baseurl }}/assets/plugins/slick/slick.min.js"></script>
-    <script src="{{ site.baseurl }}/assets/plugins/masonry/masonry.js"></script>
-    <script src="{{ site.baseurl }}/assets/plugins/instafeed/instafeed.min.js"></script>
-    <script src="{{ site.baseurl }}/assets/plugins/smooth-scroll/smooth-scroll.js"></script>
-    <script src="{{ site.baseurl }}/assets/plugins/headroom/headroom.js"></script>
-    <script src="{{ site.baseurl }}/assets/plugins/reading-time/readingTime.min.js"></script>
-    <script src="{{ site.baseurl }}/assets/plugins/search/lunr.min.js"></script>
-    <script src="{{ site.baseurl }}/assets/plugins/search/search.js"></script>
+  </div>
+  {% endif %}
 
-    <script src="{{ site.baseurl }}/assets/js/script.js"></script>
+  {% include header.html %}
+
+  {{ content }}
+  <script src="{{ site.baseurl }}/assets/plugins/jQuery/jquery.min.js"></script>
+  <script src="{{ site.baseurl }}/assets/plugins/bootstrap/bootstrap.min.js"></script>
+  <script src="{{ site.baseurl }}/assets/plugins/slick/slick.min.js"></script>
+  <script src="{{ site.baseurl }}/assets/plugins/masonry/masonry.js"></script>
+  <script src="{{ site.baseurl }}/assets/plugins/instafeed/instafeed.min.js"></script>
+  <script src="{{ site.baseurl }}/assets/plugins/smooth-scroll/smooth-scroll.js"></script>
+  <script src="{{ site.baseurl }}/assets/plugins/headroom/headroom.js"></script>
+  <script src="{{ site.baseurl }}/assets/plugins/reading-time/readingTime.min.js"></script>
+  <script src="{{ site.baseurl }}/assets/plugins/search/lunr.min.js"></script>
+  <script src="{{ site.baseurl }}/assets/plugins/search/search.js"></script>
+
+  <script src="{{ site.baseurl }}/assets/js/script.js"></script>
 </body>
 
 </html>
