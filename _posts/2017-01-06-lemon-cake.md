@@ -3,7 +3,7 @@ date: 2017-01-06
 title: Lemon Cake
 categories:
   - Cakes
-featured_image: https://source.unsplash.com/NAN22eh754c/1560x940
+featured_image:  /assets/images/masonary-post/post-10.jpg
 recipe:
   servings: 12 slices
   prep: 15 minutes
@@ -16,7 +16,7 @@ recipe:
     * 1/2 teaspoon baking powder
     * 3 cups of sugar
     * 2 teaspoons of lemon zest
-    * 6 teaspoons of lemon juice
+    * 6 teaspoons of lemon juice÷
     * 6 eggs
     * 1 cup Greek yogurt
     * 1 cup confectioners’ sugar
