@@ -2,9 +2,15 @@
 layout: default
 ---
 <article class="post">
-	{% include post-heading.html post=page post_page=true %}
+	<header class="post-header">
+		<h1 class="post-title">{{ page.title }}</h1>
+		<div class="post-meta">
+			<span class="post-date">{{ page.date | date: "%B %-d, %Y" }}</span>
+		</div>
+	</header>
+
 	<div class="image">
-		<img src="{{ page.featured_image }}" alt="{{ page.title }}">
+		<img src="{{ page.featured_image | relative_url }}" alt="{{ page.title }}">
 	</div>
 
 	{% if page.book %}
@@ -12,10 +18,10 @@ layout: default
 		<div class="book-cover">
 			{% if page.book.link %}
 				<a href="{{ page.book.link }}" target="_blank" rel="noopener">
-					<img src="{{ page.book.cover }}" alt="{{ page.book.title }}">
+					<img src="{{ page.book.cover | relative_url }}" alt="{{ page.book.title }}">
 				</a>
 			{% else %}
-				<img src="{{ page.book.cover }}" alt="{{ page.book.title }}">
+				<img src="{{ page.book.cover | relative_url }}" alt="{{ page.book.title }}">
 			{% endif %}
 		</div>
 		<div class="book-meta">
@@ -75,7 +81,7 @@ layout: default
 				this.page.url = "{{ page.url | prepend: site.url }}";
 				this.page.identifier = "{{ page.id }}";
 			};
-			(function() {  // DON'T EDIT BELOW THIS LINE
+			(function() {  // DON'T EDIT BELOW THIS LINE
 				var d = document, s = d.createElement('script');
 				s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
 				s.setAttribute('data-timestamp', +new Date());
