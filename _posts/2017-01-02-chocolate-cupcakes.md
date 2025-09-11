@@ -1,111 +1,64 @@
 ---
-layout: default
+date: 2017-01-07
+title: Chocolate Cupcakes
+categories:
+  - Cupcakes
+  - Cakes
+featured_image: /assets/images/masonary-post/post-2.jpg
+book_source: NEW BISTRO
+recipe:
+  servings: 12 cupcakes
+  prep: 5 minutes
+  cook: 25 minutes
+  ingredients_markdown: |-
+    **Cupcakes**
+
+    * 2 cups flour
+    * 1/2 cup cocoa powder
+    * 1 tablespoon baking powder
+    * 1 tsp. salt
+    * 1/2 tsp. baking soda
+    * 4 tablespoons butter
+    * 4 oz. applesauce
+    * 1 cup sugar
+    * 2 eggs
+    * 4 oz. chocolate
+    * 1 tsp. vanilla
+    * 1/2 cup whole milk
+    * 1/2 cup boiling water
+
+    **Icing**
+
+    * 8 oz. of cream cheese
+    * 1 cup of powdered sugar
+    * 1/4 cup milk
+    * 1 tablespoon butter
+  directions_markdown: |-
+    **Cupcakes**
+
+    1. Preheat Oven 350 degree
+    2. In a bowl combine flour, cocoa baking powder, baking soda and salt.
+    3. In a food processor combine butter and sugar and process until smooth. Add the eggs, 4 oz. of chocolate pieces and vanilla. Add half of the flour mixture and ½ of the milk. Process and add the other half of the flour and the remainder of the milk. Slowly, add the hot water.
+    4. Grease and fill muffin tins to top.
+    5. Bake 20 25 minutes or until toothpick test comes out clean.
+    6. Let cool.
+
+    **Icing**
+    1. Combine all of the above in a food processor and process until smooth. Refrigerate.
+    2. Frost cupcakes as you use them.
 ---
-<article class="post">
-  {% include post-heading.html post=page post_page=true %}
+These chocolate chocolate cupcakes have a stunning appearance and a rich, chocolatey sweetness. I've found at parties people prefer bite sized deserts so I'd recommend making 24 mini cupcakes rather than 12 large. That way you won't find half eaten cupcakes at your party!
 
-  <div class="post-content-wrapper" style="display: flex; flex-wrap: wrap; gap: 20px;">
-    <div class="main-content" style="flex: 1 1 60%;">
-      <div class="image">
-        <img src="{{ page.featured_image }}" alt="{{ page.title }}">
-      </div>
+**Рецепт из книги: NEW BISTRO**
 
-      <div class="recipe-body">
-        {{ content }}
-      </div>
+![Cupcakes](https://images.unsplash.com/photo-1448131063153-f1e240f98a72?w=1560&h=940&fit=crop)
 
-      <ul id="recipe" class="recipe-overview">
-        <li title="Servings">{% include recipe-icon.html icon="quantity" %}<span>{{ page.recipe.servings }}</span></li>
-        <li title="Prep Time">{% include recipe-icon.html icon="time" %}<span>{{ page.recipe.prep }}</span></li>
-        <li title="Cook Time">{% include recipe-icon.html icon="cook" %}<span>{{ page.recipe.cook }}</span></li>
-      </ul>
+You can never go wrong with sprinkles.
 
-      <div class="recipe-contents">
-        <div class="ingredients">
-          <h2>Ingredients</h2>
-          {{ page.recipe.ingredients_markdown | markdownify }}
-        </div>
+![Cupcakes](https://images.unsplash.com/photo-1420730614543-e39f93134b0d?w=1560&h=940&fit=crop)
 
-        <div class="directions">
-          <h2>Directions</h2>
-          {{ page.recipe.directions_markdown | markdownify }}
-        </div>
-      </div>
-    </div>
+Milk is a great addition to any cupcake experience.
 
-    {% if page.book_source %}
-    <aside class="book-block" style="flex: 1 1 35%; max-width: 300px;">
-      <div class="book-cover" style="margin-bottom: 10px;">
-        {% if page.book_link %}
-          <a href="{{ page.book_link }}" target="_blank" rel="noopener">
-            <img src="{{ page.book_cover | default: '/assets/images/default-book.jpg' }}" alt="{{ page.book_source }}" style="width: 100%; height: auto; object-fit: contain;">
-          </a>
-        {% else %}
-          <img src="{{ page.book_cover | default: '/assets/images/default-book.jpg' }}" alt="{{ page.book_source }}" style="width: 100%; height: auto; object-fit: contain;">
-        {% endif %}
-      </div>
-      <div class="book-meta">
-        <p class="book-title">
-          {% if page.book_link %}
-            <a href="{{ page.book_link }}" target="_blank" rel="noopener">{{ page.book_source }}</a>
-          {% else %}
-            {{ page.book_source }}
-          {% endif %}
-        </p>
-        {% if page.book_author %}
-        <p class="book-author">{{ page.book_author }}</p>
-        {% endif %}
-      </div>
-    </aside>
-    {% endif %}
-  </div>
+![Cupcakes](https://images.unsplash.com/photo-1457508252818-162dc1934c2f?w=1560&h=940&fit-crop)
 
-  <div class="sharing">
-    {% assign share_url = page.url | absolute_url | cgi_escape %}
-    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url }}">{% include social-icon.html icon="Facebook" %}</a>
-    <a class="twitter" href="https://twitter.com/intent/tweet?url={{ share_url }}">{% include social-icon.html icon="Twitter" %}</a>
-    <a class="instagram" href="https://instagram.com">{% include social-icon.html icon="Instagram" %}</a>
-    <a class="pinterest" href="//pinterest.com/pin/create/link/?url={{ share_url }}&amp;description={{ page.description }}">{% include social-icon.html icon="Pinterest" %}</a>
-    <a class="email" href="mailto:?subject=I've%20found%20a%20great%20recipe&amp;body=Check%20it%20out%20-%20{{ share_url }}">{% include social-icon.html icon="Email" %}</a>
-  </div>
-
-  <div class="cta">
-    <h2>More delicious recipes</h2>
-    <p>This is one of the many fantastic recipes available on this blog</p>
-    <div class="button"><a href="{{ site.baseurl }}/recipes">Check out more recipes</a></div>
-  </div>
-
-  {% if site.disqus_shortname and page.comments %}
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_shortname = '{{ site.disqus_shortname }}';
-      var disqus_config = function () {
-        this.page.url = "{{ page.url | prepend: site.url }}";
-        this.page.identifier = "{{ page.id }}";
-      };
-      (function() {
-        var d = document, s = d.createElement('script');
-        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-  {% endif %}
-</article>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
-<script>
-  $(function() {
-    $('.post img').imgPin();
-
-    $('a[href*=\\#]').on('click', function(event){
-      var el = $(this.hash);
-      if (el.length > 0) {
-        event.preventDefault();
-        $('html,body').animate({scrollTop:$(this.hash).offset().top - 50}, 500);
-      }
-    });
-  });
-</script>
+Why not add some popcorn?
