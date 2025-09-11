@@ -4,20 +4,14 @@
 	// Preloader js
 	$(window).on('load', function () {
 		$('.preloader').fadeOut(100);
+	});
 
-		// Initialize Masonry after all images (and content) are loaded
-		var $grid = $('.masonry-container').masonry({
-			itemSelector: '.masonry-item',
-			columnWidth: '.masonry-item',
-			gutter: 15,
-			percentPosition: true,
-			isAnimated: true
-		});
-
-		// Ensure layout is re-calculated after images load
-		$grid.imagesLoaded().progress( function() {
-			$grid.masonry('layout');
-		});
+	// Masonry
+	$('.masonry-container').masonry({
+		itemSelector: '.masonry-item',
+		columnWidth: '.masonry-item',
+		gutter: 0,
+		isAnimated: true
 	});
 
 	// nav fixed
