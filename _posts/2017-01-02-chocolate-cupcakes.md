@@ -1,45 +1,111 @@
 ---
-date: 2017-01-07
-title: Chocolate Cupcakes
-categories:
-  - Cupcakes
-  - Cakes
-featured_image: /assets/images/masonary-post/post-2.jpg
-book:
-  title: "New Bistro"
-  author: "John Smith"
-  cover: "/assets/images/books/new-bistro.jpg"
-  link: "https://example.com/book-page"
-recipe:
-  servings: 12 cupcakes
-  prep: 5 minutes
-  cook: 25 minutes
-  ingredients_markdown: |-
-    **Cupcakes**
+layout: default
+---
+<article class="post">
+  {% include post-heading.html post=page post_page=true %}
 
-    * 2 cups flour
-    * 1/2 cup cocoa powder
-    * 1 tablespoon baking powder
-    * 1 tsp. salt
-    * 1/2 tsp. baking soda
-    * 4 tablespoons butter
-    * 4 oz. applesauce
-    * 1 cup sugar
-    * 2 eggs
-    * 4 oz. chocolate
-    * 1 tsp. vanilla
-    * 1/2 cup whole milk
-    * 1/2 cup boiling water
+  <div class="post-content-wrapper" style="display: flex; flex-wrap: wrap; gap: 20px;">
+    <div class="main-content" style="flex: 1 1 60%;">
+      <div class="image">
+        <img src="{{ page.featured_image }}" alt="{{ page.title }}">
+      </div>
 
-    **Icing**
+      <div class="recipe-body">
+        {{ content }}
+      </div>
 
-    * 8 oz. of cream cheese
-    * 1 cup of powdered sugar
-    * 1/4 cup milk
-    * 1 tablespoon butter
-  directions_markdown: |-
-    **Cupcakes**
+      <ul id="recipe" class="recipe-overview">
+        <li title="Servings">{% include recipe-icon.html icon="quantity" %}<span>{{ page.recipe.servings }}</span></li>
+        <li title="Prep Time">{% include recipe-icon.html icon="time" %}<span>{{ page.recipe.prep }}</span></li>
+        <li title="Cook Time">{% include recipe-icon.html icon="cook" %}<span>{{ page.recipe.cook }}</span></li>
+      </ul>
 
-    1. Preheat Oven 350 degree
-    2. In a bowl combine flour, cocoa baking powder, baking soda and salt.
-    3. In a food processor combine butter and sugar and process until smooth. Add the eggs, 4 oz. of chocolate pieces and vanilla. Add half of the flour mixture and ½ of the m
+      <div class="recipe-contents">
+        <div class="ingredients">
+          <h2>Ingredients</h2>
+          {{ page.recipe.ingredients_markdown | markdownify }}
+        </div>
+
+        <div class="directions">
+          <h2>Directions</h2>
+          {{ page.recipe.directions_markdown | markdownify }}
+        </div>
+      </div>
+    </div>
+
+    {% if page.book_source %}
+    <aside class="book-block" style="flex: 1 1 35%; max-width: 300px;">
+      <div class="book-cover" style="margin-bottom: 10px;">
+        {% if page.book_link %}
+          <a href="{{ page.book_link }}" target="_blank" rel="noopener">
+            <img src="{{ page.book_cover | default: '/assets/images/default-book.jpg' }}" alt="{{ page.book_source }}" style="width: 100%; height: auto; object-fit: contain;">
+          </a>
+        {% else %}
+          <img src="{{ page.book_cover | default: '/assets/images/default-book.jpg' }}" alt="{{ page.book_source }}" style="width: 100%; height: auto; object-fit: contain;">
+        {% endif %}
+      </div>
+      <div class="book-meta">
+        <p class="book-title">
+          {% if page.book_link %}
+            <a href="{{ page.book_link }}" target="_blank" rel="noopener">{{ page.book_source }}</a>
+          {% else %}
+            {{ page.book_source }}
+          {% endif %}
+        </p>
+        {% if page.book_author %}
+        <p class="book-author">{{ page.book_author }}</p>
+        {% endif %}
+      </div>
+    </aside>
+    {% endif %}
+  </div>
+
+  <div class="sharing">
+    {% assign share_url = page.url | absolute_url | cgi_escape %}
+    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url }}">{% include social-icon.html icon="Facebook" %}</a>
+    <a class="twitter" href="https://twitter.com/intent/tweet?url={{ share_url }}">{% include social-icon.html icon="Twitter" %}</a>
+    <a class="instagram" href="https://instagram.com">{% include social-icon.html icon="Instagram" %}</a>
+    <a class="pinterest" href="//pinterest.com/pin/create/link/?url={{ share_url }}&amp;description={{ page.description }}">{% include social-icon.html icon="Pinterest" %}</a>
+    <a class="email" href="mailto:?subject=I've%20found%20a%20great%20recipe&amp;body=Check%20it%20out%20-%20{{ share_url }}">{% include social-icon.html icon="Email" %}</a>
+  </div>
+
+  <div class="cta">
+    <h2>More delicious recipes</h2>
+    <p>This is one of the many fantastic recipes available on this blog</p>
+    <div class="button"><a href="{{ site.baseurl }}/recipes">Check out more recipes</a></div>
+  </div>
+
+  {% if site.disqus_shortname and page.comments %}
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_shortname = '{{ site.disqus_shortname }}';
+      var disqus_config = function () {
+        this.page.url = "{{ page.url | prepend: site.url }}";
+        this.page.identifier = "{{ page.id }}";
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  {% endif %}
+</article>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
+<script>
+  $(function() {
+    $('.post img').imgPin();
+
+    $('a[href*=\\#]').on('click', function(event){
+      var el = $(this.hash);
+      if (el.length > 0) {
+        event.preventDefault();
+        $('html,body').animate({scrollTop:$(this.hash).offset().top - 50}, 500);
+      }
+    });
+  });
+</script>
