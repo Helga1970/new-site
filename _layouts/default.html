@@ -1,48 +1,104 @@
-<!doctype html>
+---
+layout: default
+---
+<article class="post">
+	<h1>{{ page.title }}</h1>
+	
+	<div class="image">
+		<img src="{{ page.featured_image }}" alt="{{ page.title }}">
+	</div>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-
-		{% seo %}
-		{% feed_meta %}
-
-		<link href="//fonts.googleapis.com/css?family=Antic+Slab|Fira+Sans" rel="stylesheet">
-		<link rel="stylesheet" media="screen" href="{{ site.baseurl }}/css/screen.css">
-		{% if page.print_stylesheet %}
-			<link rel="stylesheet" media="print" href="{{ site.baseurl }}/css/print.css">
-		{% endif %}
-		<link rel="icon" type="image/png" href="{{ site.baseurl }}/images/favicon.png">
-
-		{% if jekyll.environment == 'production' and site.google_analytics_key != '' %}
-			<script>
-				window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-				ga('create', '{{ site.google_analytics_key }}', 'auto');
-				ga('send', 'pageview');
-			</script>
-			<script async src='https://www.google-analytics.com/analytics.js'></script>
-		{% endif %}
-	</head>
-	<body>
-		{% include navigation.html %}
-		<header>
-			<a href="{{site.baseurl }}/">
-				<img src="{{ site.baseurl }}{{ site.data.company_details.logo_image }}" width="180" alt="logo">
-			</a>
-			<div>
-				<a class="editor-link btn" href="cloudcannon:collections/_data/company_details.yml" class="btn"><strong>&#9998;</strong> Edit Logo</a></div>
-		</header>
-			
-		<div class="container main-content">
-			<section class="content">{{ content }}</section>
-			{% include sidebar.html %}
+	{% if page.book %}
+	<div class="book-block">
+		<div class="book-cover">
+			{% if page.book.link %}
+				<a href="{{ page.book.link }}" target="_blank" rel="noopener">
+					<img src="{{ page.book.cover }}" alt="{{ page.book.title }}">
+				</a>
+			{% else %}
+				<img src="{{ page.book.cover }}" alt="{{ page.book.title }}">
+			{% endif %}
 		</div>
-		<footer>
-			<div class="container">
-				<hr>
-				&copy; {{ site.title }} {{ site.time | date: "%Y" }}. All rights reserved.
-			</div>
-		</footer>
-	</body>
-</html>
+		<div class="book-meta">
+			<p class="book-title">
+				{% if page.book.link %}
+					<a href="{{ page.book.link }}" target="_blank" rel="noopener">{{ page.book.title }}</a>
+				{% else %}
+					{{ page.book.title }}
+				{% endif %}
+			</p>
+			<p class="book-author">{{ page.book.author }}</p>
+		</div>
+	</div>
+	{% endif %}
+
+	<div class="recipe-body">
+		{{ content }}
+	</div>
+
+	<ul id="recipe" class="recipe-overview">
+		<li title="Servings">{% include recipe-icon.html icon="quantity" %}<span>{{ page.recipe.servings }}</span></li>
+		<li title="Prep Time">{% include recipe-icon.html icon="time" %}<span>{{ page.recipe.prep }}</span></li>
+		<li title="Cook Time">{% include recipe-icon.html icon="cook" %}<span>{{ page.recipe.cook }}</span></li>
+	</ul>
+
+	<div class="recipe-contents">
+		<div class="ingredients">
+			<h2>Ingredients</h2>
+			{{ page.recipe.ingredients_markdown | markdownify }}
+		</div>
+
+		<div class="directions">
+			<h2>Directions</h2>
+			{{ page.recipe.directions_markdown | markdownify }}
+		</div>
+	</div>
+
+	<div class="sharing">
+		{% assign share_url = page.url | absolute_url | cgi_escape %}
+		<a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url }}">{% include social-icon.html icon="Facebook" %}</a>
+		<a class="twitter" href="https://twitter.com/intent/tweet?url={{ share_url }}&amp;text=I'm%20going%20to%20this%20event!">{% include social-icon.html icon="Twitter" %}</a>
+		<a class="instagram" href="https://instagram.com">{% include social-icon.html icon="Instagram" %}</a>
+		<a class="pinterest" href="//pinterest.com/pin/create/link/?url={{ share_url }}&amp;description={{ page.description }}">{% include social-icon.html icon="Pinterest" %}</a>
+		<a class="email" href="mailto:?subject=I've%20found%20a%20great%20recipe&amp;body=Check%20it%20out%20-%20{{ share_url }}">{% include social-icon.html icon="Email" %}</a>
+	</div>
+
+	<div class="cta">
+		<h2>More delicious recipes</h2>
+		<p>This is one of the many fantastic recipes available on this blog</p>
+		<div class="button"><a href="{{ site.baseurl }}/recipes">Check out more recipes</a></div>
+	</div>
+	{% if site.disqus_shortname and page.comments %}
+		<div id="disqus_thread"></div>
+		<script>
+			var disqus_shortname = '{{ site.disqus_shortname }}';
+			var disqus_config = function () {
+				this.page.url = "{{ page.url | prepend: site.url }}";
+				this.page.identifier = "{{ page.id }}";
+			};
+			(function() {  // DON'T EDIT BELOW THIS LINE
+				var d = document, s = d.createElement('script');
+				s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+			})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+	{% endif %}
+</article>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
+<script>
+	$(function() {
+		$('.post img').imgPin();
+
+		$('a[href*=\\#]').on('click', function(event){
+			var el = $(this.hash);
+			if (el.length > 0) {
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top - 50}, 500);
+			}
+		});
+	});
+</script>
