@@ -5,28 +5,32 @@
         <h1 class="post-title">{{ post.title }}</h1>
         <div class="post-meta">
           <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
-          {% if page.book %}
-          <div class="book-info">
+        </div>
+        
+        {% if page.book %}
+        <div class="book-block">
+          <div class="book-cover">
             {% if page.book.link %}
             <a href="{{ page.book.link }}" target="_blank" rel="noopener">
-              <img src="{{ page.book.cover }}" alt="{{ page.book.title }}" class="book-cover">
+              <img src="{{ page.book.cover }}" alt="{{ page.book.title }}">
             </a>
             {% else %}
-            <img src="{{ page.book.cover }}" alt="{{ page.book.title }}" class="book-cover">
+            <img src="{{ page.book.cover }}" alt="{{ page.book.title }}">
             {% endif %}
-            <div class="book-details">
-              <p class="book-title">
-                {% if page.book.link %}
-                <a href="{{ page.book.link }}" target="_blank" rel="noopener">{{ page.book.title }}</a>
-                {% else %}
-                {{ page.book.title }}
-                {% endif %}
-              </p>
-              <p class="book-author">{{ page.book.author }}</p>
-            </div>
           </div>
-          {% endif %}
+          <div class="book-meta">
+            <p class="book-title">
+              {% if page.book.link %}
+              <a href="{{ page.book.link }}" target="_blank" rel="noopener">{{ page.book.title }}</a>
+              {% else %}
+              {{ page.book.title }}
+              {% endif %}
+            </p>
+            <p class="book-author">{{ page.book.author }}</p>
+          </div>
         </div>
+        {% endif %}
+        
       </div>
     </div>
   </div>
