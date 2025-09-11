@@ -1,65 +1,25 @@
 <aside class="sidebar {% if page.push_sidebar_down %}push{% endif %}">
-    <div>
-        <a class="editor-link btn" href="cloudcannon:collections/_data/sidebar.yml" class="btn">
-            <strong>&#9998;</strong> Edit sidebar
-        </a>
-    </div>
+	<div><a class="editor-link btn" href="cloudcannon:collections/_data/sidebar.yml" class="btn"><strong>&#9998;</strong> Edit sidebar</a></div>
+	
+	{% if page.book %}
+	<div class="test-block">
+		<h2>Тестовый блок</h2>
+		<p>Этот блок виден, потому что в посте указана информация о книге!</p>
+	</div>
+	{% endif %}
 
-    {% if include.page.book %}
-    <div class="book-block">
-        <h2>Рекомендуем книгу:</h2>
-        <div class="book-cover">
-            {% if include.page.book.link %}
-                <a href="{{ include.page.book.link }}" target="_blank" rel="noopener">
-                    <img src="{{ include.page.book.cover | relative_url }}" alt="{{ include.page.book.title }}">
-                </a>
-            {% else %}
-                <img src="{{ include.page.book.cover | relative_url }}" alt="{{ include.page.book.title }}">
-            {% endif %}
-        </div>
-        <div class="book-meta">
-            <p class="book-title">
-                {% if include.page.book.link %}
-                    <a href="{{ include.page.book.link }}" target="_blank" rel="noopener">{{ include.page.book.title }}</a>
-                {% else %}
-                    {{ include.page.book.title }}
-                {% endif %}
-            </p>
-            <p class="book-author">{{ include.page.book.author }}</p>
-        </div>
-    </div>
-    {% endif %}
+	<div class="social-icons">
+		{% if site.data.sidebar.facebook && site.data.sidebar.facebook != "" %}<a target="_blank" href="https://facebook.com/{{ site.data.sidebar.facebook }}">{% include social-icon.html icon="Facebook" %}</a>{% endif %} 
+		{% if site.data.sidebar.twitter && site.data.sidebar.twitter != "" %}<a target="_blank" href="https://twitter.com/{{ site.data.sidebar.twitter }}">{% include social-icon.html icon="Twitter" %}</a>{% endif %} 
+		{% if site.data.sidebar.pinterest && site.data.sidebar.pinterest != "" %}<a target="_blank" href="https://pinterest.com/{{ site.data.sidebar.pinterest }}">{% include social-icon.html icon="Pinterest" %}</a>{% endif %} 
+		{% if site.data.sidebar.instagram && site.data.sidebar.instagram != "" %}<a target="_blank" href="https://www.instagram.com/{{ site.data.sidebar.instagram }}">{% include social-icon.html icon="Instagram" %}</a>{% endif %} 
+	</div>
 
-    <div class="social-icons">
-        {% if site.data.sidebar.facebook and site.data.sidebar.facebook != "" %}
-            <a target="_blank" href="https://facebook.com/{{ site.data.sidebar.facebook }}">
-                {% include social-icon.html icon="Facebook" %}
-            </a>
-        {% endif %}
-        {% if site.data.sidebar.twitter and site.data.sidebar.twitter != "" %}
-            <a target="_blank" href="https://twitter.com/{{ site.data.sidebar.twitter }}">
-                {% include social-icon.html icon="Twitter" %}
-            </a>
-        {% endif %}
-        {% if site.data.sidebar.pinterest and site.data.sidebar.pinterest != "" %}
-            <a target="_blank" href="https://pinterest.com/{{ site.data.sidebar.pinterest }}">
-                {% include social-icon.html icon="Pinterest" %}
-            </a>
-        {% endif %}
-        {% if site.data.sidebar.instagram and site.data.sidebar.instagram != "" %}
-            <a target="_blank" href="https://www.instagram.com/{{ site.data.sidebar.instagram }}">
-                {% include social-icon.html icon="Instagram" %}
-            </a>
-        {% endif %}
-        <a target="_blank" href="{{ site.baseurl }}/feed.xml">{% include social-icon.html icon="RSS" %}</a>
-    </div>
-
-    {% if site.newsletter_action and site.newsletter_action != "" %}
-    <form action="{{ site.newsletter_action }}" method="post">
-        <h3>Newsletter</h3>
-        <p>Get my latest recipes sent straight to your inbox.</p>
-        <input type="text" name="EMAIL" placeholder="Email address">
-        <input type="submit" value="Sign up">
-    </form>
-    {% endif %}
+	{% if site.newsletter_action && site.newsletter_action!=""%}<form action="{{ site.newsletter_action }}" method="post">
+		<h3>Newsletter</h3>
+		<p>Get my latest recipes sent straight to your inbox.</p>
+		<input type="text" name="EMAIL" placeholder="Email address">
+		<input type="submit" value="Sign up">
+	</form>
+	{% endif %}
 </aside>
