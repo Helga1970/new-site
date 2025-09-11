@@ -11,7 +11,7 @@ tags:
   - Mediterranean
   - Vegetarian
   - Pie
-featured_image: /assets/images/masonary-post/post-1.jpg
+featured_image: /assets/images/masonary-post/post-7.jpg
 recipe:
   servings: 6-8 slices
   prep: 30 minutes
