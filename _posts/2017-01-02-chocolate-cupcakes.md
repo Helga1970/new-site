@@ -6,7 +6,6 @@ categories:
   - Cupcakes
   - Cakes
 featured_image: /assets/images/masonary-post/post-2.jpg
-book_source: NEW BISTRO
 recipe:
   servings: 12 cupcakes
   prep: 5 minutes
