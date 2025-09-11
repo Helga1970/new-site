@@ -6,6 +6,7 @@ categories:
   - Cakes
 featured_image: /assets/images/masonary-post/post-2.jpg
 book_source: new bistro
+recipe_source: Рецепт из книги: New Bistro
 recipe:
   servings: 12 cupcakes
   prep: 5 minutes
@@ -48,8 +49,6 @@ recipe:
     2. Frost cupcakes as you use them.
 ---
 These chocolate chocolate cupcakes have a stunning appearance and a rich, chocolatey sweetness. I've found at parties people prefer bite sized deserts so I'd recommend making 24 mini cupcakes rather than 12 large. That way you won't find half eaten cupcakes at your party!
-
-**Рецепт из книги: new bistro**
 
 ![Cupcakes](https://images.unsplash.com/photo-1448131063153-f1e240f98a72?w=1560&h=940&fit=crop)
 
