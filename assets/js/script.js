@@ -7,12 +7,17 @@
 	});
 
 	// Masonry
-	$('.masonry-container').masonry({
-		itemSelector: '.masonry-item',
-		columnWidth: '.masonry-item',
-		gutter: 0,
-		isAnimated: true
-	});
+	var $grid = $('.masonry-container');
+	if ($grid.length) {
+		$grid.imagesLoaded(function () {
+			$grid.masonry({
+				itemSelector: '.masonry-item',
+				percentPosition: true,
+				gutter: 0,
+				transitionDuration: '0.25s'
+			});
+		});
+	}
 
 	// nav fixed
 	$(window).scroll(function () {
@@ -32,9 +37,10 @@
 		speed: 300,
 		slidesToShow: 1,
 		arrows: true,
-		prevArrow: '<button type=\'button\' class=\'slick-prev pull-left\'><i class=\'ti-angle-left\' aria-hidden=\'true\'></i></button>',
-		nextArrow: '<button type=\'button\' class=\'slick-next pull-right\'><i class=\'ti-angle-right\' aria-hidden=\'true\'></i></button>',
-		responsive: [{
+		prevArrow: '<button type="button" class="slick-prev pull-left"><i class="ti-angle-left" aria-hidden="true"></i></button>',
+		nextArrow: '<button type="button" class="slick-next pull-right"><i class="ti-angle-right" aria-hidden="true"></i></button>',
+		responsive: [
+			{
 				breakpoint: 1024,
 				settings: {
 					slidesToShow: 1,
@@ -73,6 +79,5 @@
 	}).on('hidden.bs.collapse', function () {
 		$(this).parent().find('.ti-minus').removeClass('ti-minus').addClass('ti-plus');
 	});
-
 
 })(jQuery);
