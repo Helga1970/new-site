@@ -6,23 +6,55 @@
 <body>
   {% include header.html %}
 
+  <!-- Локальные стили для Masonry: убирают конфликт с Bootstrap -->
+  <style>
+    /* Контейнер Masonry — Masonry будет абсолют-позиционировать элементы внутри */
+    .masonry-container {
+      position: relative;
+    }
+
+    /* Элементы сетки — убираем Bootstrap-колонки, задаём ширины через проценты */
+    .masonry-item {
+      width: 25%; /* 4 колонки на десктопе */
+      box-sizing: border-box;
+      padding: 0 15px; /* внутренний горизонтальный отступ как gutter */
+      margin-bottom: 30px;
+      /* не задаём position — Masonry назначит absolute при раскладке */
+    }
+
+    /* Проверяем, чтобы картинка не выходила за пределы карточки */
+    .masonry-item .card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Адаптив */
+    @media (max-width: 992px) {
+      .masonry-item { width: 50%; } /* 2 колонки на планшете */
+    }
+    @media (max-width: 576px) {
+      .masonry-item { width: 100%; padding: 0; } /* 1 колонка на телефоне */
+    }
+  </style>
+
   <div class="container-fluid">
     <section class="section">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
+            <!-- masonry-container остаётся внутри сетки, но элементы не используют .col-* -->
             <div class="row masonry-container pt-5">
-              <!-- grid-sizer: помогает Masonry рассчитывать ширину колонок -->
-              <div class="grid-sizer col-lg-3 col-sm-6"></div>
-
               {% for post in site.posts %}
-                <div class="col-lg-3 col-sm-6 mb-5 masonry-item">
+                <div class="masonry-item mb-5">
                   <div class="card p-0 border-0 rounded-0 hover-shadow">
                     <img class="img-fluid rounded-top rounded-0" src="{{ post.featured_image | relative_url }}" alt="feature-image">
                     <div class="card-body">
                       <ul class="list-inline mb-3">
                         {% for category in post.categories %}
-                        <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small"><a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a></li>
+                        <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small">
+                          <a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a>
+                        </li>
                         {% endfor %}
                       </ul>
                       <a href="{{ post.url | relative_url }}">
@@ -41,33 +73,54 @@
     </section>
   </div>
 
+  <!-- Скрипты (порядок важен: jQuery -> imagesLoaded -> Masonry) -->
   <script src="{{ site.baseurl }}/assets/plugins/jQuery/jquery.min.js"></script>
   <script src="{{ site.baseurl }}/assets/plugins/bootstrap/bootstrap.min.js"></script>
   <script src="{{ site.baseurl }}/assets/plugins/slick/slick.min.js"></script>
   <script src="{{ site.baseurl }}/assets/plugins/imagesloaded/imagesloaded.pkgd.js"></script>
   <script src="{{ site.baseurl }}/assets/plugins/masonry/masonry.js"></script>
 
-  <!-- Инициализация Masonry (FIX #1) -->
+  <!-- Инициализация Masonry (imagesLoaded + ре-лейаут при ресайзе, динамике и загрузке картинок) -->
   <script>
-    $(document).ready(function () {
-      // инициализируем Masonry, затем принудительно перестраиваем по мере загрузки изображений
-      var $grid = $('.masonry-container').masonry({
-        itemSelector: '.masonry-item',
-        columnWidth: '.grid-sizer',
-        percentPosition: true,
-        transitionDuration: '0.25s'
-      });
+    (function ($) {
+      $(function () {
+        var $grid = $('.masonry-container').masonry({
+          itemSelector: '.masonry-item',
+          percentPosition: true,
+          transitionDuration: '0.25s'
+          // не используем columnWidth/grid-sizer — ширины задаются через CSS
+        });
 
-      // imagesLoaded — чтобы Masonry подстроился под реальные размеры картинок
-      $grid.imagesLoaded().progress(function () {
-        $grid.masonry('layout');
-      });
+        // Используем imagesLoaded: по мере загрузки картинок перестраиваем
+        if ($grid.length && $grid.imagesLoaded) {
+          $grid.imagesLoaded()
+            .progress(function () { $grid.masonry('layout'); })
+            .always(function () { $grid.masonry('layout'); });
+        } else {
+          // fallback: если imagesLoaded не подключился — выполняем layout после загрузки окна
+          $(window).on('load', function () { $grid.masonry('layout'); });
+        }
 
-      // перестраиваем при ресайзе (иногда нужно)
-      $(window).on('resize', function () {
-        $grid.masonry('layout');
+        // Debounced re-layout при ресайзе
+        var resizeTimer;
+        $(window).on('resize', function () {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(function () {
+            $grid.masonry('layout');
+          }, 120);
+        });
+
+        // Если контент добавляется динамически, наблюдаем за контейнером и перезагружаем items
+        var container = document.querySelector('.masonry-container');
+        if (container && window.MutationObserver) {
+          var mo = new MutationObserver(function () {
+            $grid.masonry('reloadItems');
+            $grid.masonry('layout');
+          });
+          mo.observe(container, { childList: true, subtree: false });
+        }
       });
-    });
+    })(jQuery);
   </script>
 
   <script src="{{ site.baseurl }}/assets/plugins/smooth-scroll/smooth-scroll.js"></script>
