@@ -49,6 +49,6 @@ recipe:
 book:
   title: New Bistro
   author: Вася Попкин
-  cover: /assets/images/masonary-post/post-8.jpg
+  cover: /assets/images/masonary-post/post-1.jpg
   link: https://example.com/new-bistro
 ---
