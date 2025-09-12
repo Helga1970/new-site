@@ -38,24 +38,8 @@
 	}
 }
 
-/* Hide the mobile book block on large screens */
-.book-block--mobile {
-	display: none;
-}
-
 @media (max-width: 768px) {
-	/* Hide the sidebar on mobile */
-	.sidebar {
-		display: none;
-	}
-	
-	/* Show the mobile book block */
-	.book-block--mobile {
-		display: block;
-		margin-bottom: 20px;
-	}
-
-  /* Style the book block on mobile */
+  /* Переключаем блок на горизонтальное расположение */
   .book-block {
     display: flex;
     flex-direction: row;
@@ -63,15 +47,18 @@
     gap: 20px;
   }
   
+  /* Уменьшаем размер обложки на мобильных */
   .book-block .book-cover {
     width: 80px;
     height: auto;
   }
   
+  /* Убираем заголовок "Рекомендуем книгу" на мобильных */
   .book-block h2 {
     display: none;
   }
   
+  /* Размещаем текст справа от фото */
   .book-block .book-meta {
     flex-grow: 1;
   }
