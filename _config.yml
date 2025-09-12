@@ -33,7 +33,9 @@ collections:
   recipes:
     output: true
     permalink: /recipes/:path/
-    paginate: true # <-- Эта строка добавлена
+    sort_by: 'date'
+    reverse: true
+    paginate: true
 
 defaults:
   -
