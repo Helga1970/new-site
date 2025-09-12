@@ -99,3 +99,56 @@
         max-width: 300px;
     }
 }
+/* Дополнительные стили для блока "Похожие рецепты" */
+.related-recipes-section {
+  margin-top: 50px;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+}
+
+.related-recipes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.recipe-card {
+  flex: 1 1 calc(25% - 20px);
+  min-width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s;
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+}
+
+.recipe-card-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.recipe-card-content {
+  padding: 15px;
+}
+
+.recipe-card-content h4 {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .related-recipes-grid {
+    flex-direction: column;
+  }
+
+  .recipe-card {
+    flex: 1 1 auto;
+    min-width: unset;
+  }
+}
