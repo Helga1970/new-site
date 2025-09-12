@@ -2,7 +2,7 @@
 layout: post
 date: 2025-09-11 10:00:00 +0200
 title: Lamb Shanks from Aden
-categories:
+tags:
   - AFRICA
   - EGYPT
   - ADEN
