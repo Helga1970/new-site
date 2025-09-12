@@ -122,8 +122,8 @@ article.post .recipe-contents .ingredients li {
 }
 article.post .recipe-contents .ingredients li::before {
   content: "";
-  width: .5em;
-  height: .5em;
+  width: .4em;
+  height: .4em;
   border-radius: 50%;
   background: #fa8569;
   position: absolute;
@@ -132,17 +132,17 @@ article.post .recipe-contents .ingredients li::before {
   transform: translateY(-50%);
 }
 
-/* --- Directions: шаги с точками вместо цифр --- */
+/* --- Directions: шаги с жирными точками вместо цифр --- */
 article.post .recipe-contents .directions ol {
   padding-left: 0;
 }
 article.post .recipe-contents .directions ol li {
-  padding-left: 1.1em;
+  padding-left: 1.3em;
 }
 article.post .recipe-contents .directions ol li::before {
   content: "";
-  width: .6em;
-  height: .6em;
+  width: .8em;
+  height: .8em;
   border-radius: 50%;
   background: #fa8569;
   position: absolute;
@@ -150,4 +150,3 @@ article.post .recipe-contents .directions ol li::before {
   top: 50%;
   transform: translateY(-50%);
 }
-
