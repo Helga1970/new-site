@@ -58,10 +58,12 @@
 		$(function() {
 			// Перемещаем блок книги на мобильных
 			if ($(window).width() <= 768) {
-				var $book = $('.recommended-book.desktop-only');
-				$book.addClass('book-mobile').appendTo('.book-mobile-placeholder');
-			}
-			
+    // Берём только блок, который существует и ещё не перемещён
+    var $book = $('.recommended-book.desktop-only');
+    if ($book.length && !$book.hasClass('book-mobile')) {
+        $book.addClass('book-mobile').appendTo('.book-mobile-placeholder');
+    }
+}			
 			$('.post img').imgPin();
 			
 			$('a[href*=\\#]').on('click', function(event){
