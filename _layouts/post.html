@@ -69,10 +69,19 @@ layout: default
 	    <h3>Похожие рецепты</h3>
 	    <div class="related-recipes-grid">
 	      {% for recipe in shuffled_recipes %}
-	        <div class="recipe-card">
-	          <h4><a href="{{ recipe.url | relative_url }}">{{ recipe.title }}</a></h4>
-	          <p>{{ recipe.excerpt | truncatewords: 20 }}</p>
-	        </div>
+	       <div class="recipe-card-list-item">
+  <a href="{{ recipe.url | relative_url }}">
+    {% if recipe.featured_image %}
+      <div class="recipe-card-image-wrapper">
+        <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
+      </div>
+    {% endif %}
+    <div class="recipe-card-content-list-item">
+      <h4>{{ recipe.title }}</h4>
+      <p>{{ recipe.excerpt | truncatewords: 20 }}</p>
+    </div>
+  </a>
+</div>
 	      {% endfor %}
 	    </div>
 	  </div>
