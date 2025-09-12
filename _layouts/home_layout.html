@@ -15,7 +15,9 @@
               {% for post in site.recipes | sort: "date" | reverse %}
                 <div class="col-lg-3 col-sm-6 mb-5 masonry-item">
                   <div class="card p-0 border-0 rounded-0 hover-shadow">
-                    <img class="img-fluid rounded-top rounded-0" src="{{ post.featured_image | relative_url }}" alt="feature-image">
+                    <a href="{{ post.url | relative_url }}">
+                      <img class="img-fluid rounded-top rounded-0" src="{{ post.featured_image | relative_url }}" alt="feature-image">
+                    </a>
                     <div class="card-body">
                       <ul class="list-inline mb-3">
                         {% for category in post.categories %}
@@ -25,13 +27,14 @@
                       {% if post.book.title %}
                       <p class="font-secondary mb-3 mt-1 font-extra-small">Рецепт из книги: {{ post.book.title }}</p>
                       {% endif %}
+                      <a href="{{ post.url | relative_url }}">
                         <h4 class="mb-3">{{ post.title }}</h4>
                       </a>
                       <p class="font-secondary mb-4">{{ post.content | strip_html | truncatewords: 25 }}</p>
                       <a href="{{ post.url | relative_url }}" class="text-uppercase font-primary font-extra-small">Читать далее</a>
                     </div>
                   </div>
-              </div>
+                </div>
               {% endfor %}
             </div>
           </div>
