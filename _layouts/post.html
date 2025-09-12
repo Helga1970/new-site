@@ -5,7 +5,7 @@ layout: default
 	{% include post-heading.html post=page post_page=true %}
 
 	{% if page.book %}
-		<div class="book-block desktop-only">
+		<div class="book-block mobile-only">
 			<img class="book-cover" src="{{ page.book.cover }}" alt="{{ page.book.title }}">
 			<div class="book-meta">
 				<h3>{{ page.book.title }}</h3>
@@ -46,40 +46,40 @@ layout: default
 {% assign related_recipes = "" | split: "" %}
 
 {% for recipe in all_recipes %}
-  {% if recipe.url != page.url %}
-    {% assign common_tags = recipe.tags | intersection: current_tags %}
-    {% if common_tags.size > 0 %}
-      {% assign related_recipes = related_recipes | push: recipe %}
-    {% endif %}
-  {% endif %}
+  {% if recipe.url != page.url %}
+    {% assign common_tags = recipe.tags | intersection: current_tags %}
+    {% if common_tags.size > 0 %}
+      {% assign related_recipes = related_recipes | push: recipe %}
+    {% endif %}
+  {% endif %}
 {% endfor %}
 
 {% assign unique_related_recipes = related_recipes | uniq %}
 {% assign shuffled_recipes = unique_related_recipes | shuffle | slice: 0, 4 %}
 
 {% if shuffled_recipes.size > 0 %}
-  <div class="related-recipes-section">
-    <h3>Похожие рецепты</h3>
-    <div class="related-recipes-grid">
-      {% for recipe in shuffled_recipes %}
-        <div class="recipe-card-list-item">
-          <a href="{{ recipe.url | relative_url }}">
-            {% if recipe.featured_image %}
-              <div class="recipe-card-image-wrapper">
-                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
-              </div>
-            {% endif %}
-            <div class="recipe-card-content-list-item">
-              <h4>{{ recipe.title }}</h4>
-              {% if recipe.book.title %}
-                <p class="recipe-book">Из {{ recipe.book.title }}</p>
-              {% endif %}
-            </div>
-          </a>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
+  <div class="related-recipes-section">
+    <h3>Похожие рецепты</h3>
+    <div class="related-recipes-grid">
+      {% for recipe in shuffled_recipes %}
+        <div class="recipe-card-list-item">
+          <a href="{{ recipe.url | relative_url }}">
+            {% if recipe.featured_image %}
+              <div class="recipe-card-image-wrapper">
+                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
+              </div>
+            {% endif %}
+            <div class="recipe-card-content-list-item">
+              <h4>{{ recipe.title }}</h4>
+              {% if recipe.book.title %}
+                <p class="recipe-book">Из {{ recipe.book.title }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 {% endif %}
 {% comment %} Конец кода для похожих рецептов {% endcomment %}
 
