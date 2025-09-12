@@ -33,6 +33,7 @@ collections:
   recipes:
     output: true
     permalink: /recipes/:path/
+    paginate: true # <-- Эта строка добавлена
 
 defaults:
   -
