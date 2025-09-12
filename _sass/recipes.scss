@@ -101,43 +101,42 @@
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-/* --- FIX: reset any existing markers --- */
-/* Убираем все маркеры у списков в рецепте */
-article.post .recipe-contents ol,
-article.post .recipe-contents ul {
-  list-style: none !important;
-  margin: 0;
-  padding: 0;
+/* Финальные стили для списков */
+.directions ol,
+.ingredients ul {
+    list-style: none;
+    padding-left: 0;
 }
 
-/* Убираем любые маркеры, созданные через ::marker или ::before */
-article.post .recipe-contents ol li::marker,
-article.post .recipe-contents ul li::marker {
-  font-size: 0;
-  color: transparent;
-  content: "" !important;
+.directions ol li,
+.ingredients ul li {
+    position: relative;
+    padding-left: 20px;
+    margin: 0 0 10px 0;
 }
 
-article.post .recipe-contents ol li::before,
-article.post .recipe-contents ul li::before {
-  content: none !important;
-  display: none !important;
+/* Толстые точки для шагов */
+.directions ol li::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background-color: #fa8569;
+    border-radius: 50%;
+    transform: translateY(-50%);
 }
 
-/* Базовый отступ у всех li внутри рецепта */
-article.post .recipe-contents li {
-  position: relative;
-  padding-left: 1.25em;
-  margin-bottom: 0.6em;
-}
-
-/* Ингредиенты: убираем маркеры */
-article.post .recipe-contents .ingredients ul,
-article.post .recipe-contents .ingredients ol {
-  padding-left: 0;
-}
-
-/* Шаги: убираем маркеры */
-article.post .recipe-contents .directions ol {
-  padding-left: 0;
+/* Тонкие точки для ингредиентов */
+.ingredients ul li::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: #fa8569;
+    border-radius: 50%;
+    transform: translateY(-50%);
 }
