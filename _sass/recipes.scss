@@ -10,12 +10,12 @@
 /* Адаптив для мобильных */
 @media (max-width: 768px) {
   .desktop-only {
-    display: none;       // скрываем десктопный блок
+    display: none;      /* скрываем десктопный блок */
   }
 
   .mobile-only {
-    display: flex;       // показываем мобильный блок
-    flex-direction: row; // фото слева, текст справа
+    display: flex;      /* показываем мобильный блок */
+    flex-direction: row; /* фото слева, текст справа */
     align-items: center;
     gap: 20px;
   }
@@ -31,6 +31,109 @@
   }
 
   .mobile-only h2 {
-    display: none;       // если есть заголовок
+    display: none;      /* если есть заголовок */
   }
+}
+
+/* Новые стили для макета в 2 колонки на десктопе с квадратными изображениями */
+.related-recipes-section {
+  margin-top: 50px;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+}
+
+.related-recipes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; /* Выравниваем по левому краю */
+}
+
+.recipe-card-list-item {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  width: calc(50% - 10px); /* Устанавливаем фиксированную ширину 2 колонок */
+}
+
+.recipe-card-list-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.recipe-card-list-item a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.recipe-card-image-wrapper {
+  width: 100px; /* Фиксированная ширина */
+  height: 100px; /* Фиксированная высота */
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.recipe-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.recipe-card-content-list-item {
+  padding: 15px;
+  flex-grow: 1;
+}
+
+.recipe-card-content-list-item h4 {
+  margin-top: 0;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+  .related-recipes-grid {
+    flex-direction: column;
+  }
+  
+  .recipe-card-list-item {
+    width: 100%; /* одна колонка на мобильных */
+  }
+}
+
+/* Общие стили для заголовка и кнопки */
+.post-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Стили для заголовка и даты */
+.post-header-text {
+  flex-grow: 1;
+}
+
+/* Стили для кнопки "К рецепту" */
+.take-me {
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+.take-me .button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.take-me .button:hover {
+  background-color: #f8f8f8;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
