@@ -9,7 +9,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: flex-start; /* Выравниваем по левому краю */
+  justify-content: flex-start;
 }
 
 .recipe-card-list-item {
@@ -17,7 +17,7 @@
   border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.2s;
-  width: calc(50% - 10px); /* Устанавливаем фиксированную ширину 2 колонок */
+  width: calc(50% - 10px);
 }
 
 .recipe-card-list-item:hover {
@@ -32,8 +32,8 @@
 }
 
 .recipe-card-image-wrapper {
-  width: 100px; /* Фиксированная ширина */
-  height: 100px; /* Фиксированная высота */
+  width: 100px;
+  height: 100px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -61,7 +61,7 @@
   }
   
   .recipe-card-list-item {
-    width: 100%; /* одна колонка на мобильных */
+    width: 100%;
   }
 }
 
@@ -73,12 +73,10 @@
   flex-wrap: wrap;
 }
 
-/* Стили для заголовка и даты */
 .post-header-text {
   flex-grow: 1;
 }
 
-/* Стили для кнопки "К рецепту" */
 .take-me {
   flex-shrink: 0;
   margin-left: 20px;
@@ -101,13 +99,25 @@
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-/* Стили для списков (directions and ingredients) */
+/* --- Стили для списков (ingredients and directions) --- */
+
+/* Убираем все стандартные маркеры у списков рецепта */
 .directions ol,
 .ingredients ul {
-    list-style: none;
-    padding-left: 0;
+    list-style: none !important;
+    padding-left: 0 !important;
 }
 
+/* Скрываем любые маркеры, созданные другими правилами */
+.directions ol li::marker,
+.ingredients ul li::marker,
+.directions ol li::before,
+.ingredients ul li::before {
+    content: none !important;
+    display: none !important;
+}
+
+/* Базовый отступ для всех элементов списка внутри рецепта */
 .directions ol li,
 .ingredients ul li {
     position: relative;
@@ -115,7 +125,21 @@
     margin: 0 0 10px 0;
 }
 
-/* Тонкие точки для ингредиентов */
+/* Добавляем толстые оранжевые точки для шагов */
+.directions ol li::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background-color: #fa8569;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    display: block !important;
+}
+
+/* Добавляем тонкие оранжевые точки для ингредиентов */
 .ingredients ul li::before {
     content: "";
     position: absolute;
@@ -126,4 +150,5 @@
     background-color: #fa8569;
     border-radius: 50%;
     transform: translateY(-50%);
+    display: block !important;
 }
