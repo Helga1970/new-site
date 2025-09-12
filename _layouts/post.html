@@ -51,7 +51,7 @@ layout: default
 				this.page.url = "{{ page.url | prepend: site.url }}";
 				this.page.identifier = "{{ page.id }}";
 			};
-			(function() {  // DON'T EDIT BELOW THIS LINE
+			(function() {  // DON'T EDIT BELOW THIS LINE
 				var d = document, s = d.createElement('script');
 				s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
 				s.setAttribute('data-timestamp', +new Date());
@@ -63,7 +63,6 @@ layout: default
 </article>
 
 {% include sidebar.html page=page %}
-{% assign page.book = nil %}
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
