@@ -141,3 +141,17 @@ article.post .recipe-contents .ingredients ol {
 article.post .recipe-contents .directions ol {
   padding-left: 0;
 }
+
+/* Новые стили для толстых оранжевых точек в шагах */
+.directions ol li::before {
+    content: "";
+    width: .6em;
+    height: .6em;
+    border-radius: 50%;
+    background: #fa8569;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block;
+}
