@@ -1,4 +1,4 @@
-html, body {
+html , body {
 	padding: 0;
 	margin: 0;
 	line-height: 1.8em;
@@ -25,6 +25,9 @@ time {
 	color: $light-grey;
 }
 
+ol {
+  list-style: none;
+}
 header {
 	text-align: center;
 	padding: 80px 0 60px 0;
@@ -34,25 +37,8 @@ img {
 	max-width: 100%;
 }
 
-/* Стили для списков (добавлены/изменены) */
-ul, ol {
-    list-style: none; /* Убираем стандартные маркеры (точки, цифры) */
-    padding-left: 0; /* Удаляем стандартный отступ */
-}
-
-ul li, ol li {
-    position: relative;
-    padding-left: 20px; /* Отступ для новых точек */
-    margin: 0 0 10px 0; /* Убираем старый отступ, оставляем небольшой между элементами */
-}
-
-ul li::before, ol li::before {
-    content: "•"; /* Наш новый маркер */
-    position: absolute;
-    left: 0;
-    color: #fa8569; /* Твой цвет */
-    font-size: 1.5em;
-    line-height: 1;
+ol li + li {
+	margin: 20px 0 0 0;
 }
 
 footer {
