@@ -51,6 +51,22 @@ defaults:
         featured_image:
           width: 1560
           height: 2000
+  -
+    scope:
+      path: ""
+      type: "recipes"
+    values:
+      layout: "post"
+      comments: true
+      push_sidebar_down: true
+      print_stylesheet: true
+      _options:
+        content:
+          width: 1560
+          height: 2000
+        featured_image:
+          width: 1560
+          height: 2000
   -
     scope:
       path: ""
