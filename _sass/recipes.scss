@@ -1,4 +1,4 @@
-/* Новые стили для макета в 2 колонки на десктопе */
+/* Новые стили для макета в 2 колонки на десктопе с квадратными изображениями */
 .related-recipes-section {
   margin-top: 50px;
   border-top: 1px solid #eee;
@@ -20,7 +20,7 @@
 }
 
 .recipe-card-list-item:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Глубже и длиннее тень */
 }
 
 .recipe-card-list-item a {
@@ -31,16 +31,17 @@
 }
 
 .recipe-card-image-wrapper {
-  width: 100px;
-  height: 100px;
+  width: 100px; /* Фиксированная ширина */
+  height: 100px; /* Фиксированная высота */
   overflow: hidden;
   flex-shrink: 0;
 }
 
 .recipe-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100%; /* Изображение занимает 100% ширины обёртки */
+  height: 100%; /* Изображение занимает 100% высоты обёртки */
+  object-fit: cover; /* Обрезает изображение, чтобы оно заполнило контейнер */
+  display: block; /* Убираем лишние отступы */
 }
 
 .recipe-card-content-list-item {
