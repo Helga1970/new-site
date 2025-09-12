@@ -1,51 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+{% comment %} Start of the updated code for related recipes {% endcomment %}
+{% assign current_tags = page.tags %}
+{% assign related_recipes = site.recipes | where_exp: 'item', "item.url != page.url" %}
+{% assign found_related = false %}
 
-{% include head.html %}
+{% if current_tags.size > 0 %}
+    {% for recipe in related_recipes %}
+        {% assign common_tags = recipe.tags | intersection: current_tags %}
+        {% if common_tags.size > 0 %}
+            {% assign found_related = true %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
 
-<body>
-  {% include header.html %}
-
-  <div class="container-fluid">
-    <section class="section">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="row masonry-container pt-5">
-              {% for post in site.posts | sort: "date" | reverse %}
-                <div class="col-lg-3 col-sm-6 mb-5 masonry-item">
-                  <div class="card p-0 border-0 rounded-0 hover-shadow">
-                    <img class="img-fluid rounded-top rounded-0" src="{{ post.featured_image | relative_url }}" alt="feature-image">
-                    <div class="card-body">
-                      <ul class="list-inline mb-3">
-                        {% for category in post.categories %}
-                        <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small"><a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a></li>
-                        {% endfor %}
-                      </ul>
-                      {% if post.book.title %}
-                      <p class="font-secondary mb-3 mt-1 font-extra-small">Рецепт из книги: {{ post.book.title }}</p>
-                      {% endif %}
-                        <h4 class="mb-3">{{ post.title }}</h4>
-                      </a>
-                      <p class="font-secondary mb-4">{{ post.content | strip_html | truncatewords: 25 }}</p>
-                      <a href="{{ post.url | relative_url }}" class="text-uppercase font-primary font-extra-small">Читать далее</a>
+{% if found_related %}
+  <div class="related-section">
+    <h2>Похожие рецепты</h2>
+    <div class="related-items-grid">
+        {% for recipe in related_recipes %}
+            {% assign common_tags = recipe.tags | intersection: current_tags %}
+            {% if common_tags.size > 0 %}
+                <div class="related-item">
+                    {% if recipe.featured_image %}
+                        <div class="related-item-image" style="background-image: url('{{ recipe.featured_image }}');"></div>
+                    {% endif %}
+                    <div class="related-item-content">
+                        <p class="related-item-title">{{ recipe.title }}</p>
+                        {% if recipe.book %}
+                            <p class="related-item-book">Из книги: "{{ recipe.book.title }}"</p>
+                        {% endif %}
                     </div>
-                  </div>
                 </div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+            {% endif %}
+        {% endfor %}
+    </div>
   </div>
-  <script src="{{ site.baseurl }}/assets/plugins/jQuery/jquery.min.js"></script>
-  <script src="{{ site.baseurl }}/assets/plugins/bootstrap/bootstrap.min.js"></script>
-  <script src="{{ site.baseurl }}/assets/plugins/slick/slick.min.js"></script>
-  <script src="{{ site.baseurl }}/assets/plugins/imagesloaded/imagesloaded.pkgd.js"></script>
-  <script src="{{ site.baseurl }}/assets/plugins/masonry/masonry.js"></script>
-  <script src="{{ site.baseurl }}/assets/plugins/smooth-scroll/smooth-scroll.js"></script>
-  <script src="{{ site.baseurl }}/assets/js/script.js"></script>
-</body>
-
-</html>
+{% endif %}
+{% comment %} End of the updated code for related recipes {% endcomment %}
