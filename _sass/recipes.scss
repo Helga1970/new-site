@@ -64,19 +64,29 @@
     width: 100%; /* одна колонка на мобильных */
   }
 }
-/* Управление кнопкой "К рецепту" */
+/* Общие стили для заголовка и кнопки */
+.post-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Стили для заголовка и даты */
+.post-header-text {
+  flex-grow: 1;
+}
+
+/* Стили для кнопки "К рецепту" */
 .take-me {
-  position: relative; /* Остаётся в потоке документа, но позволяет позиционировать дочерние элементы */
-  text-align: right; /* Выравнивает содержимое блока по правому краю */
-  width: 100%; /* Занимает всю доступную ширину родительского блока */
-  padding-right: 20px; /* Добавь небольшой отступ, чтобы кнопка не прилипала к краю */
-  box-sizing: border-box; /* Убеждаемся, что отступы не увеличивают ширину блока */
+  flex-shrink: 0;
+  margin-left: 20px;
 }
 
 .take-me .button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #ffffff; /* Белый фон */
+  background-color: #ffffff;
   color: #333;
   text-decoration: none;
   border-radius: 5px;
