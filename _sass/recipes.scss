@@ -38,8 +38,24 @@
 	}
 }
 
+/* Скрываем мобильный блок на больших экранах */
+.mobile-book-block {
+	display: none;
+}
+
 @media (max-width: 768px) {
-  /* Переключаем блок на горизонтальное расположение */
+	/* Скрываем сайдбар на мобильных */
+	.sidebar {
+		display: none;
+	}
+	
+	/* Показываем мобильный блок */
+	.mobile-book-block {
+		display: block;
+		margin-bottom: 20px;
+	}
+
+  /* Настраиваем внешний вид блока на мобильных */
   .book-block {
     display: flex;
     flex-direction: row;
@@ -47,18 +63,15 @@
     gap: 20px;
   }
   
-  /* Уменьшаем размер обложки на мобильных */
   .book-block .book-cover {
     width: 80px;
     height: auto;
   }
   
-  /* Убираем заголовок "Рекомендуем книгу" на мобильных */
   .book-block h2 {
     display: none;
   }
   
-  /* Размещаем текст справа от фото */
   .book-block .book-meta {
     flex-grow: 1;
   }
