@@ -49,44 +49,12 @@ layout: default
 		<a class="email" href="mailto:?subject=I've%20found%20a%20great%20recipe&amp;body=Check%20it%20out%20-%20{{ share_url }}">{% include social-icon.html icon="Email" %}</a>
 	</div>
     
-    {% comment %} Start of the updated code for related recipes {% endcomment %}
-    {% assign current_tags = page.tags %}
-    {% assign related_recipes = site.recipes | where_exp: 'item', "item.url != page.url" %}
-    {% assign found_related = false %}
-
-    {% if current_tags.size > 0 %}
-        {% for recipe in related_recipes %}
-            {% assign common_tags = recipe.tags | intersection: current_tags %}
-            {% if common_tags.size > 0 %}
-                {% assign found_related = true %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-
-    {% if found_related %}
+	{% comment %} This is a test block to check if the related recipes section can be displayed. {% endcomment %}
+	{% if site.recipes.size > 1 %}
 		<div class="related-section">
-			<h2>Похожие рецепты</h2>
-			<div class="related-items-grid">
-                {% for recipe in related_recipes %}
-                    {% assign common_tags = recipe.tags | intersection: current_tags %}
-                    {% if common_tags.size > 0 %}
-                        <div class="related-item">
-                            {% if recipe.featured_image %}
-                                <div class="related-item-image" style="background-image: url('{{ recipe.featured_image }}');"></div>
-                            {% endif %}
-                            <div class="related-item-content">
-                                <p class="related-item-title">{{ recipe.title }}</p>
-                                {% if recipe.book %}
-                                    <p class="related-item-book">Из книги: "{{ recipe.book.title }}"</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-			</div>
+			<h2>Тестовый вывод. Блок работает!</h2>
 		</div>
 	{% endif %}
-    {% comment %} End of the updated code for related recipes {% endcomment %}
 
 	{% if site.disqus_shortname and page.comments %}
 		<div id="disqus_thread"></div>
