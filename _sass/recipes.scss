@@ -1,75 +1,142 @@
-/* --- FIX: reset any existing markers and add orange bullets for recipes/ingredients --- */
-
-/* Сброс стандартных маркеров (увеличенная специфичность + !important на случай переопределений) */
-article.post .recipe-contents ol,
-article.post .recipe-contents ul {
-  list-style: none !important;
-  margin: 0;
-  padding: 0;
+/* Новые стили для макета в 2 колонки на десктопе с квадратными изображениями */
+.related-recipes-section {
+  margin-top: 50px;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
 }
 
-/* Убираем маркеры ::marker и любые before-числа/стрелки */
-article.post .recipe-contents ol li::marker,
-article.post .recipe-contents ul li::marker {
-  font-size: 0;
-  color: transparent;
-  content: "" !important;
+.related-recipes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; /* Выравниваем по левому краю */
 }
 
-article.post .recipe-contents ol li::before,
-article.post .recipe-contents ul li::before {
-  content: none !important;
-  display: none !important;
+.recipe-card-list-item {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  width: calc(50% - 10px); /* Устанавливаем фиксированную ширину 2 колонок */
 }
 
-/* Базовый отступ у всех li внутри рецепта */
-article.post .recipe-contents li {
-  position: relative;
-  padding-left: 1.25em;
-  margin-bottom: 0.6em;
+.recipe-card-list-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
 }
 
-/* 1) Ингредиенты — маленькая оранжевая точка (#fa8569) */
-article.post .recipe-contents .ingredients ul,
-article.post .recipe-contents .ingredients ol {
-  padding-left: 0;
+.recipe-card-list-item a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
 }
 
-article.post .recipe-contents .ingredients li {
-  padding-left: 1.1em;
+.recipe-card-image-wrapper {
+  width: 100px; /* Фиксированная ширина */
+  height: 100px; /* Фиксированная высота */
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-article.post .recipe-contents .ingredients li::before {
-  content: "";
-  width: .5em;
-  height: .5em;
-  border-radius: 50%;
-  background: #fa8569;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+.recipe-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
-/* 2) Directions (если были <ol>) — показываем те же точки вместо цифр */
-article.post .recipe-contents .directions ol {
-  padding-left: 0;
+.recipe-card-content-list-item {
+  padding: 15px;
+  flex-grow: 1;
 }
 
-article.post .recipe-contents .directions ol li {
-  padding-left: 1.1em;
+.recipe-card-content-list-item h4 {
+  margin-top: 0;
 }
 
-article.post .recipe-contents .directions ol li::before {
-  content: "";
-  width: .6em;
-  height: .6em;
-  border-radius: 50%;
-  background: #fa8569;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: block;
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+  .related-recipes-grid {
+    flex-direction: column;
+  }
+  
+  .recipe-card-list-item {
+    width: 100%; /* одна колонка на мобильных */
+  }
+}
+
+/* Общие стили для заголовка и кнопки */
+.post-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Стили для заголовка и даты */
+.post-header-text {
+  flex-grow: 1;
+}
+
+/* Стили для кнопки "К рецепту" */
+.take-me {
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+.take-me .button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.take-me .button:hover {
+  background-color: #f8f8f8;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Финальные стили для списков */
+.directions ol,
+.ingredients ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.directions ol li,
+.ingredients ul li {
+    position: relative;
+    padding-left: 20px;
+    margin: 0 0 10px 0;
+}
+
+/* Толстые точки для шагов */
+.directions ol li::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background-color: #fa8569;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+
+/* Тонкие точки для ингредиентов */
+.ingredients ul li::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: #fa8569;
+    border-radius: 50%;
+    transform: translateY(-50%);
 }
