@@ -29,6 +29,12 @@
   .mobile-only .book-meta {
     flex-grow: 1;
   }
+  @media (max-width: 768px) {
+    /* Скрываем сайдбар на мобильных */
+    .sidebar {
+        display: none;
+    }
+}
 
   .mobile-only h2 {
     display: none;        // если есть заголовок
