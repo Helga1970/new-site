@@ -1,4 +1,4 @@
-/* Все стили для блока "Похожие рецепты" должны быть в одном блоке */
+/* Новые стили для макета в 2 колонки на десктопе */
 .related-recipes-section {
   margin-top: 50px;
   border-top: 1px solid #eee;
@@ -7,7 +7,7 @@
 
 .related-recipes-grid {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
@@ -16,6 +16,7 @@
   border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.2s;
+  flex: 1 1 calc(50% - 10px); /* 2 колонки на десктопе */
 }
 
 .recipe-card-list-item:hover {
@@ -49,4 +50,15 @@
 
 .recipe-card-content-list-item h4 {
   margin-top: 0;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+  .related-recipes-grid {
+    flex-direction: column;
+  }
+  
+  .recipe-card-list-item {
+    flex: 1 1 auto; /* одна колонка на мобильных */
+  }
 }
