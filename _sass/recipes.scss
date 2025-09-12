@@ -40,3 +40,62 @@
     display: none;        // если есть заголовок
   }
 }
+/* Стили для блока "Похожие рецепты" */
+.related-recipes {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.recipes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.related-recipe {
+    display: flex;
+    flex-direction: column;
+    width: 200px; /* Ширина одного блока */
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+}
+
+.related-image {
+    width: 100%;
+    height: 120px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.related-title {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .related-recipes {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .recipes-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .related-recipe {
+        width: 100%;
+        max-width: 300px;
+    }
+}
