@@ -35,7 +35,8 @@ collections:
     permalink: /recipes/:path/
 
 defaults:
-  - scope:
+  -
+    scope:
       path: ""
       type: "posts"
     values:
@@ -50,7 +51,8 @@ defaults:
         featured_image:
           width: 1560
           height: 2000
-  - scope:
+  -
+    scope:
       path: ""
       type: "recipes"
     values:
@@ -65,11 +67,13 @@ defaults:
         featured_image:
           width: 1560
           height: 2000
-  - scope:
+  -
+    scope:
       path: ""
     values:
       layout: "default"
-  - scope:
+  -
+    scope:
       path: "index.html"
     values:
       layout: "default"
