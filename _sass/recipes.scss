@@ -1,4 +1,4 @@
-/* --- Related recipes (2 колонки) --- */
+/* Новые стили для макета в 2 колонки на десктопе с квадратными изображениями */
 .related-recipes-section {
   margin-top: 50px;
   border-top: 1px solid #eee;
@@ -9,7 +9,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Выравниваем по левому краю */
 }
 
 .recipe-card-list-item {
@@ -17,7 +17,7 @@
   border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.2s;
-  width: calc(50% - 10px);
+  width: calc(50% - 10px); /* Устанавливаем фиксированную ширину 2 колонок */
 }
 
 .recipe-card-list-item:hover {
@@ -32,8 +32,8 @@
 }
 
 .recipe-card-image-wrapper {
-  width: 100px;
-  height: 100px;
+  width: 100px; /* Фиксированная ширина */
+  height: 100px; /* Фиксированная высота */
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -54,17 +54,17 @@
   margin-top: 0;
 }
 
-/* --- Mobile adaptation --- */
+/* Адаптация для мобильных устройств */
 @media (max-width: 768px) {
   .related-recipes-grid {
     flex-direction: column;
   }
+  
   .recipe-card-list-item {
-    width: 100%;
+    width: 100%; /* одна колонка на мобильных */
   }
 }
-
-/* --- Post header styles --- */
+/* Общие стили для заголовка и кнопки */
 .post-header-container {
   display: flex;
   justify-content: space-between;
@@ -72,10 +72,12 @@
   flex-wrap: wrap;
 }
 
+/* Стили для заголовка и даты */
 .post-header-text {
   flex-grow: 1;
 }
 
+/* Стили для кнопки "К рецепту" */
 .take-me {
   flex-shrink: 0;
   margin-left: 20px;
@@ -96,57 +98,4 @@
 .take-me .button:hover {
   background-color: #f8f8f8;
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-}
-
-/* --- Общие ресеты внутри рецепта --- */
-article.post .recipe-contents ol,
-article.post .recipe-contents ul {
-  list-style: none !important;
-  margin: 0;
-  padding: 0;
-}
-
-article.post .recipe-contents ol li::marker,
-article.post .recipe-contents ul li::marker {
-  content: "" !important;
-}
-
-article.post .recipe-contents li {
-  position: relative;
-  margin-bottom: 0.6em;
-}
-
-/* --- Ингредиенты: маленькая оранжевая точка --- */
-article.post .recipe-contents .ingredients li {
-  padding-left: 1.1em;
-}
-article.post .recipe-contents .ingredients li::before {
-  content: "";
-  width: .4em;
-  height: .4em;
-  border-radius: 50%;
-  background: #fa8569;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* --- Directions: шаги с жирными точками вместо цифр --- */
-article.post .recipe-contents .directions ol {
-  padding-left: 0;
-}
-article.post .recipe-contents .directions ol li {
-  padding-left: 1.3em;
-}
-article.post .recipe-contents .directions ol li::before {
-  content: "";
-  width: .8em;
-  height: .8em;
-  border-radius: 50%;
-  background: #fa8569;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
