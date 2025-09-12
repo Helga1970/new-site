@@ -48,13 +48,10 @@ layout: default
 		<a class="pinterest" href="//pinterest.com/pin/create/link/?url={{ share_url }}&amp;description={{ page.description }}">{% include social-icon.html icon="Pinterest" %}</a>
 		<a class="email" href="mailto:?subject=I've%20found%20a%20great%20recipe&amp;body=Check%20it%20out%20-%20{{ share_url }}">{% include social-icon.html icon="Email" %}</a>
 	</div>
-    
-	{% comment %} This is a test block to check if the related recipes section can be displayed. {% endcomment %}
-	{% if site.recipes.size > 1 %}
-		<div class="related-section">
-			<h2>Тестовый вывод. Блок работает!</h2>
-		</div>
-	{% endif %}
+
+	<div class="test-recipes">
+	  <p>Jekyll видит рецептов: {{ site.recipes.size }}</p>
+	</div>
 
 	{% if site.disqus_shortname and page.comments %}
 		<div id="disqus_thread"></div>
