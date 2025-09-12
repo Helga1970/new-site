@@ -5,13 +5,19 @@ layout: default
 	{% include post-heading.html post=page post_page=true %}
 
 	{% if page.book %}
-		<div class="book-block mobile-only">
-			<img class="book-cover" src="{{ page.book.cover }}" alt="{{ page.book.title }}">
-			<div class="book-meta">
-				<h3>{{ page.book.title }}</h3>
-				<p>{{ page.book.author }}</p>
-			</div>
+	<div class="book-block book-block--mobile">
+		<h2>We recommend:</h2>
+		<div class="book-cover">
+			<img src="{{ page.book.image }}" alt="{{ page.book.title }}">
 		</div>
+		<div class="book-meta">
+			<h3>{{ page.book.title }}</h3>
+			<h4>by {{ page.book.author }}</h4>
+			<a href="{{ page.book.link }}" target="_blank">
+				<div class="button">Buy now</div>
+			</a>
+		</div>
+	</div>
 	{% endif %}
 
 	<div class="image">
@@ -40,49 +46,20 @@ layout: default
 		</div>
 	</div>
 
-	{% comment %} Код для похожих рецептов {% endcomment %}
-{% assign current_tags = page.tags %}
-{% assign all_recipes = site.recipes %}
-{% assign related_recipes = "" | split: "" %}
+	<div class="sharing">
+		{% assign share_url = page.url | absolute_url | cgi_escape %}
+		<a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url }}">{% include social-icon.html icon="Facebook" %}</a>
+		<a class="twitter" href="https://twitter.com/intent/tweet?url={{ share_url }}&amp;text=I'm%20going%20to%20this%20event!">{% include social-icon.html icon="Twitter" %}</a>
+		<a class="instagram" href="https://instagram.com">{% include social-icon.html icon="Instagram" %}</a>
+		<a class="pinterest" href="//pinterest.com/pin/create/link/?url={{ share_url }}&amp;description={{ page.description }}">{% include social-icon.html icon="Pinterest" %}</a>
+		<a class="email" href="mailto:?subject=I've%20found%20a%20great%20recipe&amp;body=Check%20it%20out%20-%20{{ share_url }}">{% include social-icon.html icon="Email" %}</a>
+	</div>
 
-{% for recipe in all_recipes %}
-  {% if recipe.url != page.url %}
-    {% assign common_tags = recipe.tags | intersection: current_tags %}
-    {% if common_tags.size > 0 %}
-      {% assign related_recipes = related_recipes | push: recipe %}
-    {% endif %}
-  {% endif %}
-{% endfor %}
-
-{% assign unique_related_recipes = related_recipes | uniq %}
-{% assign shuffled_recipes = unique_related_recipes | shuffle | slice: 0, 4 %}
-
-{% if shuffled_recipes.size > 0 %}
-  <div class="related-recipes-section">
-    <h3>Похожие рецепты</h3>
-    <div class="related-recipes-grid">
-      {% for recipe in shuffled_recipes %}
-        <div class="recipe-card-list-item">
-          <a href="{{ recipe.url | relative_url }}">
-            {% if recipe.featured_image %}
-              <div class="recipe-card-image-wrapper">
-                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
-              </div>
-            {% endif %}
-            <div class="recipe-card-content-list-item">
-              <h4>{{ recipe.title }}</h4>
-              {% if recipe.book.title %}
-                <p class="recipe-book">Из {{ recipe.book.title }}</p>
-              {% endif %}
-            </div>
-          </a>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-{% endif %}
-{% comment %} Конец кода для похожих рецептов {% endcomment %}
-
+	<div class="cta">
+		<h2>More delicious recipes</h2>
+		<p>This is one of the many fantastic recipes available on this blog</p>
+		<div class="button"><a href="{{ site.baseurl }}/recipes">Check out more recipes</a></div>
+	</div>
 	{% if site.disqus_shortname and page.comments %}
 		<div id="disqus_thread"></div>
 		<script>
@@ -91,7 +68,7 @@ layout: default
 				this.page.url = "{{ page.url | prepend: site.url }}";
 				this.page.identifier = "{{ page.id }}";
 			};
-			(function() {
+			(function() {  // DON'T EDIT BELOW THIS LINE
 				var d = document, s = d.createElement('script');
 				s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
 				s.setAttribute('data-timestamp', +new Date());
