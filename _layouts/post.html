@@ -50,43 +50,47 @@ layout: default
 	</div>
 
 	{% comment %} Код для похожих рецептов {% endcomment %}
-	{% assign current_tags = page.tags | join: ", " %}
-	{% assign related_recipes = "" | split: "" %}
+{% assign current_tags = page.tags %}
+{% assign all_recipes = site.recipes %}
+{% assign related_recipes = "" | split: "" %}
 
-	{% for recipe in site.recipes %}
-	  {% if recipe.url != page.url %}
-	    {% assign recipe_tags = recipe.tags | join: ", " %}
-	    {% if current_tags contains recipe_tags or recipe_tags contains current_tags %}
-	      {% assign related_recipes = related_recipes | push: recipe %}
-	    {% endif %}
-	  {% endif %}
-	{% endfor %}
-
-	{% assign shuffled_recipes = related_recipes | shuffle | slice: 0, 4 %}
-
-	{% if shuffled_recipes.size > 0 %}
-	  <div class="related-recipes-section">
-	    <h3>Похожие рецепты</h3>
-	    <div class="related-recipes-grid">
-	      {% for recipe in shuffled_recipes %}
-	       <div class="recipe-card-list-item">
-  <a href="{{ recipe.url | relative_url }}">
-    {% if recipe.featured_image %}
-      <div class="recipe-card-image-wrapper">
-        <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
-      </div>
+{% for recipe in all_recipes %}
+  {% if recipe.url != page.url %}
+    {% assign common_tags = recipe.tags | intersection: current_tags %}
+    {% if common_tags.size > 0 %}
+      {% assign related_recipes = related_recipes | push: recipe %}
     {% endif %}
-    <div class="recipe-card-content-list-item">
-      <h4>{{ recipe.title }}</h4>
-      <p>{{ recipe.excerpt | truncatewords: 20 }}</p>
+  {% endif %}
+{% endfor %}
+
+{% assign unique_related_recipes = related_recipes | uniq %}
+{% assign shuffled_recipes = unique_related_recipes | shuffle | slice: 0, 4 %}
+
+{% if shuffled_recipes.size > 0 %}
+  <div class="related-recipes-section">
+    <h3>Похожие рецепты</h3>
+    <div class="related-recipes-grid">
+      {% for recipe in shuffled_recipes %}
+        <div class="recipe-card-list-item">
+          <a href="{{ recipe.url | relative_url }}">
+            {% if recipe.featured_image %}
+              <div class="recipe-card-image-wrapper">
+                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
+              </div>
+            {% endif %}
+            <div class="recipe-card-content-list-item">
+              <h4>{{ recipe.title }}</h4>
+              {% if recipe.book.title %}
+                <p class="recipe-book">Из {{ recipe.book.title }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endfor %}
     </div>
-  </a>
-</div>
-	      {% endfor %}
-	    </div>
-	  </div>
-	{% endif %}
-	{% comment %} Конец кода для похожих рецептов {% endcomment %}
+  </div>
+{% endif %}
+{% comment %} Конец кода для похожих рецептов {% endcomment %}
 
 	{% if site.disqus_shortname and page.comments %}
 		<div id="disqus_thread"></div>
