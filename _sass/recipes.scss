@@ -101,22 +101,13 @@
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-/* --- Стили для списков (ingredients and directions) --- */
-/* Убираем все стандартные маркеры */
+/* Стили для списков (directions and ingredients) */
 .directions ol,
 .ingredients ul {
-    list-style: none !important;
-    padding-left: 0 !important;
+    list-style: none;
+    padding-left: 0;
 }
 
-/* Скрываем любые маркеры, созданные другими правилами */
-.directions ol li::before,
-.ingredients ul li::before {
-    content: none !important;
-    display: none !important;
-}
-
-/* Базовый отступ для всех элементов списка внутри рецепта */
 .directions ol li,
 .ingredients ul li {
     position: relative;
@@ -124,21 +115,7 @@
     margin: 0 0 10px 0;
 }
 
-/* Добавляем толстые оранжевые точки для шагов */
-.directions ol li::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    background-color: #fa8569;
-    border-radius: 50%;
-    transform: translateY(-50%);
-    display: block !important; /* Убеждаемся, что точки видны */
-}
-
-/* Добавляем тонкие оранжевые точки для ингредиентов */
+/* Тонкие точки для ингредиентов */
 .ingredients ul li::before {
     content: "";
     position: absolute;
@@ -149,5 +126,4 @@
     background-color: #fa8569;
     border-radius: 50%;
     transform: translateY(-50%);
-    display: block !important; /* Убеждаемся, что точки видны */
 }
