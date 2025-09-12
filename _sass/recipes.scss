@@ -96,16 +96,16 @@
 
 .take-me .button:hover {
   background-color: #f8f8f8;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  box-shadow: 6px 12px rgba(0,0,0,0.2);
 }
 
 /* --- Стили для списков (ingredients and directions) --- */
 
-/* Убираем все стандартные маркеры у списков рецепта */
+/* Удаляем все стандартные маркеры */
 .directions ol,
 .ingredients ul {
-    list-style: none !important;
-    padding-left: 0 !important;
+    list-style: none;
+    padding-left: 0;
 }
 
 /* Скрываем любые маркеры, созданные другими правилами */
@@ -113,8 +113,8 @@
 .ingredients ul li::marker,
 .directions ol li::before,
 .ingredients ul li::before {
-    content: none !important;
-    display: none !important;
+    content: none;
+    display: none;
 }
 
 /* Базовый отступ для всех элементов списка внутри рецепта */
@@ -136,7 +136,7 @@
     background-color: #fa8569;
     border-radius: 50%;
     transform: translateY(-50%);
-    display: block !important;
+    display: block;
 }
 
 /* Добавляем тонкие оранжевые точки для ингредиентов */
@@ -150,5 +150,5 @@
     background-color: #fa8569;
     border-radius: 50%;
     transform: translateY(-50%);
-    display: block !important;
+    display: block;
 }
