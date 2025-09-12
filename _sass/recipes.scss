@@ -99,3 +99,31 @@
   background-color: #f8f8f8;
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
+.directions ol, 
+.ingredients ul {
+  list-style: none;
+  padding-left: 0;
+}
+/* Толстые точки для шагов */
+.directions ol li::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #fa8569;
+  border-radius: 50%;
+}
+
+/* Тонкие точки для ингредиентов */
+.ingredients ul li::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background-color: #fa8569;
+  border-radius: 50%;
+}
