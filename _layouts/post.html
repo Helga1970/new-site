@@ -4,6 +4,16 @@ layout: default
 <article class="post">
 	{% include post-heading.html post=page post_page=true %}
 
+	{% if page.book %}
+		<div class="book-block mobile-only">
+			<img class="book-cover" src="{{ page.book.cover }}" alt="{{ page.book.title }}">
+			<div class="book-meta">
+				<h3>{{ page.book.title }}</h3>
+				<p>{{ page.book.author }}</p>
+			</div>
+		</div>
+	{% endif %}
+
 	<div class="image">
 		<img src="{{ page.featured_image }}" alt="{{ page.title }}">
 	</div>
