@@ -19,7 +19,7 @@
 			text-align: center;
 			vertical-align: text-bottom;
 			position: relative;
-			transition:      all 0.2s ease;
+			transition: all 0.2s ease;
 			font-size: 1.1em;
 			font-weight: 700;
 
@@ -36,4 +36,30 @@
 			}
 		}
 	}
+}
+
+@media (max-width: 768px) {
+  /* Переключаем блок на горизонтальное расположение */
+  .book-block {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  /* Уменьшаем размер обложки на мобильных */
+  .book-block .book-cover {
+    width: 80px;
+    height: auto;
+  }
+  
+  /* Убираем заголовок "Рекомендуем книгу" на мобильных */
+  .book-block h2 {
+    display: none;
+  }
+  
+  /* Размещаем текст справа от фото */
+  .book-block .book-meta {
+    flex-grow: 1;
+  }
 }
