@@ -25,7 +25,6 @@
 </head>
 <body>
 	{% include navigation.html %}
-
 	<header>
 		<a href="{{site.baseurl }}/">
 			<img src="{{ site.baseurl }}{{ site.data.company_details.logo_image }}" width="180" alt="logo">
@@ -36,11 +35,7 @@
 	</header>
 
 	<div class="container main-content">
-		<section class="content">
-			<div class="book-mobile-placeholder"></div>
-			{{ content }}
-		</section>
-		
+		<section class="content">{{ content }}</section>
 		{% include sidebar.html page=page %}
 	</div>
 
@@ -50,30 +45,5 @@
 			&copy; {{ site.title }} {{ site.time | date: "%Y" }}. All rights reserved.
 		</div>
 	</footer>
-
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
-
-	<script>
-		$(function() {
-			// Перемещаем блок книги на мобильных
-			if ($(window).width() <= 768) {
-    // Берём только блок, который существует и ещё не перемещён
-    var $book = $('.recommended-book.desktop-only');
-    if ($book.length && !$book.hasClass('book-mobile')) {
-        $book.addClass('book-mobile').appendTo('.book-mobile-placeholder');
-    }
-}			
-			$('.post img').imgPin();
-			
-			$('a[href*=\\#]').on('click', function(event){
-				var el = $(this.hash);
-				if (el.length > 0) {
-					event.preventDefault();
-					$('html,body').animate({scrollTop:$(this.hash).offset().top - 50}, 500);
-				}
-			});
-		});
-	</script>
 </body>
 </html>
