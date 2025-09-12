@@ -5,7 +5,7 @@ layout: home_layout
   <div class="container">
     <div class="row masonry-container">
       {% if site.recipes.size > 0 %}
- {% for post in site.recipes | sort: "name" | reverse %}
+ {% for post in site.recipes reversed %}
   <div class="col-lg-4 col-sm-6 mb-5">
     <article class="text-center">
       <img class="img-fluid mb-4" src="{{post.image | relative_url}}" alt="{{post.title}}">
