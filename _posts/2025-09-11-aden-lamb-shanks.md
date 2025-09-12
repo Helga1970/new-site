@@ -1,34 +1,8 @@
 ---
 layout: post
-title: Тестовый пост
-date: 2025-09-11 18:37:12 +0200
-categories:
-  - Тесты
-tags:
-  - AFRICA
-  - EGYPT
-  - ADEN
-  - MAIN COURSE
-  - GLUTEN-FREE
-  - MEDITERRANEAN
-book:
-  title: Тестовая книга
-  author: Тестовый Автор
-  cover: /assets/images/placeholder.jpg
-  link: https://example.com/test-book
----
-Здесь идет текст вашего тестового поста. и тут - ---
-layout: post
 date: 2025-09-11 10:00:00 +0200
 title: Lamb Shanks from Aden
 categories:
-  - AFRICA
-  - EGYPT
-  - ADEN
-  - MAIN COURSE
-  - GLUTEN-FREE
-  - MEDITERRANEAN
-tags:
   - AFRICA
   - EGYPT
   - ADEN
