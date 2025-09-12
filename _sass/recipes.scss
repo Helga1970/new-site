@@ -1,4 +1,4 @@
-/* Новые стили для макета в 2 колонки на десктопе с квадратными изображениями */
+/* --- Related recipes (2 колонки) --- */
 .related-recipes-section {
   margin-top: 50px;
   border-top: 1px solid #eee;
@@ -9,7 +9,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: flex-start; /* Выравниваем по левому краю */
+  justify-content: flex-start;
 }
 
 .recipe-card-list-item {
@@ -17,7 +17,7 @@
   border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.2s;
-  width: calc(50% - 10px); /* Устанавливаем фиксированную ширину 2 колонок */
+  width: calc(50% - 10px);
 }
 
 .recipe-card-list-item:hover {
@@ -32,8 +32,8 @@
 }
 
 .recipe-card-image-wrapper {
-  width: 100px; /* Фиксированная ширина */
-  height: 100px; /* Фиксированная высота */
+  width: 100px;
+  height: 100px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -54,17 +54,17 @@
   margin-top: 0;
 }
 
-/* Адаптация для мобильных устройств */
+/* --- Mobile adaptation --- */
 @media (max-width: 768px) {
   .related-recipes-grid {
     flex-direction: column;
   }
-  
   .recipe-card-list-item {
-    width: 100%; /* одна колонка на мобильных */
+    width: 100%;
   }
 }
-/* Общие стили для заголовка и кнопки */
+
+/* --- Post header styles --- */
 .post-header-container {
   display: flex;
   justify-content: space-between;
@@ -72,12 +72,10 @@
   flex-wrap: wrap;
 }
 
-/* Стили для заголовка и даты */
 .post-header-text {
   flex-grow: 1;
 }
 
-/* Стили для кнопки "К рецепту" */
 .take-me {
   flex-shrink: 0;
   margin-left: 20px;
@@ -99,13 +97,8 @@
   background-color: #f8f8f8;
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
-.recipe-contents ol,
-.recipe-contents ul {
-  list-style: none;
-}
-/* --- FIX: reset any existing markers and add orange bullets for recipes/ingredients --- */
 
-/* Сброс стандартных маркеров (увеличенная специфичность + !important на случай переопределений) */
+/* --- Общие ресеты внутри рецепта --- */
 article.post .recipe-contents ol,
 article.post .recipe-contents ul {
   list-style: none !important;
@@ -113,31 +106,17 @@ article.post .recipe-contents ul {
   padding: 0;
 }
 
-/* Убираем маркеры ::marker и любые before-числа/стрелки */
 article.post .recipe-contents ol li::marker,
 article.post .recipe-contents ul li::marker {
-  font-size: 0;
-  color: transparent;
   content: "" !important;
 }
-article.post .recipe-contents ol li::before,
-article.post .recipe-contents ul li::before {
-  content: none !important;
-  display: none !important;
-}
 
-/* Базовый отступ у всех li внутри рецепта */
 article.post .recipe-contents li {
   position: relative;
-  padding-left: 1.25em;
   margin-bottom: 0.6em;
 }
 
-/* 1) Ингредиенты — маленькая оранжевая точка (#fa8569) */
-article.post .recipe-contents .ingredients ul,
-article.post .recipe-contents .ingredients ol {
-  padding-left: 0;
-}
+/* --- Ингредиенты: маленькая оранжевая точка --- */
 article.post .recipe-contents .ingredients li {
   padding-left: 1.1em;
 }
@@ -151,30 +130,9 @@ article.post .recipe-contents .ingredients li::before {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  display: block;
 }
 
-/* 2) Абзацы рецепта (recipe-body) — более крупная жирная оранжевая точка */
-article.post .recipe-body p {
-  position: relative;
-  padding-left: 1.4em;
-  margin-bottom: 0.8em;
-}
-article.post .recipe-body p::before {
-  content: "";
-  width: .8em;
-  height: .8em;
-  border-radius: 50%;
-  background: #fa8569;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: block;
-  box-shadow: 0 0 0 .04em #fa8569; /* делает точку визуально "жирнее" */
-}
-
-/* 3) Directions (если были <ol>) — показываем те же точки вместо цифр */
+/* --- Directions: шаги с точками вместо цифр --- */
 article.post .recipe-contents .directions ol {
   padding-left: 0;
 }
@@ -191,5 +149,5 @@ article.post .recipe-contents .directions ol li::before {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  display: block;
 }
+
