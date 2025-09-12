@@ -3,23 +3,6 @@ layout: default
 ---
 <article class="post">
 	{% include post-heading.html post=page post_page=true %}
-
-	{% if page.book %}
-		<div class="book-block book-block--mobile">
-			<h2>Мы рекомендуем:</h2>
-			<div class="book-cover">
-				<img src="{{ page.book.image }}" alt="{{ page.book.title }}">
-			</div>
-			<div class="book-meta">
-				<h3>{{ page.book.title }}</h3>
-				<h4>by {{ page.book.author }}</h4>
-				<a href="{{ page.book.link }}" target="_blank">
-					<div class="button">Купить сейчас</div>
-				</a>
-			</div>
-		</div>
-	{% endif %}
-
 	<div class="image">
 		<img src="{{ page.featured_image }}" alt="{{ page.title }}">
 	</div>
