@@ -1,36 +1,36 @@
 /* По умолчанию показываем только десктопный блок */
-.recommended-book.desktop-only {
+.desktop-only {
   display: block;
 }
 
-/* Мобильный блок книги (перемещается в placeholder) */
-.book-mobile {
-  display: none; /* по умолчанию скрыт */
+.mobile-only {
+  display: none;
 }
 
 /* Адаптив для мобильных */
 @media (max-width: 768px) {
-  /* Скрываем десктопный блок в сайдбаре */
-  .recommended-book.desktop-only {
-    display: none;
+  .desktop-only {
+    display: none;        // скрываем десктопный блок
   }
 
-  /* Показываем мобильный блок под заголовком */
-  .book-mobile {
-    display: flex;        /* фото слева, текст справа */
-    flex-direction: row;
+  .mobile-only {
+    display: flex;        // показываем мобильный блок
+    flex-direction: row;  // фото слева, текст справа
     align-items: center;
     gap: 20px;
-    margin-bottom: 20px; /* отступ под заголовком */
   }
 
-  .book-mobile .book-cover {
+  .mobile-only .book-cover {
     width: 80px;
     height: auto;
     flex-shrink: 0;
   }
 
-  .book-mobile .book-meta {
+  .mobile-only .book-meta {
     flex-grow: 1;
+  }
+
+  .mobile-only h2 {
+    display: none;        // если есть заголовок
   }
 }
