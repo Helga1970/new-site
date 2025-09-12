@@ -64,7 +64,6 @@
     width: 100%; /* одна колонка на мобильных */
   }
 }
-
 /* Общие стили для заголовка и кнопки */
 .post-header-container {
   display: flex;
@@ -100,43 +99,7 @@
   background-color: #f8f8f8;
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
-
-/* Финальные стили для списков */
-.directions ol,
-.ingredients ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.directions ol li,
-.ingredients ul li {
-    position: relative;
-    padding-left: 20px;
-    margin: 0 0 10px 0;
-}
-
-/* Толстые точки для шагов */
-.directions ol li::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    background-color: #fa8569;
-    border-radius: 50%;
-    transform: translateY(-50%);
-}
-
-/* Тонкие точки для ингредиентов */
-.ingredients ul li::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 6px;
-    height: 6px;
-    background-color: #fa8569;
-    border-radius: 50%;
-    transform: translateY(-50%);
+.recipe-contents ol,
+.recipe-contents ul {
+  list-style: none;
 }
