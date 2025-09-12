@@ -1,101 +1,135 @@
-/* По умолчанию показываем только десктопный блок */
-.desktop-only {
-  display: block;
+.recipes {
+	display: flex;
+	flex-wrap: wrap;
+	.recipe {
+		flex: 1 0 300px;
+		height: 200px;
+		display: inline-block;
+		background-position: center;
+		background-size: cover;
+		margin: 5px 7px;
+
+		a {
+			width: 100%;
+			height: 100%;
+			display: block;
+			background: rgba(0, 0, 0, .2);
+			color: #fff;
+			text-decoration: none;
+			text-align: center;
+			vertical-align: text-bottom;
+			position: relative;
+			transition: all 0.2s ease;
+			font-size: 1.1em;
+			font-weight: 700;
+
+			span {
+				position: absolute;
+				bottom: 5px;
+				width: 100%;
+				left: 0;
+				text-shadow: 1px 1px 1px #000;
+			}
+
+			&:hover {
+				background: none;
+			}
+		}
+	}
 }
 
-.mobile-only {
-  display: none;
+/* Скрываем мобильный блок на больших экранах */
+.book-block--mobile {
+	display: none;
+	margin-bottom: 20px;
 }
 
-/* Адаптив для мобильных */
 @media (max-width: 768px) {
-  .desktop-only {
-    display: none;        // скрываем десктопный блок
-  }
+	/* Скрываем сайдбар на мобильных */
+	.sidebar {
+		display: none;
+	}
+	
+	/* Показываем мобильный блок */
+	.book-block--mobile {
+		display: block;
+	}
 
-  .mobile-only {
-    display: flex;        // показываем мобильный блок
-    flex-direction: row;  // фото слева, текст справа
+  /* Стилизуем блок с книгой для мобильной версии */
+  .book-block {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 20px;
   }
-
-  .mobile-only .book-cover {
-    width: 150px;
+  
+  .book-block .book-cover {
+    width: 100px;
     height: auto;
-    flex-shrink: 0;
   }
-
-  .mobile-only .book-meta {
+  
+  .book-block h2 {
+    display: none;
+  }
+  
+  .book-block .book-meta {
     flex-grow: 1;
   }
-  @media (max-width: 768px) {
-    /* Скрываем сайдбар на мобильных */
-    .sidebar {
-        display: none;
-    }
 }
 
-  .mobile-only h2 {
-    display: none;        // если есть заголовок
-  }
-}
 /* Стили для блока "Похожие рецепты" */
-.related-recipes {
+.related-section {
     margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
 }
 
-.recipes-grid {
-    display: flex;
-    flex-wrap: wrap;
+.related-items-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    justify-content: center;
 }
 
-.related-recipe {
+.related-item {
     display: flex;
-    flex-direction: column;
-    width: 200px; /* Ширина одного блока */
-    text-align: center;
-    text-decoration: none;
-    color: #333;
-    transition: all 0.2s ease;
-
-    &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
+    align-items: flex-start;
+    gap: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-.related-image {
-    width: 100%;
-    height: 120px;
+.related-item-image {
+    width: 60px;
+    height: 60px;
     background-position: center;
     background-size: cover;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
 }
 
-.related-title {
-    font-size: 1em;
+.related-item-content {
+    flex-grow: 1;
+}
+
+.related-item-title {
     font-weight: 600;
+    font-size: 0.95em;
+    line-height: 1.3;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.related-item-book {
+    font-size: 0.85em;
+    color: #666;
+    line-height: 1.2;
+    margin-top: 0;
 }
 
 /* Адаптация для мобильных */
 @media (max-width: 768px) {
-    .related-recipes {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-    .recipes-grid {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .related-recipe {
-        width: 100%;
-        max-width: 300px;
+    .related-items-grid {
+        grid-template-columns: 1fr;
     }
 }
