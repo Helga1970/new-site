@@ -1,105 +1,4 @@
-/* По умолчанию показываем только десктопный блок */
-.desktop-only {
-  display: block;
-}
-
-.mobile-only {
-  display: none;
-}
-
-/* Адаптив для мобильных */
-@media (max-width: 768px) {
-  .desktop-only {
-    display: none;        // скрываем десктопный блок
-  }
-
-  .mobile-only {
-    display: flex;        // показываем мобильный блок
-    flex-direction: row;  // фото слева, текст справа
-    align-items: center;
-    gap: 20px;
-  }
-
-  .mobile-only .book-cover {
-    width: 150px;
-    height: auto;
-    flex-shrink: 0;
-  }
-
-  .mobile-only .book-meta {
-    flex-grow: 1;
-  }
-  @media (max-width: 768px) {
-    /* Скрываем сайдбар на мобильных */
-    .sidebar {
-        display: none;
-    }
-}
-
-  .mobile-only h2 {
-    display: none;        // если есть заголовок
-  }
-}
-/* Стили для блока "Похожие рецепты" */
-.related-recipes {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-.recipes-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.related-recipe {
-    display: flex;
-    flex-direction: column;
-    width: 200px; /* Ширина одного блока */
-    text-align: center;
-    text-decoration: none;
-    color: #333;
-    transition: all 0.2s ease;
-
-    &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-}
-
-.related-image {
-    width: 100%;
-    height: 120px;
-    background-position: center;
-    background-size: cover;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.related-title {
-    font-size: 1em;
-    font-weight: 600;
-}
-
-/* Адаптация для мобильных */
-@media (max-width: 768px) {
-    .related-recipes {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-    .recipes-grid {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .related-recipe {
-        width: 100%;
-        max-width: 300px;
-    }
-}
-/* Дополнительные стили для блока "Похожие рецепты" */
+/* Все стили для блока "Похожие рецепты" должны быть в одном блоке */
 .related-recipes-section {
   margin-top: 50px;
   border-top: 1px solid #eee;
@@ -108,47 +7,46 @@
 
 .related-recipes-grid {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 20px;
 }
 
-.recipe-card {
-  flex: 1 1 calc(25% - 20px);
-  min-width: 200px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.recipe-card-list-item {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
-  text-align: center;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s;
+  transition: box-shadow 0.2s;
 }
 
-.recipe-card:hover {
-  transform: translateY(-5px);
+.recipe-card-list-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.recipe-card-list-item a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.recipe-card-image-wrapper {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .recipe-card-image {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
+  object-fit: cover;
 }
 
-.recipe-card-content {
+.recipe-card-content-list-item {
   padding: 15px;
+  flex-grow: 1;
 }
 
-.recipe-card-content h4 {
+.recipe-card-content-list-item h4 {
   margin-top: 0;
-}
-
-@media (max-width: 768px) {
-  .related-recipes-grid {
-    flex-direction: column;
-  }
-
-  .recipe-card {
-    flex: 1 1 auto;
-    min-width: unset;
-  }
 }
