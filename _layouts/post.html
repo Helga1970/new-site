@@ -51,7 +51,9 @@ layout: default
 
 	{% comment %} Код для похожих рецептов {% endcomment %}
 	{% assign current_tags = page.tags %}
-	{% assign related_recipes = site.recipes | where_exp: 'recipe', 'recipe.url != page.url' | where_exp: 'recipe', 'recipe.tags | intersection: current_tags | size > 0' | shuffle | take: 4 %}
+	{% assign all_recipes_except_current = site.recipes | where_exp: 'recipe', 'recipe.url != page.url' %}
+	{% assign related_recipes_filtered = all_recipes_except_current | where_exp: 'recipe', 'recipe.tags | intersection: current_tags | size > 0' %}
+	{% assign related_recipes = related_recipes_filtered | shuffle | take: 4 %}
 
 	{% if related_recipes.size > 0 %}
 	  <div class="related-recipes-section">
@@ -67,7 +69,7 @@ layout: default
 	  </div>
 	{% endif %}
 	{% comment %} Конец кода для похожих рецептов {% endcomment %}
-	
+
 	{% if site.disqus_shortname and page.comments %}
 		<div id="disqus_thread"></div>
 		<script>
