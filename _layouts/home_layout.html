@@ -1,38 +1,32 @@
-{% comment %} Start of the updated code for related recipes {% endcomment %}
-{% assign current_tags = page.tags %}
-{% assign related_recipes = site.recipes | where_exp: 'item', "item.url != page.url" %}
-{% assign found_related = false %}
-
-{% if current_tags.size > 0 %}
-    {% for recipe in related_recipes %}
-        {% assign common_tags = recipe.tags | intersection: current_tags %}
-        {% if common_tags.size > 0 %}
-            {% assign found_related = true %}
-        {% endif %}
-    {% endfor %}
-{% endif %}
-
-{% if found_related %}
-  <div class="related-section">
-    <h2>Похожие рецепты</h2>
-    <div class="related-items-grid">
-        {% for recipe in related_recipes %}
-            {% assign common_tags = recipe.tags | intersection: current_tags %}
-            {% if common_tags.size > 0 %}
-                <div class="related-item">
-                    {% if recipe.featured_image %}
-                        <div class="related-item-image" style="background-image: url('{{ recipe.featured_image }}');"></div>
-                    {% endif %}
-                    <div class="related-item-content">
-                        <p class="related-item-title">{{ recipe.title }}</p>
-                        {% if recipe.book %}
-                            <p class="related-item-book">Из книги: "{{ recipe.book.title }}"</p>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
-  </div>
-{% endif %}
-{% comment %} End of the updated code for related recipes {% endcomment %}
+---
+layout: home_layout
+---
+<section class="section">
+  <div class="container">
+    <div class="row masonry-container">
+      {% if site.recipes.size > 0 %}
+      {% for post in site.recipes | sort: "date" | reverse %}
+      <div class="col-lg-4 col-sm-6 mb-5">
+        <article class="text-center">
+          <a href="{{ post.url | relative_url }}">
+            <img class="img-fluid mb-4" src="{{post.image | relative_url}}" alt="{{post.title}}">
+          </a>
+          {% if post %}
+          {% assign categories = post.categories %}
+          {% else %}
+          {% assign categories = page.categories %}
+          {% endif %}
+          {% for category in post.categories %}
+          <a class="d-block mb-3 text-dark text-uppercase" href="{{ 'category/' | relative_url }}{{ category | slugify }}">{{ category }}</a>
+          {% endfor %}
+          <h4 class="title-border"><a class="text-dark" href="{{ post.url | prepend: site.baseurl }}">{{post.title}}</a></h4>
+          <p>{{ post.content | strip_html | truncatewords: 35 }}</p>
+          <a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-transparent">read more</a>
+        </article>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+    {% include pagination.html %}
+  </div>
+</section>
