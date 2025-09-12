@@ -49,10 +49,25 @@ layout: default
 		<a class="email" href="mailto:?subject=I've%20found%20a%20great%20recipe&amp;body=Check%20it%20out%20-%20{{ share_url }}">{% include social-icon.html icon="Email" %}</a>
 	</div>
 
-	<div class="test-recipes">
-	  <p>Jekyll видит рецептов: {{ site.recipes.size }}</p>
-	</div>
+	{% comment %} Код для похожих рецептов {% endcomment %}
+	{% assign current_tags = page.tags %}
+	{% assign related_recipes = site.recipes | where_exp: 'recipe', 'recipe.url != page.url' | where_exp: 'recipe', 'recipe.tags | intersection: current_tags | size > 0' | shuffle | take: 4 %}
 
+	{% if related_recipes.size > 0 %}
+	  <div class="related-recipes-section">
+	    <h3>Похожие рецепты</h3>
+	    <div class="related-recipes-grid">
+	      {% for recipe in related_recipes %}
+	        <div class="recipe-card">
+	          <h4><a href="{{ recipe.url | relative_url }}">{{ recipe.title }}</a></h4>
+	          <p>{{ recipe.excerpt | truncatewords: 20 }}</p>
+	        </div>
+	      {% endfor %}
+	    </div>
+	  </div>
+	{% endif %}
+	{% comment %} Конец кода для похожих рецептов {% endcomment %}
+	
 	{% if site.disqus_shortname and page.comments %}
 		<div id="disqus_thread"></div>
 		<script>
