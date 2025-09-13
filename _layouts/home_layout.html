@@ -9,18 +9,27 @@
   <div class="container-fluid">
 
   <!-- Верхняя секция с фоном и поиском -->
-  <section class="hero-section">
-    <div class="hero-overlay">
-      <div class="container">
-        <div class="hero-search">
-          <form action="/search" method="get">
-            <input type="text" name="q" placeholder="Найти рецепт..." class="form-control">
-            <button type="submit" class="btn btn-primary">Поиск</button>
-          </form>
-        </div>
+  <!-- Верхняя секция с фоном и поиском -->
+<section class="hero-section">
+  <div class="hero-overlay">
+    <div class="container d-flex justify-content-center align-items-center" style="height:500px;">
+      <div class="hero-search w-100" style="max-width:600px;">
+        <form action="/search" method="get" class="d-flex">
+          <input type="text" name="q" 
+                 placeholder="Найти рецепт, ингредиент, вид или стиль блюда, технику приготовления..." 
+                 class="form-control border-0" 
+                 style="border-radius:0; padding:15px; font-size:18px;">
+          <button type="submit" class="btn" 
+                  style="border-radius:0; padding:0 25px; font-size:18px; 
+                         background: linear-gradient(0turn, rgba(255,106,40,1) 0%, rgba(254,47,87,1) 100%); 
+                         color:#fff; border:none;">
+            Найти
+          </button>
+        </form>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <section class="section">
     <div class="container">
