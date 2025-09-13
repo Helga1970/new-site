@@ -9,6 +9,7 @@ recipe:
   servings: 2
   prep: 10 минут
   cook: 20 минут
+  difficulty: ***
   ingredients_markdown: |-
     **Ингредиенты:**
     * 1 помидор
