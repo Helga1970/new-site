@@ -10,12 +10,16 @@ VERSION:	Versoin Number
 /* typography */
 /* Убираем лишние шрифты и оставляем CirceRounder */
 body, p, .paragraph, .btn, .pagination .page-item .page-link,
-h1, h2, h3, h4, h5, h6, a {
+h1, h2, h3, h4, h5, h6, a,
+.mobile-only h1, .mobile-only h2, .mobile-only h3, .mobile-only h4, .mobile-only h5, .mobile-only h6,
+.recipe-card-content-list-item h1, .recipe-card-content-list-item h2, .recipe-card-content-list-item h3,
+.recipe-card-content-list-item h4, .recipe-card-content-list-item h5, .recipe-card-content-list-item h6 {
   font-family: "CirceRounder", sans-serif !important;
   color: #000000;
   font-weight: 300;
   line-height: 1.2;
 }
+
 
 /* Название книги оставляем жирным */
 .book-title {
