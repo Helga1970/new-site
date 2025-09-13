@@ -34,6 +34,10 @@ layout: default
   {% if page.recipe.cook %}
     <li title="Cook Time">{% include recipe-icon.html icon="cook" %}<span>{{ page.recipe.cook }}</span></li>
   {% endif %}
+
+  {% if page.recipe.difficulty %}
+    <li title="Difficulty">{% include recipe-icon.html icon="difficulty" %}<span>{{ page.recipe.difficulty }}</span></li>
+  {% endif %}
 </ul>
 
 	<div class="recipe-contents">
