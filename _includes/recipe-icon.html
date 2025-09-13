@@ -1,31 +1,26 @@
 {% case include.icon %}
+
   {% when "quantity" %}
-    <svg fill="#FF6F61" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 0h24v24H0V0z" fill="none"/>
-      <path d="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99h-8.97z"/>
-    </svg>
+    <!-- Тут твоя иконка количества, добавь сама -->
+    <svg fill="#FF6F61" height="24" viewBox="0 0 24 24" width="24"></svg>
 
   {% when "time" %}
+    <!-- Часы (время подготовки) -->
     <svg fill="#FFA500" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
-      <path d="M0 0h24v24H0z" fill="none"/>
-      <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+      <path d="M13 7h-2v6h6v-2h-4z"/>
     </svg>
 
   {% when "cook" %}
+    <!-- Плита с кастрюлей (время приготовления) -->
     <svg fill="#FF4500" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M6 2h12v2H6z"/>
-      <path d="M4 4h16v2H4z"/>
-      <path d="M3 6h18v12H3z"/>
+      <path d="M3 3h18v2H3z"/>
+      <path d="M4 5h16v14H4z"/>
       <path d="M7 8h2v8H7zM15 8h2v8h-2z"/>
     </svg>
 
   {% when "difficulty" %}
-    <svg fill="#FFD700" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-      <!-- Лампочка с одним пазлом справа -->
-      <path d="M12 2C9.243 2 7 4.243 7 7c0 2.757 2.243 5 5 5s5-2.243 5-5c0-2.757-2.243-5-5-5z"/>
-      <path d="M11 12h2v2h-2z"/>
-      <path d="M16 9l2 2-1 1-2-2z"/>
-    </svg>
+    <!-- Тут будет твоя лампочка с пазлом, добавь сама -->
+    <svg fill="#FFD700" height="24" viewBox="0 0 24 24" width="24"></svg>
 
 {% endcase %}
