@@ -1,5 +1,6 @@
-/* Этот код убирает стандартную маркировку */
 .ingredients ul,
 .directions ol {
-  list-style-type: none;
+  list-style-type: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
 }
