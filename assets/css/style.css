@@ -2,7 +2,7 @@
 [MAIN STYLESHEET]
 
 PROJECT:	Project Name
-VERSION:	Versoin Number
+VERSION:	Version Number
 -------------------------------------------------------------------*/
 /*------------------------------------------------------------------
 [TABLE OF CONTENTS]
@@ -19,7 +19,6 @@ h1, h2, h3, h4, h5, h6, a,
   font-weight: 300;
   line-height: 1.2;
 }
-
 
 /* Название книги оставляем жирным */
 .book-title {
@@ -150,6 +149,7 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 /* Заголовки внутри мобильного блока книги */
 .mobile-only h2,
 .mobile-only h3,
@@ -166,6 +166,25 @@ body {
 .recipe-card-content-list-item h5,
 .recipe-card-content-list-item h6 {
   font-weight: 300 !important;
+}
+
+/* Восстанавливаем серый блок для изображения */
+.recipe-card-image-wrapper img,
+.book-cover {
+  background-color: #eee; /* серый фон */
+  display: block;
+}
+
+/* Очень специфичный селектор для заголовков рецепта */
+.recipe-body h1,
+.recipe-body h2,
+.recipe-body h3,
+.recipe-body h4,
+.recipe-body h5,
+.recipe-body h6 {
+  font-weight: 300 !important;
+  font-family: "CirceRounder", sans-serif !important;
+  color: #000000 !important;
 }
 
 /* ... далее весь остальной код без изменений ... */
