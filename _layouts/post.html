@@ -29,16 +29,16 @@ layout: default
 	</ul>
 
 	<div class="recipe-contents">
-		<div class="ingredients">
-			<h2>Ingredients</h2>
-			{{ page.recipe.ingredients_markdown | markdownify }}
-		</div>
-
-		<div class="directions">
-			<h2>Directions</h2>
-			{{ page.recipe.directions_markdown | markdownify }}
-		</div>
+	<div class="ingredients">
+		<h2 class="recipe-heading">Ingredients</h2>
+		{{ page.recipe.ingredients_markdown | markdownify }}
 	</div>
+
+	<div class="directions">
+		<h2 class="recipe-heading">Directions</h2>
+		{{ page.recipe.directions_markdown | markdownify }}
+	</div>
+</div>
 
 	{% comment %} Код для похожих рецептов {% endcomment %}
 {% assign current_tags = page.tags %}
