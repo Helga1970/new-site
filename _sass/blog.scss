@@ -8,7 +8,7 @@ blockquote {
 }
 
 /* Specific Styles */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h4, h5, h6 { /* H3 was removed from this rule */
 	color: #000000;
 	font-weight: 300;
 	line-height: 1.2;
@@ -34,6 +34,7 @@ h2, .h2 {
 
 h3, .h3 {
 	font-size: 15px;
+	font-weight: 600; /* New font weight for H3 */
 }
 
 h4, .h4 {
