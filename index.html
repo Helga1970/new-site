@@ -1,29 +1,44 @@
 ---
 layout: home_layout
 ---
+
+<!-- Верхняя секция с фоном и поиском -->
+<section class="hero-section">
+  <div class="hero-overlay">
+    <div class="container">
+      <div class="hero-search">
+        <form action="/search" method="get">
+          <input type="text" name="q" placeholder="Найти рецепт..." class="form-control">
+          <button type="submit" class="btn btn-primary">Поиск</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="container">
     <div class="row masonry-container">
       {% if site.recipes.size > 0 %}
- {% for post in paginator.recipes %}
-  <div class="col-lg-4 col-sm-6 mb-5">
-    <article class="text-center">
-      <img class="img-fluid mb-4" src="{{post.image | relative_url}}" alt="{{post.title}}">
-      {% if post %}
-      {% assign categories = post.categories %}
-      {% else %}
-      {% assign categories = page.categories %}
+        {% for post in paginator.recipes %}
+          <div class="col-lg-4 col-sm-6 mb-5">
+            <article class="text-center">
+              <img class="img-fluid mb-4" src="{{post.image | relative_url}}" alt="{{post.title}}">
+              {% if post %}
+                {% assign categories = post.categories %}
+              {% else %}
+                {% assign categories = page.categories %}
+              {% endif %}
+              {% for category in post.categories %}
+                <a class="d-block mb-3 text-dark text-uppercase" href="{{ 'category/' | relative_url }}{{ category | slugify }}">{{ category }}</a>
+              {% endfor %}
+              <h4 class="title-border"><a class="text-dark" href="{{ post.url | prepend: site.baseurl }}">{{post.title}}</a></h4>
+              <p>{{ post.content | strip_html | truncatewords: 35 }}</p>
+              <a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-transparent">read more</a>
+            </article>
+          </div>
+        {% endfor %}
       {% endif %}
-      {% for category in post.categories %}
-      <a class="d-block mb-3 text-dark text-uppercase" href="{{ 'category/' | relative_url }}{{ category | slugify }}">{{ category }}</a>
-      {% endfor %}
-      <h4 class="title-border"><a class="text-dark" href="{{ post.url | prepend: site.baseurl }}">{{post.title}}</a></h4>
-      <p>{{ post.content | strip_html | truncatewords: 35 }}</p>
-      <a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-transparent">read more</a>
-    </article>
-  </div>
-  {% endfor %}
-{% endif %}
     </div>
     {% include pagination.html %}
   </div>
