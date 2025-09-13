@@ -7,34 +7,22 @@ VERSION:	Versoin Number
 /*------------------------------------------------------------------
 [TABLE OF CONTENTS]
 -------------------------------------------------------------------*/
-/*  typography */
-@import url('https://fonts.googleapis.com/css2?family=CirceRounder&display=swap');
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Playfair+Display:400,700");
-@font-face {
-  font-family: 'hanskendrick';
-  src: url("../plugins/fonts/hanskendrick-regular-webfont.woff") format("woff");
-  font-style: normal;
-  font-display: swap;
+/* typography */
+/* Убираем лишние шрифты и оставляем CirceRounder */
+body, p, .paragraph, .btn, .pagination .page-item .page-link,
+h1, h2, h3, h4, h5, h6 {
+  font-family: "CirceRounder", sans-serif;
 }
 
-body {
-  line-height: 1.5;
-  font-family: "CirceRounder", "Open Sans", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  font-size: 15px;
-  color: #585757;
-}
-
-p, .paragraph {
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 1.5;
-  font-family: "CirceRounder", "Open Sans", sans-serif;
+/* Название книги оставляем жирным CirceRounder */
+.book-title {
+  font-weight: 700;
+  font-family: "CirceRounder", sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
   color: #000000;
-  font-family: "hanskendrick";
+  font-family: "CirceRounder", sans-serif;
   font-weight: 600;
   line-height: 1.2;
 }
@@ -78,7 +66,7 @@ h6, .h6 {
 /* Button style */
 .btn {
   font-size: 15px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "CirceRounder", sans-serif;
   text-transform: capitalize;
   padding: 8px 20px;
   border-radius: 0;
@@ -352,7 +340,7 @@ a:hover, a.text-dark:hover {
 }
 
 .font-secondary {
-  font-family: "hanskendrick" !important;
+  font-family: "CirceRounder", sans-serif !important;
 }
 
 .mb-10 {
@@ -586,7 +574,7 @@ textarea.form-control {
 }
 
 .pagination .page-item .page-link {
-  font-family: "hanskendrick";
+  font-family: "CirceRounder", sans-serif;
   font-size: 30px;
   border: 0;
   color: #585757;
