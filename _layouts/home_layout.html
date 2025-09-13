@@ -23,9 +23,8 @@
                         <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small"><a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a></li>
                         {% endfor %}
                       </ul>
-                      {% if post.book.title %}
-                      <p class="recipe-book"><strong>Рецепт из книги: {{ post.book.title }}</strong></p>
-                      {% endif %}
+                      <p class="font-secondary mb-3 mt-1 font-extra-small">Рецепт из книги: <span class="book-title">{{ post.book.title }}</span></p>
+                      
                         <h4 class="mb-3">{{ post.title }}</h4>
                       </a>
                       <p class="font-secondary mb-4">{{ post.content | strip_html | truncatewords: 25 }}</p>
