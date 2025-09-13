@@ -848,5 +848,20 @@ blockquote {
 .tag-list li a:hover {
   color: #ff6f00;
 }
+/* Название книги жирнее и шрифтом CirceRounder */
+.book-title {
+  font-weight: 700; /* делаем жирным */
+  font-family: "CirceRounder", sans-serif; /* задаём шрифт CirceRounder */
+}
+
+/* Эффект при наведении на карточку рецепта */
+.masonry-item .card {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.masonry-item .card:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  transform: translateY(-5px);
+}
 
 /*# sourceMappingURL=maps/style.css.map */
