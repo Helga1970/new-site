@@ -46,8 +46,9 @@
 			li {
 				list-style-type: none;
 				&:before {
-					content: '\00bb';
-					color: #ff4e4e;
+					/* ВНЕСИТЕ ИЗМЕНЕНИЯ ЗДЕСЬ */
+					content: '\2022';
+					color: #FE2F57;
 					padding-right: 0.5em;
 				}
 			}
