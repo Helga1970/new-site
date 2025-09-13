@@ -1,7 +1,71 @@
-body, p, .paragraph, .btn, .pagination .page-item .page-link,
-h1, h2, h3, h4, h5, h6 {
+/* Typography - Font Styles */
+body, p, .paragraph,
+.pagination .page-item .page-link,
+.btn, .book-title,
+h1, h2, h3, h4, h5, h6,
+blockquote {
 	font-family: "CirceRounder", sans-serif;
 }
+
+/* Specific Styles */
+h1, h2, h3, h4, h5, h6 {
+	color: #000000;
+	font-weight: 300;
+	line-height: 1.2;
+}
+
+h1, .h1 {
+	font-size: 80px;
+}
+@media (max-width: 767px) {
+	h1, .h1 {
+		font-size: 55px;
+	}
+}
+
+h2, .h2 {
+	font-size: 45px;
+}
+@media (max-width: 767px) {
+	h2, .h2 {
+		font-size: 45px;
+	}
+}
+
+h3, .h3 {
+	font-size: 40px;
+}
+
+h4, .h4 {
+	font-size: 30px;
+}
+
+h5, .h5 {
+	font-size: 20px;
+}
+
+h6, .h6 {
+	font-size: 16px;
+}
+
+.btn {
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.pagination .page-item .page-link {
+	font-size: 30px;
+}
+@media (max-width: 767px) {
+	.pagination .page-item .page-link {
+		font-size: 16px;
+	}
+}
+.book-title, blockquote {
+	font-weight: 700;
+}
+
+/* The rest of your code starts here */
 .post {
 	h1 a {
 		color: #000;
@@ -68,9 +132,9 @@ h1, h2, h3, h4, h5, h6 {
 		margin-left: 34px;
 
 		&:before {
-			content: '\2713';   /* Галочка */
-			color: #FE2F57;     /* Тот же цвет, что и у точек */
-			font-size: 2em;     /* Крупный размер */
+			content: '\2713';   /* Галочка */
+			color: #FE2F57;     /* Тот же цвет, что и у точек */
+			font-size: 2em;     /* Крупный размер */
 			margin-right: 0px;
 			position: absolute;
 			left: -34px;
