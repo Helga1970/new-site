@@ -10,14 +10,15 @@
 
   <!-- Верхняя секция с фоном и поиском -->
   <!-- Верхняя секция с фоном и поиском -->
+<!-- Верхняя секция с фоном и поиском -->
 <section class="hero-section">
   <div class="hero-overlay">
     <div class="container d-flex justify-content-center align-items-center" style="height:500px;">
-      <div class="hero-search w-100" style="max-width:600px;">
-        <form action="/search" method="get" class="d-flex">
+      <div class="hero-search w-100" style="max-width:900px;"> <!-- увеличили max-width -->
+        <form action="/search" method="get" class="d-flex w-100">
           <input type="text" name="q" 
                  placeholder="Найти рецепт, ингредиент, вид или стиль блюда, технику приготовления..." 
-                 class="form-control border-0" 
+                 class="form-control border-0 flex-grow-1" 
                  style="border-radius:0; padding:15px; font-size:18px;">
           <button type="submit" class="btn" 
                   style="border-radius:0; padding:0 25px; font-size:18px; 
