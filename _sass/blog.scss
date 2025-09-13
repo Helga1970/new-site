@@ -44,20 +44,18 @@
 		ul {
 			padding: 0;
 			li {
-				ul {
-	padding: 0;
-	li {
-		list-style-type: none;
-		&:before {
-			content: '\2022';
-			color: #FE2F57;
-			font-size: 2em; /* Увеличиваем размер точек в два раза */
-			line-height: 1em;
-			padding-right: 0.5em;
-			display: inline-block;
+				list-style-type: none;
+				&:before {
+					content: '\2022';
+					color: #FE2F57;
+					font-size: 2em; /* Увеличиваем размер точек в два раза */
+					line-height: 1em;
+					padding-right: 0.5em;
+					display: inline-block;
+				}
+			}
 		}
-	}
-}
+
 		ol {
 			padding: 0;
 			li{
