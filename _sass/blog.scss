@@ -231,12 +231,27 @@ h6, .h6 {
     font-weight: 700;
     text-align: center; /* Выравнивание по центру, если нужно */
 }
-<div class="flex-container">
-	<div class="recipe-body">
-		{{ content }}
-	</div>
-	
-	<div class="image">
-		<img src="{{ page.featured_image }}" alt="{{ page.title }}">
-	</div>
-</div>
+/* Общий контейнер — моб (по умолчанию) */
+.recipe-wrapper {
+  display: flex;
+  flex-direction: column; /* моб: текст над картинкой */
+}
+
+/* гарантируем поведение блоков */
+.recipe-body,
+.image {
+  width: 100%;
+}
+
+/* картинка во всю ширину и без лишних отступов */
+.image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Для десктопа: НЕ меняем на row — просто меняем порядок (вертикально) */
+@media (min-width: 768px) {
+  .image  { order: 1; } /* картинка сверху */
+  .recipe-body { order: 2; } /* текст под ней */
+}
