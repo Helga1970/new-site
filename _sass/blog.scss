@@ -8,62 +8,58 @@ blockquote {
 }
 
 /* Specific Styles */
-h1, h2, h4, h5, h6 { /* H3 was removed from this rule */
+h1, h2, h4, h5, h6 {
 	color: #000000;
 	font-weight: 300;
 	line-height: 1.2;
 }
-
 h1, .h1 {
 	font-size: 40px;
 }
-@media (max-width: 767px) {
-	h1, .h1 {
-		font-size: 30px;
-	}
-}
-
 h2, .h2 {
 	font-size: 20px;
 }
-@media (max-width: 767px) {
-	h2, .h2 {
-		font-size: 20px;
-	}
-}
-
 h3, .h3 {
 	font-size: 15px;
-	font-weight: 600; /* New font weight for H3 */
+	font-weight: 600;
 }
-
 h4, .h4 {
 	font-size: 20px;
 }
-
 h5, .h5 {
 	font-size: 15px;
 }
-
 h6, .h6 {
 	font-size: 12px;
 }
-
 .btn {
 	font-size: 15px;
 	font-weight: 600;
 }
-
 .pagination .page-item .page-link {
 	font-size: 20px;
 }
-@media (max-width: 767px) {
-	.pagination .page-item .page-link {
-		font-size: 16px;
-	}
-}
 .book-title, blockquote {
 	font-weight: 700;
+}
+
+/* Единый блок стилей для мобильных устройств */
+@media (max-width: 767px) {
+	/* Это новый блок, который увеличит шрифт основного текста */
+	body, p, .paragraph {
+		font-size: 16px;
+	}
+
+    /* Все остальные правила для мобильных, которые у вас уже были */
+	h1, .h1 {
+		font-size: 30px;
+	}
+	h2, .h2 {
+		font-size: 20px;
+	}
+	.pagination .page-item .page-link {
+		font-size: 18px;
+	}
 }
 
 /* The rest of your code starts here */
@@ -80,36 +76,29 @@ h6, .h6 {
 		padding: 0 0 20px 0;
 		display: block;
 	}
-
 	.recipe-overview {
 		padding: 0;
 		margin: 0;
-
 		svg {
 			position: relative;
 			top: 6px;
 		}
-
 		span {
 			margin: 0 18px 0 3px;
 		}
-
 		li {
 			list-style: none;
 			padding: 0;
 			margin: 0;
-
 			@media #{$desktop} {
 				display: inline-block;
 			}
 		}
 	}
-
 	.recipe-contents {
 		@media #{$desktop} {
 			display: flex;
 		}
-
 		ul {
 			padding: 0;
 			li {
@@ -124,31 +113,28 @@ h6, .h6 {
 				}
 			}
 		}
-
 		ol {
-	padding: 0;
-	li{
-		list-style-type: none;
-		position: relative;
-		margin-left: 34px;
-
-		&:before {
-			content: '\2713'; /* Галочка */
-			color: #FE2F57; /* Тот же цвет, что и у точек */
-			font-size: 2em; /* Крупный размер */
-			margin-right: 0px;
-			position: absolute;
-			left: -34px;
-			top: -2px;
-			text-align: center;
+			padding: 0;
+			li{
+				list-style-type: none;
+				position: relative;
+				margin-left: 34px;
+				&:before {
+					content: '\2713'; /* Галочка */
+					color: #FE2F57; /* Тот же цвет, что и у точек */
+					font-size: 2em; /* Крупный размер */
+					margin-right: 0px;
+					position: absolute;
+					left: -34px;
+					top: -2px;
+					text-align: center;
+				}
+			}
 		}
-	}
-}
 		.ingredients {
 			width: 250px;
 			padding: 0 43px 0 0;
 		}
-
 		.directions {
 			@media #{$desktop} {
 				flex: 1;
@@ -156,16 +142,13 @@ h6, .h6 {
 		}
 	}
 }
-
 .post + .post {
 	margin: 65px 0 50px 0;
 }
-
 .sharing {
 	margin: 50px 0 0 0;
 	text-align: center;
 	font-size: 0;
-
 	a {
 		text-decoration: none;
 		text-align: center;
@@ -179,7 +162,6 @@ h6, .h6 {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-
 		&:hover {
 			&:before {
 				width: 100%;
@@ -191,54 +173,42 @@ h6, .h6 {
 				content: "";
 			}
 		}
-
 		svg {
 			fill: #fff;
 		}
-
 		&.email {
 			background-color: #ff9d09;
 		}
-
 		&.facebook {
 			background-color: #3b5998;
 		}
-
 		&.twitter {
 			background-color: #55acee;
 		}
-
 		&.google-plus {
 			background-color: #db4437;
 		}
-
 		&.youtube {
 			background-color: #cd201f;
 		}
-
 		&.instagram {
 			background-color: #f167f5;
 		}
-
 		&.linkedin {
 			background-color: #0077b5;
 		}
-
 		&.pinterest {
 			background-color: #C92228;
 		}
-
 		&.pinterest-icon:hover svg {
 			fill: #bd081c;
 		}
 	}
 }
-
 .pagination {
 	text-align: center;
 	margin: 50px 0 0 0;
 }
-
 .take-me {
 	float: right;
 	.button {
@@ -246,7 +216,6 @@ h6, .h6 {
 		padding-bottom: 10px;
 	}
 }
-
 .cta {
 	text-align: center;
 	padding: 50px 0 0 0;
