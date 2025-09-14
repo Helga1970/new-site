@@ -38,8 +38,13 @@ layout: default
   {% endif %}
 
   {% if page.recipe.difficulty %}
-    <li title="Difficulty">{% include recipe-icon.html icon="difficulty" %}<span>{{ page.recipe.difficulty }}</span></li>
-  {% endif %}
+  <li title="Difficulty">
+    {% include recipe-icon.html icon="difficulty" %}
+    <span class="star">
+      {{ page.recipe.difficulty | replace: '***', '★ ★ ★' }}
+    </span>
+  </li>
+{% endif %}
 </ul>
 
 	<div class="recipe-contents">
