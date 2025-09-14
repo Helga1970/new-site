@@ -47,7 +47,7 @@ h6, .h6 {
 @media (max-width: 767px) {
     /* Исправленная ширина и отступы для ингредиентов */
     .ingredients {
-        width: 100%;
+        width: 100% !important; /* вместо фиксированных 250px */
         padding: 0 15px;
     }
     /* Исправленный размер шрифта для основного текста */
@@ -65,6 +65,7 @@ h6, .h6 {
 		font-size: 18px;
 	}
 }
+
 
 /* The rest of your code starts here */
 .post {
