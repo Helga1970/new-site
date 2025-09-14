@@ -41,7 +41,7 @@ layout: default
   <li title="Difficulty">
     {% include recipe-icon.html icon="difficulty" %}
     <span class="star">
-      {{ page.recipe.difficulty | replace: '***', '★ ★ ★' }}
+      {{ page.recipe.difficulty | replace: "*", "★" }}
     </span>
   </li>
 {% endif %}
