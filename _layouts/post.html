@@ -13,7 +13,8 @@ layout: default
 			</div>
 		</div>
 	{% endif %}
-
+	
+<div class="flex-container">
 	<div class="recipe-body">
 		{{ content }}
 	</div>
@@ -21,7 +22,7 @@ layout: default
 	<div class="image">
 		<img src="{{ page.featured_image }}" alt="{{ page.title }}">
 	</div>
-
+</div>
 	<ul id="recipe" class="recipe-overview">
   {% if page.recipe.servings %}
     <li title="Servings">{% include recipe-icon.html icon="quantity" %}<span>{{ page.recipe.servings }}</span></li>
