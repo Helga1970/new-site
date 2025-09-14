@@ -233,13 +233,3 @@ h6, .h6 {
     text-align: center;   /* по центру */
     display: block;       /* чтобы всегда сверху, как текст */
 }
-
-<div class="flex-container">
-	<div class="recipe-body">
-		{{ content }}
-	</div>
-	
-	<div class="image">
-		<img src="{{ page.featured_image }}" alt="{{ page.title }}">
-	</div>
-</div>
