@@ -7,7 +7,6 @@ categories:
 tags:
   - Европа
   - Франция
-  - Десерт
   - Без глютена
   - Средиземноморье
 featured_image: assets/images/masonary-post/post-12.jpg
