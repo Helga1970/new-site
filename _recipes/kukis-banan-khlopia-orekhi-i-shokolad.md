@@ -1,7 +1,7 @@
 ---
 layout: recipe
-title: ' КУКИС БАНАН, ХЛОПЬЯ, ОРЕХИ И ШОКОЛАД'
-image: /assets/images/kukis-banan-khlopia-orekhi-i-shokolad.jpeg
+title: Кукис банан, хлопья, орехи и шоколад
+featured_image: /assets/images/kukis-banan-khlopia-orekhi-i-shokolad.jpeg
 categories:
 - печенье
 - выпечка

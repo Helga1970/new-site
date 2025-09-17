@@ -1,7 +1,7 @@
 ---
 layout: recipe
-title: ' БОЛЬШОЙ КУКИС ШОКОЛАД- ПЕКАН'
-image: /assets/images/bolshoi-kukis-shokolad--pekan.jpeg
+title: Большой кукис шоколад и пекан
+featured_image: /assets/images/bolshoi-kukis-shokolad--pekan.jpeg
 categories:
 - печенье
 - выпечка
