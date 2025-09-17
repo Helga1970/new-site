@@ -51,7 +51,7 @@ recipe:
 book:
   title: Les cookeis de nos reve (Кукис нашей мечты)
   author: Deborah Dupont-Daguet, Géraldine Martens
-  cover: /images/les-cookeis-de-nos-reve-oblozhka/les-cookeis-de-nos-reve-oblozhka.jpeg
+  cover: /images/les-cookeis-de-nos-reve/les-cookeis-de-nos-reve-oblozhka.jpeg
   link: https://pdf-cookbook.pro-culinaria.ru/index.html?file=%2Fproxy%2Finbooks%2Fles-cookeis-de-nos-reve.pdf
 ---
 
