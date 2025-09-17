@@ -1,6 +1,6 @@
 ---
 title: Кукис банан, хлопья, орехи и шоколад
-featured_image: images/les-cookeis-de-nos-reve/kukis-banan-khlopia-orekhi-i-shokolad.jpeg
+featured_image: /images/les-cookeis-de-nos-reve/kukis-banan-khlopia-orekhi-i-shokolad.jpeg
 categories:
 - печенье
 - выпечка
@@ -51,7 +51,7 @@ recipe:
 book:
   title: Les cookeis de nos reve (Кукис нашей мечты)
   author: Deborah Dupont-Daguet, Géraldine Martens
-  cover: /assets/images/les-cookeis-de-nos-reve-oblozhka.jpeg
+  cover: /images/les-cookeis-de-nos-reve-oblozhka/les-cookeis-de-nos-reve-oblozhka.jpeg
   link: https://pdf-cookbook.pro-culinaria.ru/index.html?file=%2Fproxy%2Finbooks%2Fles-cookeis-de-nos-reve.pdf
 ---
 
