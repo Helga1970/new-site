@@ -62,68 +62,50 @@ layout: default
 	</div>
 </div>
 
+	{% comment %} Код для похожих рецептов {% endcomment %}
 {% comment %} Код для похожих рецептов {% endcomment %}
-{% assign current_tags = page.tags | default: empty %}
+{% assign current_tags = page.tags %}
 {% assign all_recipes = site.recipes %}
 {% assign related_recipes = "" | split: "" %}
 
 {% for recipe in all_recipes %}
-  {% if recipe.url != page.url and recipe.tags %}
+  {% if recipe.url != page.url %}
     {% assign common_tags = recipe.tags | intersection: current_tags %}
     {% if common_tags.size > 0 %}
-      {% assign temp_hash = '' | append: '{"recipe": ' | append: recipe | append: ', "common_tags_count": ' | append: common_tags.size | append: '}' %}
-      {% assign related_recipes = related_recipes | push: temp_hash | map: 'json' %}
+      {% assign related_recipes = related_recipes | push: recipe %}
     {% endif %}
   {% endif %}
 {% endfor %}
 
-{% assign sorted_related_recipes = related_recipes | sort: "common_tags_count" | reverse | map: 'json' %}
-{% assign initial_related_recipes = sorted_related_recipes | slice: 0, 4 %}
-{% assign remaining_related_recipes = sorted_related_recipes | slice: 4, sorted_related_recipes | size %}
+{% assign unique_related_recipes = related_recipes | uniq %}
 
-{% if initial_related_recipes.size > 0 or remaining_related_recipes.size > 0 %}
+{% if unique_related_recipes.size > 0 %}
   <div class="related-recipes-section">
-    <h3>Похожие рецепты ({{ sorted_related_recipes | size }})</h3>
-    <div id="related-list" class="related-recipes-grid">
-      {% for recipe in initial_related_recipes %}
-        <div class="recipe-card-list-item hidden" data-index="{{ forloop.index0 }}">
-          <a href="{{ recipe.recipe.url | relative_url }}">
-            {% if recipe.recipe.featured_image %}
-              <div class="recipe-card-image-wrapper">
-                <img class="recipe-card-image" src="{{ recipe.recipe.featured_image }}" alt="{{ recipe.recipe.title }}">
-              </div>
-            {% endif %}
-            <div class="recipe-card-content-list-item">
-              <p class="recipe-title" style="font-size: 0.9em; margin: 0; font-weight: bold;">{{ recipe.recipe.title }}</p>
-              {% if recipe.recipe.book.title %}
-                <p class="recipe-book" style="font-size: 0.9em; margin-top: 2px;">Из книги {{ recipe.recipe.book.title }}</p>
-              {% endif %}
+  <h3>Похожие рецепты ({{ unique_related_recipes.size }})</h3>
+  <div id="related-list" class="related-recipes-grid">
+    {% for recipe in unique_related_recipes %}
+      <div class="recipe-card-list-item hidden">
+        <a href="{{ recipe.url | relative_url }}">
+          {% if recipe.featured_image %}
+            <div class="recipe-card-image-wrapper">
+              <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
             </div>
-          </a>
-        </div>
-      {% endfor %}
-      {% for recipe in remaining_related_recipes %}
-        <div class="recipe-card-list-item hidden" data-index="{{ forloop.index0 | plus: initial_related_recipes.size }}">
-          <a href="{{ recipe.recipe.url | relative_url }}">
-            {% if recipe.recipe.featured_image %}
-              <div class="recipe-card-image-wrapper">
-                <img class="recipe-card-image" src="{{ recipe.recipe.featured_image }}" alt="{{ recipe.recipe.title }}">
-              </div>
+          {% endif %}
+          <div class="recipe-card-content-list-item">
+            <p class="recipe-title" style="font-size: 0.9em; margin: 0;">{{ recipe.title }}</p>
+            {% if recipe.book.title %}
+              <p class="recipe-book" style="margin-top: 2px;">Из книги {{ recipe.book.title }}</p>
             {% endif %}
-            <div class="recipe-card-content-list-item">
-              <p class="recipe-title" style="font-size: 0.9em; margin: 0; font-weight: bold;">{{ recipe.recipe.title }}</p>
-              {% if recipe.recipe.book.title %}
-                <p class="recipe-book" style="font-size: 0.9em; margin-top: 2px;">Из книги {{ recipe.recipe.book.title }}</p>
-              {% endif %}
-            </div>
-          </a>
-        </div>
-      {% endfor %}
-    </div>
-    <button id="show-more" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
-      Показать ещё
-    </button>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
   </div>
+  <!-- Исправленная кнопка Показать ещё -->
+  <button id="show-more" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
+    Показать ещё
+  </button>
+</div>
 {% endif %}
 {% comment %} Конец кода для похожих рецептов {% endcomment %}
 
@@ -181,9 +163,6 @@ layout: default
     }
 
     showNext();
-    if (btn && items.length > firstStep) btn.addEventListener("click", showNext);
+    if(btn) btn.addEventListener("click", showNext);
   });
 </script>
-<style>
-  .hidden { display: none; }
-</style>
