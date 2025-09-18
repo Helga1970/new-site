@@ -100,7 +100,7 @@ layout: default
         </div>
       {% endfor %}
     </div>
-    <button id="show-more" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
+    <button id="show-more" style="background-color:#f4f2f1; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
       Показать ещё
     </button>
   </div>
@@ -142,10 +142,11 @@ layout: default
   }
 
   /* Стили для обёртки изображения */
-  .recipe-card-image-wrapper {
-    height: 120px; /* Фиксированная высота для "тонких" блоков */
-    overflow: hidden;
-  }
+.recipe-card-image-wrapper {
+  height: 120px !important; /* Гарантируем фиксированную высоту */
+  overflow: hidden;
+  border-radius: 6px; /* Это было в последних версиях кода, добавьте, если нужно */
+}
 
   /* Стили для самого изображения */
   .recipe-card-image {
