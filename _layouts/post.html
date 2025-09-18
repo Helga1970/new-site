@@ -92,11 +92,10 @@ layout: default
             </div>
           {% endif %}
           <div class="recipe-card-content-list-item">
-  <div class="recipe-card-content-list-item">
-    <p class="recipe-title related-recipe-title" style="font-size: 0.9em; margin: 0;">{{ recipe.title }}</p>
-    {% if recipe.book.title %}
-      <p class="recipe-book" style="margin-top: 2px;">Из книги {{ recipe.book.title }}</p>
-    {% endif %}
+  <p class="recipe-title" style="font-size: 1em; margin: 0; font-weight: bold;">{{ recipe.title }}</p>
+  {% if recipe.book.title %}
+    <p class="recipe-book" style="margin-top: 0;">Из книги {{ recipe.book.title }}</p>
+  {% endif %}
 </div>
         </a>
       </div>
