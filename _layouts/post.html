@@ -86,9 +86,9 @@ layout: default
         <div class="recipe-card-list-item hidden">
           <a href="{{ recipe.url | relative_url }}">
             {% if recipe.featured_image %}
-              <div class="recipe-card-image-wrapper">
-                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
-              </div>
+              <div class="recipe-card-image-wrapper" style="height: 120px !important; overflow: hidden !important;">
+  <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}" style="object-fit: cover !important;">
+</div>
             {% endif %}
             <div class="recipe-card-content-list-item">
               <p class="recipe-title">{{ recipe.title }}</p>
