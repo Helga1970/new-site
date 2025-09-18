@@ -126,48 +126,65 @@ layout: default
 	{% endif %}
 </article>
 <style>
-  /* Стили для сетки */
+  /* Общие стили для сетки похожих рецептов */
   .related-recipes-grid {
-    display: flex; /* Flexbox идеально подходит для вашего макета */
-    flex-wrap: wrap; /* Элементы переносятся на новую строку */
-    justify-content: space-between; /* Равномерно распределяет элементы */
-    margin: 0 -5px; /* Убирает лишние отступы по бокам */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px; /* Задаём небольшой отступ между карточками */
   }
 
   /* Стили для каждой карточки */
   .recipe-card-list-item {
     flex-basis: calc(50% - 10px); /* 50% минус отступы. Идеально для двух колонок */
-    margin: 5px; /* Маленькие отступы по 5px */
+    margin-bottom: 20px; /* Отступ между рядами */
+  }
+
+  /* Стили для обёртки изображения */
+  .recipe-card-image-wrapper {
+    height: 120px; /* Фиксированная высота для "тонких" блоков */
+    overflow: hidden;
+  }
+
+  /* Стили для самого изображения */
+  .recipe-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Исправляем жирность шрифта для названий рецептов */
+  .recipe-card-content-list-item h4,
+  .recipe-card-content-list-item p.recipe-title {
+    font-weight: 700 !important; /* Делаем шрифт жирным */
+    margin: 0; /* Убираем лишний отступ */
+    font-size: 18px; /* Вы можете настроить размер шрифта */
   }
   
-  /* Отдельные стили для мобильных устройств, чтобы карточки были в один ряд */
+  /* Уменьшаем отступ у названий книг */
+  .recipe-card-content-list-item p.recipe-book {
+      margin: 0;
+      font-size: 14px;
+  }
+
+  /* Медиа-запросы для адаптации под мобильные устройства */
   @media (max-width: 767px) {
+    .related-recipes-grid {
+      gap: 10px; /* Уменьшаем отступ для мобильных */
+      margin: 0; /* Убираем отступы по бокам */
+    }
     .recipe-card-list-item {
       flex-basis: 100%; /* Карточка занимает всю ширину */
-      margin: 5px 0; /* Отступы только сверху и снизу */
+      margin: 0; /* Убираем все отступы */
+    }
+    .recipe-card-image-wrapper {
+      height: 100px; /* Можно сделать ещё тоньше для мобильных */
     }
   }
 
-  /* Уменьшаем отступы у заголовков и параграфов внутри карточки */
-  .recipe-card-content-list-item h4 {
-      margin: 0;
-  }
-
-  .recipe-card-content-list-item p.recipe-book {
-      margin: 0;
-  }
-
-  /* Стили для обёртки изображения (сохраняем "тонкие" прямоугольники) */
-  .recipe-card-image-wrapper {
-      height: 120px;
-      overflow: hidden;
-  }
-
-  /* Убеждаемся, что изображение заполняет контейнер */
-  .recipe-card-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+  /* Скрывает невидимые карточки */
+  .recipe-card-list-item.hidden {
+    display: none;
   }
 </style>
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
