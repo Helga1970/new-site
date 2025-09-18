@@ -1,138 +1,29 @@
----
-layout: default
----
-<article class="post">
-	{% include post-heading.html post=page post_page=true %}
-
-	{% if page.book %}
-		<div class="book-block mobile-only">
-			<img class="book-cover" src="{{ page.book.cover }}" alt="{{ page.book.title }}">
-			<div class="book-meta">
-				<h3>{{ page.book.title }}</h3>
-				<p>{{ page.book.author }}</p>
-			</div>
-		</div>
-	{% endif %}
-	
-<div class="recipe-wrapper">
-	<div class="recipe-body">
-		{{ content }}
-	</div>
-	
-	<div class="image">
-		<img src="{{ page.featured_image }}" alt="{{ page.title }}">
-	</div>
-</div>
-
-	<ul id="recipe" class="recipe-overview">
-  {% if page.recipe.servings %}
-    <li title="Servings">{% include recipe-icon.html icon="quantity" %}<span>{{ page.recipe.servings }}</span></li>
-  {% endif %}
-
-  {% if page.recipe.prep %}
-    <li title="Prep Time">{% include recipe-icon.html icon="time" %}<span>{{ page.recipe.prep }}</span></li>
-  {% endif %}
-
-  {% if page.recipe.cook %}
-    <li title="Cook Time">{% include recipe-icon.html icon="cook" %}<span>{{ page.recipe.cook }}</span></li>
-  {% endif %}
-
-  {% if page.recipe.difficulty %}
-  <li title="Difficulty">
-    {% include recipe-icon.html icon="difficulty" %}
-    <span class="star">
-      {{ page.recipe.difficulty | replace: "*", "★" }}
-    </span>
-  </li>
+{% else %}
+  {% assign shuffled_recipes = "" | split: "" %}
 {% endif %}
-</ul>
-
-	<div class="recipe-contents">
-	<div class="ingredients">
-		<h3 class="recipe-heading">Ингредиенты:</h3>
-		{{ page.recipe.ingredients_markdown | markdownify }}
-	</div>
-
-	<div class="directions">
-		<h3 class="recipe-heading">Приготовление:</h3>
-		{{ page.recipe.directions_markdown | markdownify }}
-	</div>
-</div>
-
-	{% comment %} Код для похожих рецептов {% endcomment %}
-{% assign current_tags = page.tags %}
-{% assign all_recipes = site.recipes %}
-{% assign related_recipes = "" | split: "" %}
-
-{% for recipe in all_recipes %}
-  {% if recipe.url != page.url %}
-    {% assign common_tags = recipe.tags | intersection: current_tags %}
-    {% if common_tags.size > 0 %}
-      {% assign related_recipes = related_recipes | push: recipe %}
-    {% endif %}
-  {% endif %}
-{% endfor %}
-
-{% assign unique_related_recipes = related_recipes | uniq %}
-{% assign shuffled_recipes = unique_related_recipes | shuffle | slice: 0, 4 %}
 
 {% if shuffled_recipes.size > 0 %}
-  <div class="related-recipes-section">
-    <h3>Похожие рецепты</h3>
-    <div class="related-recipes-grid">
-      {% for recipe in shuffled_recipes %}
-        <div class="recipe-card-list-item">
-          <a href="{{ recipe.url | relative_url }}">
-            {% if recipe.featured_image %}
-              <div class="recipe-card-image-wrapper">
-                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
-              </div>
-            {% endif %}
-            <div class="recipe-card-content-list-item">
-              <h4>{{ recipe.title }}</h4>
-              {% if recipe.book.title %}
-                <p class="recipe-book">Из {{ recipe.book.title }}</p>
-              {% endif %}
-            </div>
-          </a>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
+  <div class="related-recipes-section">
+    <h3>Похожие рецепты</h3>
+    <div class="related-recipes-grid">
+      {% for recipe in shuffled_recipes %}
+        <div class="recipe-card-list-item">
+          <a href="{{ recipe.url | relative_url }}">
+            {% if recipe.featured_image %}
+              <div class="recipe-card-image-wrapper">
+                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
+              </div>
+            {% endif %}
+            <div class="recipe-card-content-list-item">
+              <h4>{{ recipe.title }}</h4>
+              {% if recipe.book.title %}
+                <p class="recipe-book">Из {{ recipe.book.title }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 {% endif %}
 {% comment %} Конец кода для похожих рецептов {% endcomment %}
-
-	{% if site.disqus_shortname and page.comments %}
-		<div id="disqus_thread"></div>
-		<script>
-			var disqus_shortname = '{{ site.disqus_shortname }}';
-			var disqus_config = function () {
-				this.page.url = "{{ page.url | prepend: site.url }}";
-				this.page.identifier = "{{ page.id }}";
-			};
-			(function() {
-				var d = document, s = d.createElement('script');
-				s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				s.setAttribute('data-timestamp', +new Date());
-				(d.head || d.body).appendChild(s);
-			})();
-		</script>
-		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-	{% endif %}
-</article>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
-<script>
-	$(function() {
-		$('.post img').imgPin();
-
-		$('a[href*=\\#]').on('click', function(event){
-			var el = $(this.hash);
-			if (el.length > 0) {
-				event.preventDefault();
-				$('html,body').animate({scrollTop:$(this.hash).offset().top - 50}, 500);
-			}
-		});
-	});
-</script>
