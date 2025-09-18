@@ -2,29 +2,31 @@
 	<div><a class="editor-link btn" href="cloudcannon:collections/_data/sidebar.yml" class="btn"><strong>&#9998;</strong> Edit sidebar</a></div>
 	
 	{% if include.page.book %}
-	<div class="book-block desktop-only">
-		<h2>Рекомендуем книгу:</h2>
-		<div class="book-cover">
-			{% if include.page.book.link %}
-				<a href="{{ include.page.book.link }}" target="_blank" rel="noopener">
-					<img src="{{ include.page.book.cover | relative_url }}" alt="{{ include.page.book.title }}">
-				</a>
-			{% else %}
+<div class="book-block desktop-only">
+	<h2>Рецепт из книги:</h2>
+	<div class="book-cover">
+		{% if include.page.book.link %}
+			<a href="{{ include.page.book.link }}" target="_blank" rel="noopener">
 				<img src="{{ include.page.book.cover | relative_url }}" alt="{{ include.page.book.title }}">
-			{% endif %}
-		</div>
-		<div class="book-meta">
-			<p class="book-title">
-				{% if include.page.book.link %}
-					<a href="{{ include.page.book.link }}" target="_blank" rel="noopener">{{ include.page.book.title }}</a>
-				{% else %}
-					{{ include.page.book.title }}
-				{% endif %}
-			</p>
-			<p class="book-author">{{ include.page.book.author }}</p>
-		</div>
+			</a>
+		{% else %}
+			<img src="{{ include.page.book.cover | relative_url }}" alt="{{ include.page.book.title }}">
+		{% endif %}
 	</div>
-	{% endif %}
+	<div class="book-meta">
+		<p class="book-title">
+			{% if include.page.book.link %}
+				<a href="{{ include.page.book.link }}" target="_blank" rel="noopener">{{ include.page.book.title }}</a>
+			{% else %}
+				{{ include.page.book.title }}
+			{% endif %}
+		</p>
+		<p class="book-author">{{ include.page.book.author }}</p>
+	</div>
+	{% comment %} Добавляем кнопку "Еще рецепты из книги" {% endcomment %}
+	<a href="/all-recipes-from-book/{{ include.page.book.title | slugify }}" class="book-recipes-link">Еще рецепты из книги</a>
+</div>
+{% endif %}
 
 	<div class="social-icons">
 		{% if site.data.sidebar.facebook && site.data.sidebar.facebook != "" %}<a target="_blank" href="https://facebook.com/{{ site.data.sidebar.facebook }}">{% include social-icon.html icon="Facebook" %}</a>{% endif %}
