@@ -138,30 +138,20 @@ layout: default
   .recipe-card-list-item {
     flex-basis: calc(50% - 10px); /* 50% минус отступы. Идеально для двух колонок */
     margin-bottom: 20px; /* Отступ между рядами */
-    background-color: #fbfbfb; /* Добавляем цвет фона */
-    display: flex; /* Добавляем flexbox для правильного расположения элементов */
-    flex-direction: column;
-    padding: 10px; /* Добавляем внутренние отступы */
+	background-color: #fbfbfb; /* Добавляем цвет фона */  
   }
 
   /* Стили для обёртки изображения */
   .recipe-card-image-wrapper {
-    width: 100%;
-    position: relative;
-    padding-top: 100%; /* Делает контейнер идеально квадратным */
-    height: 0;
+    height: 120px; /* Фиксированная высота для "тонких" блоков */
     overflow: hidden;
-    border-radius: 6px; /* Добавляет скругление углов */
   }
 
   /* Стили для самого изображения */
   .recipe-card-image {
-    position: absolute; /* Позиционирует изображение внутри родителя */
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Заполняет контейнер, обрезая лишнее */
+    object-fit: cover;
   }
 
   /* Исправляем жирность шрифта для названий рецептов */
@@ -169,22 +159,13 @@ layout: default
   .recipe-card-content-list-item p.recipe-title {
     font-weight: 700 !important; /* Делаем шрифт жирным */
     margin: 0; /* Убираем лишний отступ */
-    font-size: 16px;
+    font-size: 16px; /* Вы можете настроить размер шрифта */
   }
   
   /* Уменьшаем отступ у названий книг */
   .recipe-card-content-list-item p.recipe-book {
-    margin: 0;
-    font-size: 16px;
-  }
-  
-  /* Стили для текста - здесь всё собрано вместе */
-  .recipe-card-content-list-item h4,
-  .recipe-card-content-list-item p.recipe-title,
-  .recipe-card-content-list-item p.recipe-book {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+      margin: 0;
+      font-size: 16px;
   }
 
   /* Медиа-запросы для адаптации под мобильные устройства */
@@ -194,12 +175,11 @@ layout: default
       margin: 0; /* Убираем отступы по бокам */
     }
     .recipe-card-list-item {
-      flex-basis: 95%; /* Карточка занимает 95% ширины */
-      margin: 0 auto 10px; /* Центрируем и добавляем отступ снизу */
+      flex-basis: 100%; /* Карточка занимает всю ширину */
+      margin: 0; /* Убираем все отступы */
     }
     .recipe-card-image-wrapper {
-      padding-top: 100%; /* Квадратные картинки и на мобильных */
-      height: 0;
+      height: 100px; /* Можно сделать ещё тоньше для мобильных */
     }
   }
 
