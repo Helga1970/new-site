@@ -140,6 +140,7 @@ layout: default
   display: flex;
   align-items: center;
   overflow: hidden;
+  height: 100px; /* фиксированная высота блока */
 }
 
 .recipe-card-image-wrapper {
@@ -161,33 +162,37 @@ layout: default
 .recipe-card-content-list-item {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%; /* подгоняем под высоту блока */
 }
 
-/* Верхняя строка - название рецепта, жирное, максимум 2 строки */
+/* Верхняя строка - название рецепта */
 .recipe-card-content-list-item h4,
 .recipe-card-content-list-item p.recipe-title {
   font-weight: 700 !important;
   margin: 0;
   font-size: 16px;
+  line-height: 1.2em;
   display: -webkit-box;
-  -webkit-line-clamp: 2;        /* максимум 2 строки */
+  -webkit-line-clamp: 2; /* максимум 2 строки */
   -webkit-box-orient: vertical;
   overflow: hidden;
-  word-wrap: break-word;
 }
 
-/* Нижняя строка - подзаголовок / книга, обычный шрифт, одна строка, многоточие после 5 слов */
+/* Нижняя строка - подзаголовок / книга */
 .recipe-card-content-list-item p.recipe-book {
-  margin: 0;
+  font-weight: 400;
   font-size: 14px;
   color: #555;
-  font-weight: 400;
-  white-space: nowrap;          /* одна строка */
+  margin: 0;
+  white-space: nowrap;          /* строго одна строка */
   overflow: hidden;
-  text-overflow: ellipsis;      /* многоточие */
-  max-width: 100%;              /* чтобы текст обрезался по ширине */
+  text-overflow: ellipsis;
 }
 
+/* Мобильная версия */
 @media (max-width: 767px) {
   .related-recipes-grid {
     gap: 10px;
@@ -197,6 +202,7 @@ layout: default
     flex-basis: 100%;
     margin: 0;
     flex-direction: row;
+    height: 100px; /* сохраняем фиксированную высоту */
   }
   .recipe-card-image-wrapper {
     width: 100px;
@@ -209,7 +215,6 @@ layout: default
   display: none;
 }
 </style>
-
 
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
 <script>
