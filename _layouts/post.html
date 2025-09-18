@@ -63,6 +63,7 @@ layout: default
 </div>
 
 	{% comment %} Код для похожих рецептов {% endcomment %}
+{% comment %} Код для похожих рецептов {% endcomment %}
 {% assign current_tags = page.tags %}
 {% assign all_recipes = site.recipes %}
 {% assign related_recipes = "" | split: "" %}
@@ -77,14 +78,13 @@ layout: default
 {% endfor %}
 
 {% assign unique_related_recipes = related_recipes | uniq %}
-{% assign shuffled_recipes = unique_related_recipes | shuffle | slice: 0, 4 %}
 
-{% if shuffled_recipes.size > 0 %}
+{% if unique_related_recipes.size > 0 %}
   <div class="related-recipes-section">
-    <h3>Похожие рецепты</h3>
-    <div class="related-recipes-grid">
-      {% for recipe in shuffled_recipes %}
-        <div class="recipe-card-list-item">
+    <h3>Похожие рецепты ({{ unique_related_recipes.size }})</h3>
+    <div id="related-list" class="related-recipes-grid">
+      {% for recipe in unique_related_recipes %}
+        <div class="recipe-card-list-item hidden">
           <a href="{{ recipe.url | relative_url }}">
             {% if recipe.featured_image %}
               <div class="recipe-card-image-wrapper">
@@ -101,8 +101,14 @@ layout: default
         </div>
       {% endfor %}
     </div>
+
+    <!-- Исправленная кнопка Показать ещё -->
+    <button id="show-more" style="background-color:#fa8569; color:#fff; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
+      Показать ещё
+    </button>
   </div>
 {% endif %}
+{% comment %} Конец кода для похожих рецептов {% endcomment %}
 {% comment %} Конец кода для похожих рецептов {% endcomment %}
 
 	{% if site.disqus_shortname and page.comments %}
@@ -138,4 +144,27 @@ layout: default
 			}
 		});
 	});
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const items = [...document.querySelectorAll("#related-list .recipe-card-list-item")];
+    const btn = document.getElementById("show-more");
+    let visible = 0;
+    const firstStep = 4;
+    const nextStep = 20;
+
+    function showNext() {
+      const step = (visible === 0) ? firstStep : nextStep;
+      for (let i = visible; i < visible + step && i < items.length; i++) {
+        items[i].classList.remove("hidden");
+      }
+      visible += step;
+      if (visible >= items.length) {
+        btn.style.display = "none";
+      }
+    }
+
+    showNext();
+    if(btn) btn.addEventListener("click", showNext);
+  });
 </script>
