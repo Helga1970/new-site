@@ -95,14 +95,14 @@ layout: default
               <div class="recipe-card-content-list-item">
                 <h4>{{ recipe.title }}</h4>
                 {% if recipe.book.title %}
-                  <p class="recipe-book">Из {{ recipe.book.title }}</p>
+                  <p class="recipe-book">Из книги {{ recipe.book.title }}</p>
                 {% endif %}
               </div>
             </a>
           </div>
         {% endfor %}
       </div>
-      <button id="show-more">Показать ещё</button>
+      <button id="show-more" class="mobile-only">Показать ещё</button>
     </div>
   {% endif %}
   {% comment %} Конец блока похожих рецептов {% endcomment %}
@@ -129,16 +129,10 @@ layout: default
 <style>
   .hidden { display: none; }
 
-  .more-recipes-btn {
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 12px;
-    background: #fa8569; /* исправленный цвет */
-    color: #fff;
-    border-radius: 8px;
-    margin: 16px 0;
-    text-decoration: none;
+  /* Кнопка только на мобильных, без скруглений */
+  .more-recipes-btn,
+  #show-more {
+    border-radius: 0;
   }
 
   .related-recipes-grid {
@@ -148,8 +142,20 @@ layout: default
   }
 
   .recipe-card-list-item {
-    width: calc(50% - 8px); /* 2 в ряд на десктопе */
+    width: calc(50% - 8px);
     box-sizing: border-box;
+  }
+
+  .recipe-card-content-list-item {
+    line-height: 1.2; /* плотнее текст */
+    margin: 0;
+    padding: 0;
+  }
+
+  .recipe-card-content-list-item .recipe-book {
+    margin-top: 2px; /* уменьшили отступ */
+    font-size: 0.9em;
+    color: #555;
   }
 
   @media(max-width: 768px) {
@@ -193,6 +199,6 @@ layout: default
     }
 
     showNext();
-    btn.addEventListener("click", showNext);
+    if(btn) btn.addEventListener("click", showNext);
   });
 </script>
