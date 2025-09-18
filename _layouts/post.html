@@ -136,7 +136,7 @@ layout: default
 .recipe-card-list-item {
   flex-basis: calc(50% - 10px);
   margin-bottom: 20px;
-  background-color: #efeeee;
+  background-color: #f5f3f3;
   display: flex;
   align-items: flex-start;
   overflow: hidden;
@@ -236,20 +236,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
-
-<script>
-// Нижняя строка - обрезаем текст после 2 слов и добавляем многоточие
-document.addEventListener("DOMContentLoaded", function() {
-  document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
-    let words = el.textContent.trim().split(/\s+/);
-    if (words.length > 2) {
-      el.textContent = words.slice(0, 2).join(' ') + '…';
-    }
-  });
-});
-</script>
-
-
 
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
 <script>
