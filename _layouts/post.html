@@ -83,21 +83,21 @@ layout: default
     <h3>Похожие рецепты ({{ unique_related_recipes.size }})</h3>
     <div id="related-list" class="related-recipes-grid">
       {% for recipe in unique_related_recipes %}
-        <div class="recipe-card-list-item hidden" style="display:none;">
-  <a href="{{ recipe.url | relative_url }}">
-    {% if recipe.featured_image %}
-      <div class="recipe-card-image-wrapper">
-        <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
-      </div>
-    {% endif %}
-    <div class="recipe-card-content-list-item">
-      <p class="recipe-title">{{ recipe.title }}</p>
-      {% if recipe.book.title %}
-        <p class="recipe-book">Из книги {{ recipe.book.title }}</p>
-      {% endif %}
-    </div>
-  </a>
-</div>
+        <div class="recipe-card-list-item hidden">
+          <a href="{{ recipe.url | relative_url }}">
+            {% if recipe.featured_image %}
+              <div class="recipe-card-image-wrapper">
+                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
+              </div>
+            {% endif %}
+            <div class="recipe-card-content-list-item">
+              <p class="recipe-title">{{ recipe.title }}</p>
+              {% if recipe.book.title %}
+                <p class="recipe-book">Из книги {{ recipe.book.title }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
       {% endfor %}
     </div>
     <button id="show-more" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
