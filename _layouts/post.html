@@ -136,7 +136,7 @@ layout: default
 .recipe-card-list-item {
   flex-basis: calc(50% - 10px);
   margin-bottom: 20px;
-  background-color: #eaeaea;
+  background-color: #efeeee;
   display: flex;
   align-items: flex-start;
   overflow: hidden;
@@ -169,7 +169,7 @@ layout: default
   height: 100%;
 }
 
-/* Верхняя строка - жирная, свободная */
+/* Верхняя строка - название рецепта, жирная, максимум 8 слов */
 .recipe-card-content-list-item h4,
 .recipe-card-content-list-item p.recipe-title {
   font-weight: 700 !important;
@@ -180,7 +180,7 @@ layout: default
   overflow: hidden;
 }
 
-/* Нижняя строка - обычный шрифт, JS обрезает после 2 слов */
+/* Нижняя строка - подзаголовок / книга, обычный шрифт, 5 слов с многоточием */
 .recipe-card-content-list-item p.recipe-book {
   font-weight: 400;
   font-size: 14px;
@@ -216,6 +216,26 @@ layout: default
   display: none;
 }
 </style>
+
+<script>
+// Верхняя строка - обрезаем после 8 слов
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4').forEach(el => {
+    let words = el.textContent.trim().split(/\s+/);
+    if (words.length > 8) {
+      el.textContent = words.slice(0, 8).join(' ') + '…';
+    }
+  });
+
+  // Нижняя строка - обрезаем после 5 слов
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
+    let words = el.textContent.trim().split(/\s+/);
+    if (words.length > 5) {
+      el.textContent = words.slice(0, 5).join(' ') + '…';
+    }
+  });
+});
+</script>
 
 <script>
 // Нижняя строка - обрезаем текст после 2 слов и добавляем многоточие
