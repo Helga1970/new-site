@@ -23,35 +23,10 @@
 			</p>
 			<p class="book-author">{{ include.page.book.author }}</p>
 		</div>
-		{% comment %} Добавляем кнопку "Еще рецепты из книги" {% endcomment %}
-		{% if include.page.book %}
-  <div class="book-block desktop-only">
-    <h2>Рецепт из книги:</h2>
-    <div class="book-cover">
-      {% if include.page.book.link %}
-        <a href="{{ include.page.book.link }}" target="_blank" rel="noopener">
-          <img src="{{ include.page.book.cover | relative_url }}" alt="{{ include.page.book.title }}">
-        </a>
-      {% else %}
-        <img src="{{ include.page.book.cover | relative_url }}" alt="{{ include.page.book.title }}">
-      {% endif %}
-    </div>
-    <div class="book-meta">
-      <p class="book-title">
-        {% if include.page.book.link %}
-          <a href="{{ include.page.book.link }}" target="_blank" rel="noopener">{{ include.page.book.title }}</a>
-        {% else %}
-          {{ include.page.book.title }}
-        {% endif %}
-      </p>
-      <p class="book-author">{{ include.page.book.author }}</p>
-    </div>
-    {% comment %} Добавляем кнопку "Еще рецепты из книги" с новым дизайном {% endcomment %}
-    <a href="/all-recipes-from-book/{{ include.page.book.title | slugify }}" class="book-recipes-link desktop-only" style="background-color:#fa8569; color:#fff; border-radius:0; padding:8px 16px; font-size:1em; display:inline-block; border:none; cursor:pointer; width:100%;">
-  Еще рецепты из книги
-</a>
-  </div>
-{% endif %}
+		{% comment %} Добавляем кнопку "Еще рецепты из книги" с новым дизайном и центрированием текста {% endcomment %}
+		<a href="/all-recipes-from-book/{{ include.page.book.title | slugify }}" class="book-recipes-link desktop-only" style="background-color:#fa8569; color:#fff; border-radius:0; padding:8px 16px; font-size:1em; display:inline-block; border:none; cursor:pointer; width:100%; text-align:center;">
+			Ещё ... из книги
+		</a>
 	</div>
 	{% endif %}
 
