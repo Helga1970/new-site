@@ -230,8 +230,8 @@ document.addEventListener("DOMContentLoaded", function() {
   // Нижняя строка - обрезаем после 6 слов
   document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
     let words = el.textContent.trim().split(/\s+/);
-    if (words.length > 5) {
-      el.textContent = words.slice(0, 5).join(' ') + '…';
+    if (words.length > 6) {
+      el.textContent = words.slice(0, 6).join(' ') + '…';
     }
   });
 });
