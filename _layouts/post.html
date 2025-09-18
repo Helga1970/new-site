@@ -4,19 +4,19 @@ layout: default
 <article class="post">
   {% include post-heading.html post=page post_page=true %}
 
-  {% if page.book %}
-    <div class="book-block mobile-only">
-      <img class="book-cover" src="{{ page.book.cover }}" alt="{{ page.book.title }}">
-      <div class="book-meta">
-        <h3>{{ page.book.title }}</h3>
-        <p>{{ page.book.author }}</p>
-      </div>
+ {% if page.book %}
+  <div class="book-block mobile-only">
+    <img class="book-cover" src="{{ page.book.cover }}" alt="{{ page.book.title }}">
+    <div class="book-meta">
+      <h3>{{ page.book.title }}</h3>
+      <p>{{ page.book.author }}</p>
     </div>
+  </div>
 
-    <a href="/books/{{ page.book.slug }}/" class="more-recipes-btn mobile-only">
-      Ещё рецепты из книги
-    </a>
-  {% endif %}
+  <div class="book-more-recipes mobile-only" style="background-color:#fa8569; color:#fff; text-align:center; padding:10px 0; font-weight:bold; border-radius:0;">
+    Ещё рецепты из книги
+  </div>
+{% endif %}
 
   <div class="recipe-wrapper">
     <div class="recipe-body">
