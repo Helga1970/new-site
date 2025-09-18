@@ -904,18 +904,32 @@ blockquote {
 body, h1, h2, h3, h4, h5, h6, p, a {
   font-family: "CirceRounder", sans-serif !important;
 }
-/* Стили для похожих рецептов */
-.recipe-title-related {
-  font-size: 1em;
-  font-weight: bold;
-  margin: 0;
+.related-recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Адаптивная сетка с минимальной шириной карточки */
+  gap: 15px; /* Уменьшенный отступ между карточками */
+  padding: 10px; /* Минимальные внутренние отступы */
 }
 
-.recipe-book-related {
-  font-size: 1em;
-  font-weight: normal;
-  margin: 0;
-  line-height: 1.2;
+.recipe-card-list-item {
+  margin: 0; /* Убираем лишние внешние отступы */
+  padding: 10px; /* Уменьшенные внутренние отступы */
+  box-sizing: border-box; /* Учитываем padding и border в размерах */
 }
 
+.recipe-card-image-wrapper {
+  width: 100%;
+  aspect-ratio: 4/3; /* Фиксированное соотношение сторон для изображений */
+  overflow: hidden;
+}
+
+.recipe-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Изображение заполняет контейнер без искажений */
+}
+
+.recipe-card-content-list-item {
+  padding: 8px 0; /* Уменьшенные отступы для текста */
+}
 /*# sourceMappingURL=maps/style.css.map */
