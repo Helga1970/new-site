@@ -5,16 +5,16 @@ layout: default
 	{% include post-heading.html post=page post_page=true %}
 
 {% if page.book %}
-  <div class="book-block mobile-only">
-    <img class="book-cover" src="{{ page.book.cover }}" alt="{{ page.book.title }}">
-    <div class="book-meta">
-      <h3>{{ page.book.title }}</h3>
-      <p>{{ page.book.author }}</p>
-    </div>
-  </div>
-  <div class="book-more-recipes mobile-only" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; justify-content:center; align-items:center; padding:10px 0; width:100%;">
-    Ещё рецепты из книги
-  </div>
+  <div class="book-block mobile-only">
+    <img class="book-cover" src="{{ page.book.cover }}" alt="{{ page.book.title }}">
+    <div class="book-meta">
+      <h3>{{ page.book.title }}</h3>
+      <p>{{ page.book.author }}</p>
+    </div>
+  </div>
+  <div class="book-more-recipes mobile-only" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; justify-content:center; align-items:center; padding:10px 0; width:100%;">
+    Ещё рецепты из книги
+  </div>
 {% endif %}
 	
 <div class="recipe-wrapper">
@@ -28,25 +28,25 @@ layout: default
 </div>
 
 	<ul id="recipe" class="recipe-overview">
-  {% if page.recipe.servings %}
-    <li title="Servings">{% include recipe-icon.html icon="quantity" %}<span>{{ page.recipe.servings }}</span></li>
-  {% endif %}
+  {% if page.recipe.servings %}
+    <li title="Servings">{% include recipe-icon.html icon="quantity" %}<span>{{ page.recipe.servings }}</span></li>
+  {% endif %}
 
-  {% if page.recipe.prep %}
-    <li title="Prep Time">{% include recipe-icon.html icon="time" %}<span>{{ page.recipe.prep }}</span></li>
-  {% endif %}
+  {% if page.recipe.prep %}
+    <li title="Prep Time">{% include recipe-icon.html icon="time" %}<span>{{ page.recipe.prep }}</span></li>
+  {% endif %}
 
-  {% if page.recipe.cook %}
-    <li title="Cook Time">{% include recipe-icon.html icon="cook" %}<span>{{ page.recipe.cook }}</span></li>
-  {% endif %}
+  {% if page.recipe.cook %}
+    <li title="Cook Time">{% include recipe-icon.html icon="cook" %}<span>{{ page.recipe.cook }}</span></li>
+  {% endif %}
 
-  {% if page.recipe.difficulty %}
-  <li title="Difficulty">
-    {% include recipe-icon.html icon="difficulty" %}
-    <span class="star">
-      {{ page.recipe.difficulty | replace: "*", "★" }}
-    </span>
-  </li>
+  {% if page.recipe.difficulty %}
+  <li title="Difficulty">
+    {% include recipe-icon.html icon="difficulty" %}
+    <span class="star">
+      {{ page.recipe.difficulty | replace: "*", "★" }}
+    </span>
+  </li>
 {% endif %}
 </ul>
 
@@ -69,42 +69,41 @@ layout: default
 {% assign related_recipes = "" | split: "" %}
 
 {% for recipe in all_recipes %}
-  {% if recipe.url != page.url %}
-    {% assign common_tags = recipe.tags | intersection: current_tags %}
-    {% if common_tags.size > 0 %}
-      {% assign related_recipes = related_recipes | push: recipe %}
-    {% endif %}
-  {% endif %}
+  {% if recipe.url != page.url %}
+    {% assign common_tags = recipe.tags | intersection: current_tags %}
+    {% if common_tags.size > 0 %}
+      {% assign related_recipes = related_recipes | push: recipe %}
+    {% endif %}
+  {% endif %}
 {% endfor %}
 
 {% assign unique_related_recipes = related_recipes | uniq %}
 
 {% if unique_related_recipes.size > 0 %}
-  <div class="related-recipes-section">
-  <h3>Похожие рецепты ({{ unique_related_recipes.size }})</h3>
-  <div id="related-list" class="related-recipes-grid">
-    {% for recipe in unique_related_recipes %}
-      <div class="recipe-card-list-item hidden">
-        <a href="{{ recipe.url | relative_url }}">
-          {% if recipe.featured_image %}
-            <div class="recipe-card-image-wrapper">
-              <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
-            </div>
-          {% endif %}
-          <div class="recipe-card-content-list-item">
-            <p class="recipe-title" style="font-size: 0.9em; margin: 0;">{{ recipe.title }}</p>
-            {% if recipe.book.title %}
-              <p class="recipe-book" style="margin-top: 2px;">Из книги {{ recipe.book.title }}</p>
-            {% endif %}
-          </div>
-        </a>
-      </div>
-    {% endfor %}
-  </div>
-  <!-- Исправленная кнопка Показать ещё -->
-  <button id="show-more" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
-    Показать ещё
-  </button>
+  <div class="related-recipes-section">
+  <h3>Похожие рецепты ({{ unique_related_recipes.size }})</h3>
+  <div id="related-list" class="related-recipes-grid">
+    {% for recipe in unique_related_recipes %}
+      <div class="recipe-card-list-item hidden">
+        <a href="{{ recipe.url | relative_url }}">
+          {% if recipe.featured_image %}
+            <div class="recipe-card-image-wrapper">
+              <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
+            </div>
+          {% endif %}
+          <div class="recipe-card-content-list-item">
+            <p class="recipe-title" style="font-size: 0.9em; margin: 0; font-weight: bold;">{{ recipe.title }}</p>
+            {% if recipe.book.title %}
+              <p class="recipe-book" style="font-size: 0.9em; margin-top: 2px;">Из книги {{ recipe.book.title }}</p>
+            {% endif %}
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+    <button id="show-more" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
+    Показать ещё
+  </button>
 </div>
 {% endif %}
 {% comment %} Конец кода для похожих рецептов {% endcomment %}
@@ -144,25 +143,25 @@ layout: default
 	});
 </script>
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const items = [...document.querySelectorAll("#related-list .recipe-card-list-item")];
-    const btn = document.getElementById("show-more");
-    let visible = 0;
-    const firstStep = 4;
-    const nextStep = 20;
+  document.addEventListener("DOMContentLoaded", function() {
+    const items = [...document.querySelectorAll("#related-list .recipe-card-list-item")];
+    const btn = document.getElementById("show-more");
+    let visible = 0;
+    const firstStep = 4;
+    const nextStep = 20;
 
-    function showNext() {
-      const step = (visible === 0) ? firstStep : nextStep;
-      for (let i = visible; i < visible + step && i < items.length; i++) {
-        items[i].classList.remove("hidden");
-      }
-      visible += step;
-      if (visible >= items.length) {
-        btn.style.display = "none";
-      }
-    }
+    function showNext() {
+      const step = (visible === 0) ? firstStep : nextStep;
+      for (let i = visible; i < visible + step && i < items.length; i++) {
+        items[i].classList.remove("hidden");
+      }
+      visible += step;
+      if (visible >= items.length) {
+        btn.style.display = "none";
+      }
+    }
 
-    showNext();
-    if(btn) btn.addEventListener("click", showNext);
-  });
+    showNext();
+    if(btn) btn.addEventListener("click", showNext);
+  });
 </script>
