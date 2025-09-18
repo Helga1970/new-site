@@ -13,9 +13,9 @@ layout: default
     </div>
   </div>
 
-  <div class="book-more-recipes mobile-only" style="background-color:#fa8569; color:#fff; text-align:center; padding:10px 0; font-weight:bold; border-radius:0;">
-    Ещё рецепты из книги
-  </div>
+  <div class="book-more-recipes mobile-only" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; display:flex; justify-content:center; align-items:center; padding:10px 0; width:100%;">
+  Ещё рецепты из книги
+</div>
 {% endif %}
 
   <div class="recipe-wrapper">
@@ -102,7 +102,9 @@ layout: default
           </div>
         {% endfor %}
       </div>
-      <button id="show-more" class="mobile-only">Показать ещё</button>
+      <div class="book-more-recipes mobile-only" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; display:flex; justify-content:center; align-items:center; padding:10px 0; width:100%;">
+  Ещё рецепты из книги
+</div>
     </div>
   {% endif %}
   {% comment %} Конец блока похожих рецептов {% endcomment %}
