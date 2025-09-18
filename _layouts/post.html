@@ -62,13 +62,14 @@ layout: default
 	</div>
 </div>
 
+	{% comment %} Код для похожих рецептов {% endcomment %}
 {% comment %} Код для похожих рецептов {% endcomment %}
-{% assign current_tags = page.tags | default: empty %}
+{% assign current_tags = page.tags %}
 {% assign all_recipes = site.recipes %}
 {% assign related_recipes = "" | split: "" %}
 
 {% for recipe in all_recipes %}
-  {% if recipe.url != page.url and recipe.tags %}
+  {% if recipe.url != page.url %}
     {% assign common_tags = recipe.tags | intersection: current_tags %}
     {% if common_tags.size > 0 %}
       {% assign related_recipes = related_recipes | push: recipe %}
@@ -76,32 +77,31 @@ layout: default
   {% endif %}
 {% endfor %}
 
-{% if related_recipes.size > 0 %}
+{% assign unique_related_recipes = related_recipes | uniq %}
+
+{% if unique_related_recipes.size > 0 %}
   <div class="related-recipes-section">
-    <h3>Похожие рецепты ({{ related_recipes | size }})</h3>
-    <div id="related-list" class="related-recipes-grid" data-recipes='{{ related_recipes | jsonify }}'>
-      {% for recipe in related_recipes | slice: 0, 4 %}
-        <div class="recipe-card-list-item hidden" data-index="{{ forloop.index0 }}">
-          <a href="{{ recipe.url | relative_url }}">
-            {% if recipe.featured_image %}
-              <div class="recipe-card-image-wrapper">
-                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
-              </div>
-            {% endif %}
-            <div class="recipe-card-content-list-item">
-              <p class="recipe-title" style="font-size: 0.9em; margin: 0; font-weight: bold;">{{ recipe.title }}</p>
-              {% if recipe.book.title %}
-                <p class="recipe-book" style="font-size: 0.9em; margin-top: 2px;">Из книги {{ recipe.book.title }}</p>
-              {% endif %}
+  <h3>Похожие рецепты ({{ unique_related_recipes.size }})</h3>
+  <div id="related-list" class="related-recipes-grid">
+    {% for recipe in unique_related_recipes %}
+      <div class="recipe-card-list-item hidden">
+        <a href="{{ recipe.url | relative_url }}">
+          {% if recipe.featured_image %}
+            <div class="recipe-card-image-wrapper">
+              <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
             </div>
-          </a>
-        </div>
-      {% endfor %}
-    </div>
-    <button id="show-more" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
-      Показать ещё
-    </button>
-  </div>
+          {% endif %}
+          <div class="recipe-card-content-list-item">
+  <p class="recipe-title" style="font-size: 0.9em; margin: 0; font-weight: bold;">{{ recipe.title }}</p>
+  {% if recipe.book.title %}
+    <p class="recipe-book" style="font-size: 0.9em; margin-top: 2px;">Из книги {{ recipe.book.title }}</p>
+  {% endif %}
+</div>
+  <!-- Исправленная кнопка Показать ещё -->
+  <button id="show-more" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block; border:none; cursor:pointer;">
+    Показать ещё
+  </button>
+</div>
 {% endif %}
 {% comment %} Конец кода для похожих рецептов {% endcomment %}
 
@@ -143,29 +143,6 @@ layout: default
   document.addEventListener("DOMContentLoaded", function() {
     const items = [...document.querySelectorAll("#related-list .recipe-card-list-item")];
     const btn = document.getElementById("show-more");
-    const recipesData = JSON.parse(document.querySelector("#related-list").dataset.recipes);
-
-    // Сортировка рецептов по количеству общих тегов (нужно вычислить вручную, если теги не переданы)
-    const currentTags = {{ page.tags | jsonify | default: '[]' }};
-    const sortedRecipes = recipesData.sort((a, b) => {
-      const commonA = (a.tags || []).filter(tag => currentTags.includes(tag)).length;
-      const commonB = (b.tags || []).filter(tag => currentTags.includes(tag)).length;
-      return commonB - commonA; // По убыванию
-    });
-
-    // Обновление элементов в DOM с сортировкой
-    items.forEach((item, index) => {
-      const recipe = sortedRecipes[index];
-      if (recipe) {
-        item.querySelector("a").href = recipe.url;
-        item.querySelector(".recipe-title").textContent = recipe.title;
-        const book = item.querySelector(".recipe-book");
-        if (book) book.textContent = recipe.book ? `Из книги ${recipe.book.title}` : "";
-        const img = item.querySelector(".recipe-card-image");
-        if (img) img.src = recipe.featured_image || "";
-      }
-    });
-
     let visible = 0;
     const firstStep = 4;
     const nextStep = 20;
@@ -182,9 +159,6 @@ layout: default
     }
 
     showNext();
-    if (btn && items.length > firstStep) btn.addEventListener("click", showNext);
+    if(btn) btn.addEventListener("click", showNext);
   });
 </script>
-<style>
-  .hidden { display: none; }
-</style>
