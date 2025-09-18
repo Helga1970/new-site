@@ -3,7 +3,7 @@
 	
 	{% if include.page.book %}
 	<div class="book-block desktop-only">
-		<h2>Рекомендуем книгу:</h2>
+		<h2>Рецепт из книги:</h2>
 		<div class="book-cover">
 			{% if include.page.book.link %}
 				<a href="{{ include.page.book.link }}" target="_blank" rel="noopener">
@@ -23,6 +23,8 @@
 			</p>
 			<p class="book-author">{{ include.page.book.author }}</p>
 		</div>
+		{% comment %} Добавляем кнопку "Еще рецепты из книги" {% endcomment %}
+		<a href="/all-recipes-from-book/{{ include.page.book.title | slugify }}" class="book-recipes-link">Еще рецепты из книги</a>
 	</div>
 	{% endif %}
 
