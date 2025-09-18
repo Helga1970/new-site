@@ -904,19 +904,18 @@ blockquote {
 body, h1, h2, h3, h4, h5, h6, p, a {
   font-family: "CirceRounder", sans-serif !important;
 }
-/* Стили для названия рецепта в блоке "Похожие рецепты" */
-.related-recipes-grid .recipe-card-content-list-item .recipe-title {
-  font-size: 1em; /* или любой другой размер, который тебе нужен */
-  font-weight: bold; /* Делаем шрифт жирным */
-  margin-top: 0;
-  margin-bottom: 0;
+/* Стили для похожих рецептов */
+.recipe-title-related {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
 }
 
-/* Стили для названия книги в блоке "Похожие рецепты" */
-.related-recipes-grid .recipe-card-content-list-item .recipe-book {
+.recipe-book-related {
   font-size: 1em;
-  margin-top: 0;
-  margin-bottom: 0;
+  font-weight: normal;
+  margin: 0;
+  line-height: 1.2;
 }
 
 /*# sourceMappingURL=maps/style.css.map */
