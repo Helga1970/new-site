@@ -131,63 +131,88 @@ layout: default
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 15px; /* Задаём небольшой отступ между карточками */
+    gap: 15px;
   }
 
-  /* Стили для каждой карточки */
+  /* Каждая карточка */
   .recipe-card-list-item {
-    flex-basis: calc(50% - 10px); /* 50% минус отступы. Идеально для двух колонок */
-    margin-bottom: 20px; /* Отступ между рядами */
-	background-color: #fbfbfb; /* Добавляем цвет фона */  
-  }
-
-  /* Стили для обёртки изображения */
-  .recipe-card-image-wrapper {
-    height: 120px; /* Фиксированная высота для "тонких" блоков */
+    flex-basis: calc(50% - 10px);
+    margin-bottom: 20px;
+    background-color: #fbfbfb;
+    display: flex;           /* картинка слева, текст справа */
+    align-items: center;     /* выравнивание по вертикали */
     overflow: hidden;
   }
 
-  /* Стили для самого изображения */
+  /* Обёртка изображения */
+  .recipe-card-image-wrapper {
+    flex-shrink: 0;          /* не сжимается */
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    margin-right: 10px;      /* отступ между картинкой и текстом */
+  }
+
+  /* Само изображение */
   .recipe-card-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover;        /* обрезаем лишнее */
+    object-position: center;  /* центрируем обрезку */
+    display: block;
   }
 
-  /* Исправляем жирность шрифта для названий рецептов */
+  /* Контент справа */
+  .recipe-card-content-list-item {
+    flex: 1;                  /* занимает оставшееся место */
+    min-width: 0;             /* важно для text-overflow */
+  }
+
+  /* Заголовок рецепта / текст */
   .recipe-card-content-list-item h4,
   .recipe-card-content-list-item p.recipe-title {
-    font-weight: 700 !important; /* Делаем шрифт жирным */
-    margin: 0; /* Убираем лишний отступ */
-    font-size: 16px; /* Вы можете настроить размер шрифта */
-  }
-  
-  /* Уменьшаем отступ у названий книг */
-  .recipe-card-content-list-item p.recipe-book {
-      margin: 0;
-      font-size: 16px;
+    font-weight: 700 !important;
+    margin: 0;
+    font-size: 16px;
+    white-space: nowrap;       /* одна строка */
+    overflow: hidden;
+    text-overflow: ellipsis;   /* многоточие */
   }
 
-  /* Медиа-запросы для адаптации под мобильные устройства */
+  /* Подзаголовок / книга */
+  .recipe-card-content-list-item p.recipe-book {
+    margin: 0;
+    font-size: 16px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Мобильная версия */
   @media (max-width: 767px) {
     .related-recipes-grid {
-      gap: 10px; /* Уменьшаем отступ для мобильных */
-      margin: 0; /* Убираем отступы по бокам */
+      gap: 10px;
+      margin: 0;
     }
     .recipe-card-list-item {
-      flex-basis: 100%; /* Карточка занимает всю ширину */
-      margin: 0; /* Убираем все отступы */
+      flex-basis: 100%;
+      margin: 0;
+      flex-direction: row;     /* картинка слева, текст справа */
     }
     .recipe-card-image-wrapper {
-      height: 100px; /* Можно сделать ещё тоньше для мобильных */
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
     }
   }
 
-  /* Скрывает невидимые карточки */
+  /* Скрытые карточки */
   .recipe-card-list-item.hidden {
     display: none;
   }
 </style>
+
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
 <script>
 	$(function() {
