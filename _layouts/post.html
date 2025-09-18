@@ -125,6 +125,39 @@ layout: default
 		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 	{% endif %}
 </article>
+<style>
+  /* Стили для похожих рецептов */
+  .related-recipes-grid {
+    display: grid;
+    /* Создает колонки, которые автоматически подстраиваются под ширину */
+    /* Каждая карточка будет иметь минимальную ширину 250px */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* Задает расстояние между карточками по горизонтали и вертикали */
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Скрывает невидимые карточки */
+  .recipe-card-list-item.hidden {
+    display: none;
+  }
+
+  /* Стили для содержимого карточки */
+  .recipe-card-image-wrapper {
+    width: 100%;
+    /* Фиксирует высоту для единообразия */
+    height: 150px; 
+    overflow: hidden;
+  }
+
+  /* Картинка внутри карточки */
+  .recipe-card-image {
+    width: 100%;
+    height: 100%;
+    /* Обрезает и масштабирует изображение, чтобы оно полностью заполнило блок */
+    object-fit: cover; 
+  }
+</style>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
