@@ -126,79 +126,88 @@ layout: default
 	{% endif %}
 </article>
 <style>
+.related-recipes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.recipe-card-list-item {
+  flex-basis: calc(50% - 10px);
+  margin-bottom: 20px;
+  background-color: #fbfbfb;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.recipe-card-image-wrapper {
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.recipe-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.recipe-card-content-list-item {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Верхняя строка - название рецепта, жирное, максимум 2 строки */
+.recipe-card-content-list-item h4,
+.recipe-card-content-list-item p.recipe-title {
+  font-weight: 700 !important;
+  margin: 0;
+  font-size: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;        /* максимум 2 строки */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+/* Нижняя строка - подзаголовок / книга, обычный шрифт, одна строка, многоточие после 5 слов */
+.recipe-card-content-list-item p.recipe-book {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+  font-weight: 400;
+  white-space: nowrap;          /* одна строка */
+  overflow: hidden;
+  text-overflow: ellipsis;      /* многоточие */
+  max-width: 100%;              /* чтобы текст обрезался по ширине */
+}
+
+@media (max-width: 767px) {
   .related-recipes-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 15px;
+    gap: 10px;
+    margin: 0;
   }
-
   .recipe-card-list-item {
-    flex-basis: calc(50% - 10px);
-    margin-bottom: 20px;
-    background-color: #fbfbfb;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
+    flex-basis: 100%;
+    margin: 0;
+    flex-direction: row;
   }
-
-  /* Картинка слева */
   .recipe-card-image-wrapper {
-    flex-shrink: 0;
     width: 100px;
     height: 100px;
-    overflow: hidden;
     margin-right: 10px;
   }
+}
 
-  .recipe-card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
-
-  /* Контент справа */
-  .recipe-card-content-list-item {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .recipe-card-content-list-item h4,
-  .recipe-card-content-list-item p.recipe-title,
-  .recipe-card-content-list-item p.recipe-book {
-    font-weight: 700 !important;
-    margin: 0;
-    font-size: 16px;
-
-    display: -webkit-box;
-    -webkit-line-clamp: 2;       /* максимум 2 строки */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    word-wrap: break-word;
-  }
-
-  @media (max-width: 767px) {
-    .related-recipes-grid {
-      gap: 10px;
-      margin: 0;
-    }
-    .recipe-card-list-item {
-      flex-basis: 100%;
-      margin: 0;
-      flex-direction: row;
-    }
-    .recipe-card-image-wrapper {
-      width: 100px;   /* оставляем 100 */
-      height: 100px;  /* оставляем 100 */
-      margin-right: 10px;
-    }
-  }
-
-  .recipe-card-list-item.hidden {
-    display: none;
-  }
+.recipe-card-list-item.hidden {
+  display: none;
+}
 </style>
 
 
