@@ -71,49 +71,27 @@ layout: default
   {% if recipe.url != page.url and recipe.tags %}
     {% assign common_tags = recipe.tags | intersection: current_tags %}
     {% if common_tags.size > 0 %}
-      {% assign temp_hash = '' | append: '{"recipe": ' | append: recipe | append: ', "common_tags_count": ' | append: common_tags.size | append: '}' %}
-      {% assign related_recipes = related_recipes | push: temp_hash | map: 'json' %}
+      {% assign related_recipes = related_recipes | push: recipe %}
     {% endif %}
   {% endif %}
 {% endfor %}
 
-{% assign sorted_related_recipes = related_recipes | sort: "common_tags_count" | reverse | map: 'json' %}
-{% assign initial_related_recipes = sorted_related_recipes | slice: 0, 4 %}
-{% assign remaining_related_recipes = sorted_related_recipes | slice: 4, sorted_related_recipes | size %}
-
-{% if initial_related_recipes.size > 0 or remaining_related_recipes.size > 0 %}
+{% if related_recipes.size > 0 %}
   <div class="related-recipes-section">
-    <h3>Похожие рецепты ({{ sorted_related_recipes | size }})</h3>
-    <div id="related-list" class="related-recipes-grid">
-      {% for recipe in initial_related_recipes %}
+    <h3>Похожие рецепты ({{ related_recipes | size }})</h3>
+    <div id="related-list" class="related-recipes-grid" data-recipes='{{ related_recipes | jsonify }}'>
+      {% for recipe in related_recipes | slice: 0, 4 %}
         <div class="recipe-card-list-item hidden" data-index="{{ forloop.index0 }}">
-          <a href="{{ recipe.recipe.url | relative_url }}">
-            {% if recipe.recipe.featured_image %}
+          <a href="{{ recipe.url | relative_url }}">
+            {% if recipe.featured_image %}
               <div class="recipe-card-image-wrapper">
-                <img class="recipe-card-image" src="{{ recipe.recipe.featured_image }}" alt="{{ recipe.recipe.title }}">
+                <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
               </div>
             {% endif %}
             <div class="recipe-card-content-list-item">
-              <p class="recipe-title" style="font-size: 0.9em; margin: 0; font-weight: bold;">{{ recipe.recipe.title }}</p>
-              {% if recipe.recipe.book.title %}
-                <p class="recipe-book" style="font-size: 0.9em; margin-top: 2px;">Из книги {{ recipe.recipe.book.title }}</p>
-              {% endif %}
-            </div>
-          </a>
-        </div>
-      {% endfor %}
-      {% for recipe in remaining_related_recipes %}
-        <div class="recipe-card-list-item hidden" data-index="{{ forloop.index0 | plus: initial_related_recipes.size }}">
-          <a href="{{ recipe.recipe.url | relative_url }}">
-            {% if recipe.recipe.featured_image %}
-              <div class="recipe-card-image-wrapper">
-                <img class="recipe-card-image" src="{{ recipe.recipe.featured_image }}" alt="{{ recipe.recipe.title }}">
-              </div>
-            {% endif %}
-            <div class="recipe-card-content-list-item">
-              <p class="recipe-title" style="font-size: 0.9em; margin: 0; font-weight: bold;">{{ recipe.recipe.title }}</p>
-              {% if recipe.recipe.book.title %}
-                <p class="recipe-book" style="font-size: 0.9em; margin-top: 2px;">Из книги {{ recipe.recipe.book.title }}</p>
+              <p class="recipe-title" style="font-size: 0.9em; margin: 0; font-weight: bold;">{{ recipe.title }}</p>
+              {% if recipe.book.title %}
+                <p class="recipe-book" style="font-size: 0.9em; margin-top: 2px;">Из книги {{ recipe.book.title }}</p>
               {% endif %}
             </div>
           </a>
@@ -165,6 +143,29 @@ layout: default
   document.addEventListener("DOMContentLoaded", function() {
     const items = [...document.querySelectorAll("#related-list .recipe-card-list-item")];
     const btn = document.getElementById("show-more");
+    const recipesData = JSON.parse(document.querySelector("#related-list").dataset.recipes);
+
+    // Сортировка рецептов по количеству общих тегов (нужно вычислить вручную, если теги не переданы)
+    const currentTags = {{ page.tags | jsonify | default: '[]' }};
+    const sortedRecipes = recipesData.sort((a, b) => {
+      const commonA = (a.tags || []).filter(tag => currentTags.includes(tag)).length;
+      const commonB = (b.tags || []).filter(tag => currentTags.includes(tag)).length;
+      return commonB - commonA; // По убыванию
+    });
+
+    // Обновление элементов в DOM с сортировкой
+    items.forEach((item, index) => {
+      const recipe = sortedRecipes[index];
+      if (recipe) {
+        item.querySelector("a").href = recipe.url;
+        item.querySelector(".recipe-title").textContent = recipe.title;
+        const book = item.querySelector(".recipe-book");
+        if (book) book.textContent = recipe.book ? `Из книги ${recipe.book.title}` : "";
+        const img = item.querySelector(".recipe-card-image");
+        if (img) img.src = recipe.featured_image || "";
+      }
+    });
+
     let visible = 0;
     const firstStep = 4;
     const nextStep = 20;
