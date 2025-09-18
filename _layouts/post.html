@@ -142,10 +142,10 @@ layout: default
     margin: 16px 0;
   }
 
-  /* Карточки похожих рецептов */
+  /* Карточки похожих рецептов: сохраняем сетку 2 в ряд на десктопе */
   .related-recipes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
   }
 
@@ -155,8 +155,9 @@ layout: default
     padding: 0;
   }
 
+  /* Сокращаем пробел между названием рецепта и книгой */
   .recipe-card-content-list-item .recipe-book {
-    margin-top: 4px;
+    margin-top: 2px;
     font-size: 0.9em;
     color: #555;
   }
