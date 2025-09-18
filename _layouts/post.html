@@ -138,12 +138,17 @@ layout: default
   .recipe-card-list-item {
     flex-basis: calc(50% - 10px); /* 50% минус отступы. Идеально для двух колонок */
     margin-bottom: 20px; /* Отступ между рядами */
+    background-color: #f7f2f0; /* Светло-серый цвет фона */
+    border-radius: 8px; /* Небольшое скругление углов */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    padding: 10px; /* Внутренние отступы */
   }
 
   /* Стили для обёртки изображения */
   .recipe-card-image-wrapper {
     height: 120px; /* Фиксированная высота для "тонких" блоков */
     overflow: hidden;
+    border-radius: 6px; /* Небольшое скругление углов */
   }
 
   /* Стили для самого изображения */
@@ -152,19 +157,19 @@ layout: default
     height: 100%;
     object-fit: cover;
   }
+  
+  /* Стили для названий рецептов и книг */
+  .recipe-card-content-list-item h4,
+  .recipe-card-content-list-item p.recipe-title,
+  .recipe-card-content-list-item p.recipe-book {
+    font-size: 16px; /* Устанавливаем единый размер шрифта в 16px */
+    margin: 0; /* Убираем лишние отступы */
+  }
 
   /* Исправляем жирность шрифта для названий рецептов */
   .recipe-card-content-list-item h4,
   .recipe-card-content-list-item p.recipe-title {
     font-weight: 700 !important; /* Делаем шрифт жирным */
-    margin: 0; /* Убираем лишний отступ */
-    font-size: 16px; /* Вы можете настроить размер шрифта */
-  }
-  
-  /* Уменьшаем отступ у названий книг */
-  .recipe-card-content-list-item p.recipe-book {
-      margin: 0;
-      font-size: 16px;
   }
 
   /* Медиа-запросы для адаптации под мобильные устройства */
@@ -174,8 +179,9 @@ layout: default
       margin: 0; /* Убираем отступы по бокам */
     }
     .recipe-card-list-item {
-      flex-basis: 100%; /* Карточка занимает всю ширину */
-      margin: 0; /* Убираем все отступы */
+      flex-basis: 90%; /* Делаем карточки шире, 90% от ширины экрана */
+      margin: 0 auto; /* Центрируем карточки */
+      margin-bottom: 10px; /* Добавляем отступ снизу */
     }
     .recipe-card-image-wrapper {
       height: 100px; /* Можно сделать ещё тоньше для мобильных */
