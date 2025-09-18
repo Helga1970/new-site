@@ -141,6 +141,7 @@ layout: default
   align-items: center;
   overflow: hidden;
   height: 100px; /* фиксированная высота блока */
+  border-radius: 0; /* убираем любые скругления */
 }
 
 .recipe-card-image-wrapper {
@@ -168,7 +169,7 @@ layout: default
   height: 100%; /* подгоняем под высоту блока */
 }
 
-/* Верхняя строка - название рецепта */
+/* Верхняя строка - название рецепта, жирная, максимум 2 строки */
 .recipe-card-content-list-item h4,
 .recipe-card-content-list-item p.recipe-title {
   font-weight: 700 !important;
@@ -179,9 +180,10 @@ layout: default
   -webkit-line-clamp: 2; /* максимум 2 строки */
   -webkit-box-orient: vertical;
   overflow: hidden;
+  word-wrap: break-word;
 }
 
-/* Нижняя строка - подзаголовок / книга */
+/* Нижняя строка - подзаголовок / книга, обычный шрифт, одна строка */
 .recipe-card-content-list-item p.recipe-book {
   font-weight: 400;
   font-size: 14px;
@@ -189,10 +191,9 @@ layout: default
   margin: 0;
   white-space: nowrap;          /* строго одна строка */
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis;      /* многоточие */
 }
 
-/* Мобильная версия */
 @media (max-width: 767px) {
   .related-recipes-grid {
     gap: 10px;
