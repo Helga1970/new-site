@@ -82,28 +82,31 @@ layout: default
 
   {% if unique_related_recipes.size > 0 %}
     <div class="related-recipes-section">
-      <h3>Похожие рецепты ({{ unique_related_recipes.size }})</h3>
-      <div id="related-list" class="related-recipes-grid">
-        {% for recipe in unique_related_recipes %}
-          <div class="recipe-card-list-item hidden">
-            <a href="{{ recipe.url | relative_url }}">
-              {% if recipe.featured_image %}
-                <div class="recipe-card-image-wrapper">
-                  <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
-                </div>
-              {% endif %}
-              <div class="recipe-card-content-list-item">
-                <h4>{{ recipe.title }}</h4>
-                {% if recipe.book.title %}
-                  <p class="recipe-book">Из книги {{ recipe.book.title }}</p>
-                {% endif %}
-              </div>
-            </a>
+  <h3>Похожие рецепты ({{ unique_related_recipes.size }})</h3>
+  <div id="related-list" class="related-recipes-grid">
+    {% for recipe in unique_related_recipes %}
+      <div class="recipe-card-list-item hidden">
+        <a href="{{ recipe.url | relative_url }}">
+          {% if recipe.featured_image %}
+            <div class="recipe-card-image-wrapper">
+              <img class="recipe-card-image" src="{{ recipe.featured_image }}" alt="{{ recipe.title }}">
+            </div>
+          {% endif %}
+          <div class="recipe-card-content-list-item">
+            <h4>{{ recipe.title }}</h4>
+            {% if recipe.book.title %}
+              <p class="recipe-book">Из книги {{ recipe.book.title }}</p>
+            {% endif %}
           </div>
-        {% endfor %}
+        </a>
       </div>
-      <div class="book-more-recipes mobile-only" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; display:flex; justify-content:center; align-items:center; padding:10px 0; width:100%;">
-  Ещё рецепты из книги
+    {% endfor %}
+  </div>
+
+  <!-- Исправленная кнопка Показать ещё -->
+  <button id="show-more" style="background-color:#fa8569; color:#fff; font-weight:bold; border-radius:0; padding:8px 16px; font-size:1em; margin-top:12px; display:inline-block;">
+    Показать ещё
+  </button>
 </div>
     </div>
   {% endif %}
