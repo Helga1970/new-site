@@ -126,7 +126,6 @@ layout: default
 	{% endif %}
 </article>
 <style>
-  /* Общие стили для сетки похожих рецептов */
   .related-recipes-grid {
     display: flex;
     flex-wrap: wrap;
@@ -134,62 +133,52 @@ layout: default
     gap: 15px;
   }
 
-  /* Каждая карточка */
   .recipe-card-list-item {
     flex-basis: calc(50% - 10px);
     margin-bottom: 20px;
     background-color: #fbfbfb;
-    display: flex;           /* картинка слева, текст справа */
-    align-items: center;     /* выравнивание по вертикали */
+    display: flex;
+    align-items: center;
     overflow: hidden;
   }
 
-  /* Обёртка изображения */
+  /* Картинка слева */
   .recipe-card-image-wrapper {
-    flex-shrink: 0;          /* не сжимается */
-    width: 120px;
-    height: 120px;
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
     overflow: hidden;
-    margin-right: 10px;      /* отступ между картинкой и текстом */
+    margin-right: 10px;
   }
 
-  /* Само изображение */
   .recipe-card-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;        /* обрезаем лишнее */
-    object-position: center;  /* центрируем обрезку */
+    object-fit: cover;
+    object-position: center;
     display: block;
   }
 
   /* Контент справа */
   .recipe-card-content-list-item {
-    flex: 1;                  /* занимает оставшееся место */
-    min-width: 0;             /* важно для text-overflow */
+    flex: 1;
+    min-width: 0;
   }
 
-  /* Заголовок рецепта / текст */
   .recipe-card-content-list-item h4,
-  .recipe-card-content-list-item p.recipe-title {
+  .recipe-card-content-list-item p.recipe-title,
+  .recipe-card-content-list-item p.recipe-book {
     font-weight: 700 !important;
     margin: 0;
     font-size: 16px;
-    white-space: nowrap;       /* одна строка */
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;       /* максимум 2 строки */
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;   /* многоточие */
+    word-wrap: break-word;
   }
 
-  /* Подзаголовок / книга */
-  .recipe-card-content-list-item p.recipe-book {
-    margin: 0;
-    font-size: 16px;
-    color: #555;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Мобильная версия */
   @media (max-width: 767px) {
     .related-recipes-grid {
       gap: 10px;
@@ -198,20 +187,20 @@ layout: default
     .recipe-card-list-item {
       flex-basis: 100%;
       margin: 0;
-      flex-direction: row;     /* картинка слева, текст справа */
+      flex-direction: row;
     }
     .recipe-card-image-wrapper {
-      width: 100px;
-      height: 100px;
+      width: 100px;   /* оставляем 100 */
+      height: 100px;  /* оставляем 100 */
       margin-right: 10px;
     }
   }
 
-  /* Скрытые карточки */
   .recipe-card-list-item.hidden {
     display: none;
   }
 </style>
+
 
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
 <script>
