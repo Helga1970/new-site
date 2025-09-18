@@ -95,7 +95,7 @@ layout: default
               <div class="recipe-card-content-list-item">
                 <h4>{{ recipe.title }}</h4>
                 {% if recipe.book.title %}
-                  <p class="recipe-book">Из {{ recipe.book.title }}</p>
+                  <p class="recipe-book">Из книги {{ recipe.book.title }}</p>
                 {% endif %}
               </div>
             </a>
@@ -129,33 +129,47 @@ layout: default
 <style>
   .hidden { display: none; }
 
+  /* Кнопка "Ещё рецепты из книги" на мобилках */
   .more-recipes-btn {
     display: block;
     width: 100%;
     text-align: center;
     padding: 12px;
-    background: #fa8569; /* исправленный цвет */
+    background: #fa8569;
     color: #fff;
-    border-radius: 8px;
-    margin: 16px 0;
     text-decoration: none;
+    font-weight: bold;
+    margin: 16px 0;
   }
 
+  /* Карточки похожих рецептов */
   .related-recipes-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 16px;
   }
 
-  .recipe-card-list-item {
-    width: calc(50% - 8px); /* 2 в ряд на десктопе */
-    box-sizing: border-box;
+  .recipe-card-content-list-item {
+    line-height: 1.3;
+    margin: 0;
+    padding: 0;
   }
 
-  @media(max-width: 768px) {
-    .recipe-card-list-item {
-      width: 100%;
-    }
+  .recipe-card-content-list-item .recipe-book {
+    margin-top: 4px;
+    font-size: 0.9em;
+    color: #555;
+  }
+
+  #show-more {
+    display: block;
+    margin: 16px auto;
+    padding: 10px 16px;
+    background: #fa8569;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
   }
 </style>
 
@@ -178,8 +192,8 @@ layout: default
     const items = [...document.querySelectorAll("#related-list .recipe-card-list-item")];
     const btn = document.getElementById("show-more");
     let visible = 0;
-    const firstStep = 4;
-    const nextStep = 20;
+    const firstStep = 4; // сначала 4 рецепта
+    const nextStep = 20; // далее по 20
 
     function showNext() {
       const step = (visible === 0) ? firstStep : nextStep;
