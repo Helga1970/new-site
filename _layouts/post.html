@@ -142,17 +142,23 @@ layout: default
   }
 
   /* Стили для обёртки изображения */
-  .recipe-card-image-wrapper {
-    height: 120px; /* Фиксированная высота для "тонких" блоков */
-    overflow: hidden;
-  }
+.recipe-card-image-wrapper {
+  position: relative;
+  padding-top: 100%; /* Делает контейнер идеально квадратным */
+  height: 0; /* Высота теперь контролируется padding-top */
+  overflow: hidden;
+  border-radius: 6px; /* Добавляет скругление углов */
+}
 
   /* Стили для самого изображения */
-  .recipe-card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+.recipe-card-image {
+  position: absolute; /* Позиционирует изображение внутри родителя */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Заполняет контейнер, обрезая лишнее */
+}
 
   /* Исправляем жирность шрифта для названий рецептов */
   .recipe-card-content-list-item h4,
@@ -187,6 +193,13 @@ layout: default
   .recipe-card-list-item.hidden {
     display: none;
   }
+	/* Убедитесь, что текст в одну строку и обрезается */
+.recipe-card-content-list-item p.recipe-title,
+.recipe-card-content-list-item p.recipe-book {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 </style>
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
 <script>
