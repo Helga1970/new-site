@@ -125,95 +125,70 @@ layout: default
 		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 	{% endif %}
 </article>
-/* Общие стили для сетки похожих рецептов */
-.related-recipes-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 15px;
-  margin: 0;
-  padding: 0;
-}
-
-/* Стили для каждой карточки */
-.recipe-card-list-item {
-  flex-basis: calc(50% - 7.5px); /* Две колонки с учётом gap */
-  background-color: #fbfbfb;
-  margin-bottom: 15px;
-  overflow: hidden; /* Предотвращаем вылезание контента */
-  display: flex;
-  flex-direction: column; /* Вертикальная компоновка внутри карточки */
-}
-
-/* Стили для обёртки изображения */
-.recipe-card-image-wrapper {
-  position: relative;
-  width: 100%;
-  padding-top: 100%; /* Соотношение 1:1 для квадратных изображений */
-  overflow: hidden;
-}
-
-/* Стили для самого изображения */
-.recipe-card-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Обрезаем изображение, сохраняя пропорции */
-  object-position: center; /* Центрируем изображение */
-}
-
-/* Стили для текста */
-.recipe-card-content-list-item {
-  padding: 10px; /* Внутренние отступы для текста */
-}
-
-/* Стили для заголовка рецепта */
-.related-recipes-grid .recipe-card-content-list-item h4,
-.related-recipes-grid .recipe-card-content-list-item p.recipe-title {
-  font-weight: 700 !important;
-  font-size: 16px;
-  margin: 0;
-  white-space: nowrap; /* Текст в одну строку */
-  overflow: hidden; /* Обрезаем лишнее */
-  text-overflow: ellipsis; /* Добавляем многоточие */
-}
-
-/* Стили для названия книги */
-.recipe-card-content-list-item p.recipe-book {
-  font-size: 14px;
-  margin: 5px 0 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* Многоточие для книги */
-}
-
-/* Медиа-запросы для мобильных устройств */
-@media (max-width: 767px) {
+<style>
+  /* Общие стили для сетки похожих рецептов */
   .related-recipes-grid {
-    gap: 10px;
-    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px; /* Задаём небольшой отступ между карточками */
   }
+
+  /* Стили для каждой карточки */
   .recipe-card-list-item {
-    flex-basis: 100%; /* Одна колонка */
-    margin-bottom: 10px;
+    flex-basis: calc(50% - 10px); /* 50% минус отступы. Идеально для двух колонок */
+    margin-bottom: 20px; /* Отступ между рядами */
+	background-color: #fbfbfb; /* Добавляем цвет фона */  
   }
+
+  /* Стили для обёртки изображения */
   .recipe-card-image-wrapper {
-    padding-top: 100%; /* Сохраняем квадратные изображения на мобильных */
+    height: 120px; /* Фиксированная высота для "тонких" блоков */
+    overflow: hidden;
   }
-}
 
-/* Скрываем невидимые карточки */
-.recipe-card-list-item.hidden {
-  display: none;
-}
+  /* Стили для самого изображения */
+  .recipe-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-/* Повышаем специфичность, чтобы переопределить старые стили */
-.related-recipes-grid .recipe-card-list-item .recipe-card-image-wrapper .recipe-card-image {
-  width: 100% !important;
-  height: 100% !important;
-}
+  /* Исправляем жирность шрифта для названий рецептов */
+  .recipe-card-content-list-item h4,
+  .recipe-card-content-list-item p.recipe-title {
+    font-weight: 700 !important; /* Делаем шрифт жирным */
+    margin: 0; /* Убираем лишний отступ */
+    font-size: 16px; /* Вы можете настроить размер шрифта */
+  }
+  
+  /* Уменьшаем отступ у названий книг */
+  .recipe-card-content-list-item p.recipe-book {
+      margin: 0;
+      font-size: 16px;
+  }
+
+  /* Медиа-запросы для адаптации под мобильные устройства */
+  @media (max-width: 767px) {
+    .related-recipes-grid {
+      gap: 10px; /* Уменьшаем отступ для мобильных */
+      margin: 0; /* Убираем отступы по бокам */
+    }
+    .recipe-card-list-item {
+      flex-basis: 100%; /* Карточка занимает всю ширину */
+      margin: 0; /* Убираем все отступы */
+    }
+    .recipe-card-image-wrapper {
+      height: 100px; /* Можно сделать ещё тоньше для мобильных */
+    }
+  }
+
+  /* Скрывает невидимые карточки */
+  .recipe-card-list-item.hidden {
+    display: none;
+  }
+</style>
+<script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
 <script>
 	$(function() {
 		$('.post img').imgPin();
