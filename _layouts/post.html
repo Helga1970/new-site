@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Нижняя строка - обрезаем после 5 слов
+  // Нижняя строка - обрезаем после 6 слов
   document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
     let words = el.textContent.trim().split(/\s+/);
     if (words.length > 5) {
