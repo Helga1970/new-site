@@ -1,5 +1,6 @@
 ---
 title: Большой кукис шоколад и пекан
+permalink: /recipes/bolshoi-kukis-shokolad-i-pekan/
 featured_image: /images/les-cookeis-de-nos-reve/bolshoi-kukis-shokolad-i-pekan.jpeg
 categories:
 - печенье
