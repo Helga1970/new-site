@@ -13,55 +13,44 @@ permalink: /all-recipes-from-book/index.html
       <span class="plaque-text">Всего рецептов в книге: <span id="recipes-count">0</span></span>
     </div>
   </div>
-
   <div id="recipes-grid" class="recipe-grid"></div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
-  // Получаем slug книги из URL
   const pathParts = window.location.pathname.split("/").filter(Boolean);
   const bookSlug = pathParts[pathParts.length - 1];
-
-  // Указываем путь к нашему новому JSON-файлу, специфичному для книги
   const jsonUrl = `/api/recipes/${bookSlug}.json`;
 
   try {
-    // Загружаем только JSON с рецептами для этой книги
     const response = await fetch(jsonUrl);
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
+    
     const recipes = await response.json();
+    const grid = document.getElementById("recipes-grid");
 
-    // Заполняем заголовок книги
-    document.getElementById("book-name").textContent =
-      bookSlug.replace(/-/g, " ");
-
-    // Счётчик рецептов
+    document.getElementById("book-name").textContent = bookSlug.replace(/-/g, " ");
     document.getElementById("recipes-count").textContent = recipes.length;
 
-    // Рендер карточек
-    const grid = document.getElementById("recipes-grid");
     if (recipes.length > 0) {
       recipes.forEach(recipe => {
         const imageUrl = recipe.featured_image || recipe.book_cover;
-        const card = document.createElement("div");
-        card.className = "recipe-card";
-        card.innerHTML = `
-          <a href="${recipe.url}">
+        const card = document.createElement("div");
+        card.className = "recipe-card";
+        card.innerHTML = `
+          <a href="${recipe.url}">
             <div class="recipe-image-wrapper">
               <img src="${imageUrl}" alt="${recipe.title}">
             </div>
-            <div class="recipe-title-box">
-              <h2 class="recipe-title">${recipe.title}</h2>
-            </div>
-          </a>
-        `;
-        grid.appendChild(card);
-      });
+            <div class="recipe-title-box">
+              <h2 class="recipe-title">${recipe.title}</h2>
+            </div>
+          </a>
+        `;
+        grid.appendChild(card);
+      });
     } else {
       grid.innerHTML = "<p>К сожалению, рецепты из этой книги пока не добавлены.</p>";
     }
@@ -131,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 60%;
   object-fit: cover;
 }
 .recipe-title-box {
