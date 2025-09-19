@@ -1,19 +1,24 @@
 ---
 layout: null
-permalink: /api/recipes/{{ page.book_slug | slugify }}.json
+permalink: /api/recipes/:book_slug.json
 ---
-[
-  {% assign book_recipes = site.recipes %}
-  {% for recipe in book_recipes %}
-    {% if recipe.book and recipe.book.title_slug == page.book_slug %}
-    {
-      "title": {{ recipe.title | jsonify }},
-      "url": {{ recipe.url | relative_url | jsonify }},
-      "featured_image": {{ recipe["featured_image"] | default: "" | jsonify }},
-      "book_cover": {{ recipe["book"]["cover"] | default: "" | jsonify }},
-      "excerpt": {{ (recipe.excerpt | default: recipe.content) | strip_html | strip_newlines | truncate: 160 | jsonify }},
-      "debug": {{ recipe | jsonify }}
-    }{% unless forloop.last %},{% endunless %}
-    {% endif %}
-  {% endfor %}
-]
+{
+  "debug": {
+    "page_book_slug": {{ page.book_slug | default: "NOT_SET" | jsonify }},
+    "recipes_count": {{ site.recipes | size | jsonify }}
+  },
+  "recipes": [
+    {% assign book_recipes = site.recipes %}
+    {% for recipe in book_recipes %}
+      {% if recipe.book and recipe.book.title_slug == page.book_slug %}
+        {
+          "title": {{ recipe.title | jsonify }},
+          "url": {{ recipe.url | absolute_url | jsonify }},
+          "featured_image": {{ recipe.featured_image | prepend: site.baseurl | jsonify }},
+          "book_cover": {{ recipe.book.cover | prepend: site.baseurl | jsonify }},
+          "excerpt": {{ (recipe.excerpt | default: recipe.content) | strip_html | strip_newlines | truncate: 160 | jsonify }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endif %}
+    {% endfor %}
+  ]
+}
