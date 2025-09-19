@@ -21,12 +21,7 @@ layout: default
                 <span class="book-name">{{ book_title_display }}</span>
             {% endif %}
         </h1>
-        <div class="book-info-desktop-only">
-            <div class="recipes-count-plaque">
-                <span class="plaque-text">Всего рецептов в книге: {{ total_recipes }}</span>
-            </div>
-        </div>
-        <div class="book-info-mobile-only">
+        <div class="book-info-plaque">
             <div class="recipes-count-plaque">
                 <span class="plaque-text">Всего рецептов в книге: {{ total_recipes }}</span>
             </div>
@@ -62,35 +57,35 @@ layout: default
         padding: 20px;
     }
     .book-page-header {
-        position: relative;
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
         margin-bottom: 30px;
-        padding-bottom: 50px;
+        position: relative;
     }
     .book-title-heading {
-        font-size: 1.5em;
-        font-weight: normal;
+        font-size: 1.1em; /* Уменьшаем размер шрифта */
+        font-weight: normal; /* Убираем жирность */
         margin: 0;
         color: #333;
+        text-align: center;
     }
     .book-title-heading .book-name {
-        font-weight: bold;
-        color: #333;
-        text-decoration: underline; /* Подчеркивание для ссылки */
+        font-size: 1.5em; /* Делаем название книги больше */
+        font-weight: bold; /* Делаем название книги жирным */
+        color: inherit;
+        display: block; /* Чтобы имя было на отдельной строке */
+        text-decoration: underline;
+        margin-top: 5px;
     }
     .book-title-heading a.book-name {
-        color: #333;
+        color: inherit;
         text-decoration: underline;
     }
-    .book-info-desktop-only {
+    .book-info-plaque {
         position: absolute;
         top: 0;
         right: 0;
-        display: block; /* Показываем на десктопе */
-    }
-    .book-info-mobile-only {
-        display: none; /* Скрываем на десктопе */
-        text-align: center;
     }
     .recipes-count-plaque {
         background-color: #fa8569;
@@ -147,39 +142,23 @@ layout: default
         color: #333;
     }
 
-    /* Медиа-запросы для адаптивности */
-    @media (min-width: 769px) {
-        .book-info-mobile-only {
-            display: none;
-        }
-        .book-info-desktop-only {
-            display: block;
-        }
-    }
+    /* Адаптивность для мобильных устройств */
     @media (max-width: 768px) {
-        .book-info-desktop-only {
-            display: none;
-        }
-        .book-info-mobile-only {
-            display: block;
-            margin-top: 20px;
-            width: 100%;
-            text-align: center;
-        }
         .book-page-header {
+            flex-direction: column;
+            align-items: center;
             position: static;
-            padding-bottom: 0;
+        }
+        .book-info-plaque {
+            position: static;
+            margin-top: 20px;
         }
         .book-title-heading {
-            width: 100%;
+            font-size: 1.1em;
         }
-    }
-    @media (max-width: 1200px) {
-        .recipe-grid {
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        .book-title-heading .book-name {
+            font-size: 1.5em;
         }
-    }
-    @media (max-width: 500px) {
         .recipe-grid {
             grid-template-columns: 1fr;
         }
