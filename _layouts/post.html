@@ -221,47 +221,22 @@ layout: default
 </style>
 
 <script>
+// Верхняя строка - обрезаем после 8 слов
 document.addEventListener("DOMContentLoaded", function() {
-  function truncateToFit(el) {
-    const originalText = el.textContent.trim();
-    const words = originalText.split(/\s+/);
-    const clone = el.cloneNode();
-    clone.style.visibility = 'hidden';
-    clone.style.position = 'absolute';
-    clone.style.width = el.clientWidth + 'px';
-    clone.style.height = 'auto';
-    clone.style.whiteSpace = 'normal';
-    el.parentNode.appendChild(clone);
-
-    let truncated = words.join(' ');
-    clone.textContent = truncated;
-
-    // Обрезаем по словам, пока текст не помещается
-    for (let i = words.length; i > 0; i--) {
-      truncated = words.slice(0, i).join(' ');
-      clone.textContent = truncated;
-      if (clone.scrollHeight <= el.clientHeight && clone.scrollWidth <= el.clientWidth) break;
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4').forEach(el => {
+    let words = el.textContent.trim().split(/\s+/);
+    if (words.length > 8) {
+      el.textContent = words.slice(0, 8).join(' ') + '…';
     }
+  });
 
-    // Если даже одно слово не помещается — обрезаем посимвольно
-    if (clone.scrollHeight > el.clientHeight || clone.scrollWidth > el.clientWidth) {
-      let text = words[0];
-      clone.textContent = text;
-      for (let j = 1; j < words[0].length; j++) {
-        clone.textContent = words[0].slice(0, j) + '…';
-        if (clone.scrollHeight > el.clientHeight || clone.scrollWidth > el.clientWidth) {
-          clone.textContent = words[0].slice(0, j - 1) + '…';
-          break;
-        }
-      }
+  // Нижняя строка - обрезаем после 7 слов
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
+    let words = el.textContent.trim().split(/\s+/);
+    if (words.length > 7) {
+      el.textContent = words.slice(0, 7).join(' ') + '…';
     }
-
-    el.textContent = clone.textContent;
-    clone.remove();
-  }
-
-  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4, .recipe-card-content-list-item p.recipe-book')
-    .forEach(el => truncateToFit(el));
+  });
 });
 </script>
 
