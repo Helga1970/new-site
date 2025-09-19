@@ -221,25 +221,21 @@ layout: default
 </style>
 
 <script>
+// Верхняя строка - обрезаем после 8 слов
 document.addEventListener("DOMContentLoaded", function() {
-  function truncateByWidth(el, maxLines = 1) {
-    const original = el.textContent.trim();
-    let text = original;
-    while (el.scrollHeight > el.clientHeight * maxLines || el.scrollWidth > el.clientWidth) {
-      text = text.split(" ").slice(0, -1).join(" ");
-      el.textContent = text + "…";
-      if (text.length === 0) break;
-    }
-  }
-
-  // Верхняя строка – максимум 2 строки
   document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4').forEach(el => {
-    truncateByWidth(el, 2);
+    let words = el.textContent.trim().split(/\s+/);
+    if (words.length > 8) {
+      el.textContent = words.slice(0, 8).join(' ') + '…';
+    }
   });
 
-  // Нижняя строка – только 1 строка
+  // Нижняя строка - обрезаем после 7 слов
   document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
-    truncateByWidth(el, 1);
+    let words = el.textContent.trim().split(/\s+/);
+    if (words.length > 7) {
+      el.textContent = words.slice(0, 7).join(' ') + '…';
+    }
   });
 });
 </script>
