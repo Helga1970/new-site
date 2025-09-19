@@ -222,39 +222,46 @@ layout: default
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+  function truncateToFit(el) {
+    const originalText = el.textContent.trim();
+    const words = originalText.split(/\s+/);
+    const clone = el.cloneNode();
+    clone.style.visibility = 'hidden';
+    clone.style.position = 'absolute';
+    clone.style.width = el.clientWidth + 'px';
+    clone.style.height = 'auto';
+    clone.style.whiteSpace = 'normal';
+    el.parentNode.appendChild(clone);
 
-  function fits(el, maxHeight) {
-    return el.scrollHeight <= maxHeight;
+    let truncated = words.join(' ');
+    clone.textContent = truncated;
+
+    // Обрезаем по словам, пока текст не помещается
+    for (let i = words.length; i > 0; i--) {
+      truncated = words.slice(0, i).join(' ');
+      clone.textContent = truncated;
+      if (clone.scrollHeight <= el.clientHeight && clone.scrollWidth <= el.clientWidth) break;
+    }
+
+    // Если даже одно слово не помещается — обрезаем посимвольно
+    if (clone.scrollHeight > el.clientHeight || clone.scrollWidth > el.clientWidth) {
+      let text = words[0];
+      clone.textContent = text;
+      for (let j = 1; j < words[0].length; j++) {
+        clone.textContent = words[0].slice(0, j) + '…';
+        if (clone.scrollHeight > el.clientHeight || clone.scrollWidth > el.clientWidth) {
+          clone.textContent = words[0].slice(0, j - 1) + '…';
+          break;
+        }
+      }
+    }
+
+    el.textContent = clone.textContent;
+    clone.remove();
   }
 
-  function truncateByContainer(el, maxHeight) {
-    let words = el.textContent.trim().split(/\s+/);
-    while (words.length > 0) {
-      el.textContent = words.join(' ');
-      if (fits(el, maxHeight)) return;
-      words.pop();
-    }
-    // Если одно слово не помещается, обрезаем посимвольно
-    let s = el.textContent;
-    for (let len = s.length; len > 0; len--) {
-      el.textContent = s.slice(0, len) + '…';
-      if (fits(el, maxHeight)) return;
-    }
-    el.textContent = '…';
-  }
-
-  // Верхняя строка
-  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4').forEach(el => {
-    let maxHeight = parseFloat(getComputedStyle(el).lineHeight) * 2; // максимум 2 линии
-    truncateByContainer(el, maxHeight);
-  });
-
-  // Нижняя строка
-  document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
-    let maxHeight = parseFloat(getComputedStyle(el).height); // одна линия
-    truncateByContainer(el, maxHeight);
-  });
-
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4, .recipe-card-content-list-item p.recipe-book')
+    .forEach(el => truncateToFit(el));
 });
 </script>
 
