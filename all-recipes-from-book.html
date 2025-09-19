@@ -1,163 +1,141 @@
 ---
 layout: default
-permalink: /all-recipes-from-book/:name/
+permalink: /all-recipes-from-book/index.html
 ---
 
 <div class="book-page-container">
-    <div class="book-page-header">
-        <h1 class="book-title-heading">
-            Все рецепты из книги:
-            <span id="book-name" class="book-name"></span>
-        </h1>
-        <div class="recipes-count-plaque" id="recipes-count">
-            Всего рецептов: 0
-        </div>
+  <div class="book-page-header">
+    <h1 class="book-title-heading">
+      Все рецепты из книги:
+      <span id="book-name" class="book-name"></span>
+    </h1>
+    <div class="recipes-count-plaque">
+      <span class="plaque-text">Всего рецептов в книге: <span id="recipes-count">0</span></span>
     </div>
+  </div>
 
-    <div class="recipe-grid" id="recipes-grid">
-        <!-- Сюда будут подгружены карточки -->
-    </div>
+  <div id="recipes-grid" class="recipe-grid"></div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
-    // book_slug берём из URL
-    const pathParts = window.location.pathname.split("/").filter(Boolean);
-    const bookSlug = pathParts[pathParts.length - 1];
+document.addEventListener("DOMContentLoaded", async function () {
+  // 1. Достаём slug книги из URL
+  let pathParts = window.location.pathname.split("/").filter(Boolean);
+  let bookSlug = pathParts[pathParts.length - 1]; // последний сегмент URL
 
-    try {
-        const res = await fetch("/assets/data/recipes.json");
-        const data = await res.json();
+  // 2. Загружаем все рецепты из JSON
+  let response = await fetch("/recipes.json");
+  let recipes = await response.json();
 
-        // фильтруем рецепты по книге
-        const recipes = data.filter(r => r.book_slug === bookSlug);
+  // 3. Фильтруем по book.title_slug
+  let filtered = recipes.filter(r => r.book && r.book.title_slug === bookSlug);
 
-        // вставляем название книги (по первому рецепту, если есть)
-        if (recipes.length > 0) {
-            document.getElementById("book-name").textContent = recipes[0].book_title;
-        } else {
-            document.getElementById("book-name").textContent = bookSlug.replace(/-/g, " ");
-        }
+  // 4. Заполняем заголовок
+  document.getElementById("book-name").textContent =
+    filtered.length > 0 ? filtered[0].book.title : bookSlug.replace(/-/g, " ");
 
-        // количество
-        document.getElementById("recipes-count").textContent = `Всего рецептов: ${recipes.length}`;
+  // 5. Счётчик
+  document.getElementById("recipes-count").textContent = filtered.length;
 
-        // рендер карточек
-        const grid = document.getElementById("recipes-grid");
-        recipes.forEach(r => {
-            const card = document.createElement("div");
-            card.className = "recipe-card";
-            card.innerHTML = `
-                <a href="${r.url}">
-                    <div class="recipe-image-wrapper">
-                        <img src="${r.featured_image || '/assets/images/book-cover-placeholder.jpg'}" alt="${r.title}">
-                    </div>
-                    <div class="recipe-title-box">
-                        <h2 class="recipe-title">${r.title}</h2>
-                    </div>
-                </a>
-            `;
-            grid.appendChild(card);
-        });
-    } catch (err) {
-        console.error("Ошибка загрузки рецептов:", err);
-    }
+  // 6. Рендерим карточки
+  let grid = document.getElementById("recipes-grid");
+  if (filtered.length > 0) {
+    filtered.forEach(recipe => {
+      let card = document.createElement("div");
+      card.className = "recipe-card";
+      card.innerHTML = `
+        <a href="${recipe.url}">
+          <div class="recipe-image-wrapper">
+            <img src="${recipe.featured_image || "/assets/images/book-cover-placeholder.jpg"}" alt="${recipe.title}">
+          </div>
+          <div class="recipe-title-box">
+            <h2 class="recipe-title">${recipe.title}</h2>
+          </div>
+        </a>
+      `;
+      grid.appendChild(card);
+    });
+  } else {
+    grid.innerHTML = "<p>К сожалению, рецепты из этой книги пока не добавлены.</p>";
+  }
 });
 </script>
 
 <style>
-    .book-page-container {
-        padding: 10px 20px 40px;
-    }
-    .book-page-header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 20px;
-        position: relative;
-    }
-    .book-title-heading {
-        font-size: 1.3em;
-        font-weight: normal;
-        margin: 0;
-        color: #333;
-        text-align: center;
-    }
-    .book-title-heading .book-name {
-        font-size: 1.6em;
-        font-weight: normal;
-        color: #333;
-        display: block;
-        margin-top: 5px;
-        text-decoration: none; /* убрали подчёркивание */
-    }
-    .recipes-count-plaque {
-        background-color: #fa8569;
-        color: white;
-        padding: 10px 15px;
-        position: absolute;
-        right: 0;
-        top: 0;
-        font-weight: normal;
-    }
-    .recipe-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-    }
-    .recipe-card {
-        overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .recipe-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-    .recipe-card a {
-        display: block;
-        text-decoration: none;
-        color: inherit;
-    }
-    .recipe-image-wrapper {
-        width: 100%;
-        padding-top: 100%;
-        position: relative;
-    }
-    .recipe-image-wrapper img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .recipe-title-box {
-        padding: 10px;
-        text-align: center;
-    }
-    .recipe-title {
-        font-size: 1.1em;
-        margin: 0;
-        color: #333;
-    }
-
-    /* Адаптивность */
-    @media (max-width: 768px) {
-        .book-page-header {
-            flex-direction: column;
-            align-items: center;
-        }
-        .recipes-count-plaque {
-            position: static;
-            margin-top: 15px;
-        }
-        .book-title-heading .book-name {
-            font-size: 1.4em;
-        }
-        .recipe-grid {
-            grid-template-columns: 1fr;
-        }
-    }
+.book-page-container { padding: 20px; }
+.book-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  position: relative;
+}
+.book-title-heading {
+  font-size: 1.1em;
+  font-weight: normal;
+  margin: 0;
+  color: #333;
+  flex-grow: 1;
+  text-align: center;
+  margin-right: 20px;
+}
+.book-title-heading .book-name {
+  font-size: 1.5em;
+  font-weight: normal;
+  color: #333;
+  display: block;
+  margin-top: 5px;
+}
+.recipes-count-plaque {
+  background-color: #fa8569;
+  color: white;
+  padding: 10px 15px;
+  display: inline-block;
+  white-space: nowrap;
+  font-weight: normal;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+.recipe-card {
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.recipe-card a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.recipe-image-wrapper {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+}
+.recipe-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.recipe-title-box {
+  padding: 10px;
+  text-align: center;
+}
+.recipe-title {
+  font-size: 1.1em;
+  margin: 0;
+  color: #333;
+}
 </style>
-
