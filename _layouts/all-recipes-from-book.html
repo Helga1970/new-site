@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     if (recipes.length > 0) {
       recipes.forEach(recipe => {
-        const imageUrl = recipe.featured_image.startsWith('/') ? recipe.featured_image : recipe.book_cover;
+        const imageUrl = recipe.featured_image || recipe.book_cover;
         const card = document.createElement("div");
         card.className = "recipe-card";
         card.innerHTML = `
