@@ -9,7 +9,7 @@ permalink: /all-recipes-from-book/index.html
       Все рецепты из книги:
       <span id="book-name" class="book-name"></span>
     </h1>
-    <div class="recipes-count-plaque">
+    <div class="recipes-count-plaque" id="recipes-count-plaque">
       <span class="plaque-text">Всего рецептов в книге: <span id="recipes-count">0</span></span>
     </div>
   </div>
@@ -19,34 +19,37 @@ permalink: /all-recipes-from-book/index.html
 
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
-  // 1. Достаём slug книги из URL
-  let pathParts = window.location.pathname.split("/").filter(Boolean);
-  let bookSlug = pathParts[pathParts.length - 1]; // последний сегмент URL
+  // Получаем slug книги из URL
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  const bookSlug = pathParts[pathParts.length - 1];
 
-  // 2. Загружаем все рецепты из JSON
-  let response = await fetch("/recipes.json");
+  // Загружаем JSON всех рецептов
+  const response = await fetch("/recipes.json");
   let recipes = await response.json();
 
-  // 3. Фильтруем по book.title_slug
+  // Фильтруем по book.title_slug
   let filtered = recipes.filter(r => r.book && r.book.title_slug === bookSlug);
 
-  // 4. Заполняем заголовок
+  // Сортируем так, чтобы рецепты с картинкой шли первыми
+  filtered.sort((a, b) => (b.featured_image ? 1 : 0) - (a.featured_image ? 1 : 0));
+
+  // Заполняем заголовок книги
   document.getElementById("book-name").textContent =
     filtered.length > 0 ? filtered[0].book.title : bookSlug.replace(/-/g, " ");
 
-  // 5. Счётчик
+  // Счётчик рецептов
   document.getElementById("recipes-count").textContent = filtered.length;
 
-  // 6. Рендерим карточки
-  let grid = document.getElementById("recipes-grid");
+  // Рендер карточек
+  const grid = document.getElementById("recipes-grid");
   if (filtered.length > 0) {
     filtered.forEach(recipe => {
-      let card = document.createElement("div");
+      const card = document.createElement("div");
       card.className = "recipe-card";
       card.innerHTML = `
         <a href="${recipe.url}">
           <div class="recipe-image-wrapper">
-            <img src="${recipe.featured_image || "/assets/images/book-cover-placeholder.jpg"}" alt="${recipe.title}">
+            <img src="${recipe.featured_image || recipe.book.cover || '/assets/images/book-cover-placeholder.jpg'}" alt="${recipe.title}">
           </div>
           <div class="recipe-title-box">
             <h2 class="recipe-title">${recipe.title}</h2>
@@ -65,33 +68,27 @@ document.addEventListener("DOMContentLoaded", async function () {
 .book-page-container { padding: 20px; }
 .book-page-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 30px;
   position: relative;
 }
 .book-title-heading {
-  font-size: 1.1em;
-  font-weight: normal;
-  margin: 0;
-  color: #333;
-  flex-grow: 1;
-  text-align: center;
-  margin-right: 20px;
-}
-.book-title-heading .book-name {
   font-size: 1.5em;
   font-weight: normal;
-  color: #333;
+  text-align: center;
+  margin: 0;
+}
+.book-title-heading .book-name {
   display: block;
   margin-top: 5px;
+  font-weight: bold;
+  color: #333;
 }
-.recipes-count-plaque {
+#recipes-count-plaque {
   background-color: #fa8569;
   color: white;
   padding: 10px 15px;
-  display: inline-block;
-  white-space: nowrap;
   font-weight: normal;
   position: absolute;
   right: 0;
@@ -104,12 +101,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 }
 .recipe-card {
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .recipe-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 .recipe-card a {
   display: block;
@@ -137,5 +134,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   font-size: 1.1em;
   margin: 0;
   color: #333;
+}
+@media (max-width: 768px) {
+  .recipe-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 769px) and (max-width: 1200px) {
+  .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
 }
 </style>
