@@ -4,8 +4,8 @@ layout: default
 {% assign book_title_slug = page.url | split: '/' | last %}
 {% assign book_title_display = book_title_slug | replace: '-', ' ' | capitalize %}
 
-{% assign current_book_recipes_with_image = site.recipes | where: 'book.title', book_title_display | where: 'featured_image' | sort: 'title' %}
-{% assign current_book_recipes_without_image = site.recipes | where: 'book.title', book_title_display | where_exp: 'item', 'item.featured_image == nil' | sort: 'title' %}
+{% assign current_book_recipes_with_image = site.recipes | where: 'book.title', book_title_display | where_exp: 'item', 'item.featured_image' %}
+{% assign current_book_recipes_without_image = site.recipes | where: 'book.title', book_title_display | where_exp: 'item', 'item.featured_image == nil' %}
 
 {% assign all_recipes_from_book = current_book_recipes_with_image | concat: current_book_recipes_without_image %}
 {% assign total_recipes = all_recipes_from_book.size %}
@@ -105,7 +105,7 @@ layout: default
     }
     .recipe-image-wrapper {
         width: 100%;
-        padding-top: 100%; /* Делает контейнер квадратным */
+        padding-top: 100%;
         position: relative;
     }
     .recipe-image-wrapper img {
