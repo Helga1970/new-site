@@ -36,21 +36,26 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const recipes = await response.json();
 
-    // Заполняем заголовок книги
-    document.getElementById("book-name").textContent =
-      bookSlug.replace(/-/g, " ");
-
-    // Счётчик рецептов
-    document.getElementById("recipes-count").textContent = recipes.length;
-
     // Рендер карточек
     const grid = document.getElementById("recipes-grid");
+
     if (recipes.length > 0) {
+      // Заполняем заголовок книги из первого рецепта
+      document.getElementById("book-name").textContent =
+        recipes[0].book_title_slug.replace(/-/g, " ");
+
+      // Счётчик рецептов
+      document.getElementById("recipes-count").textContent = recipes.length;
+
       recipes.forEach(recipe => {
+        const imageUrl = recipe.featured_image || recipe.book_cover;
         const card = document.createElement("div");
         card.className = "recipe-card";
         card.innerHTML = `
           <a href="${recipe.url}">
+            <div class="recipe-image-wrapper">
+              <img src="${imageUrl}" alt="${recipe.title}">
+            </div>
             <div class="recipe-title-box">
               <h2 class="recipe-title">${recipe.title}</h2>
             </div>
@@ -59,6 +64,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         grid.appendChild(card);
       });
     } else {
+      // Заполняем заголовок, даже если рецептов нет
+      document.getElementById("book-name").textContent =
+        bookSlug.replace(/-/g, " ");
+      
       grid.innerHTML = "<p>К сожалению, рецепты из этой книги пока не добавлены.</p>";
     }
   } catch (error) {
