@@ -1,16 +1,16 @@
-recipes.forEach(recipe => {
-        const imageUrl = recipe.featured_image || recipe.book_cover || '/assets/images/placeholder.jpg';
-        const card = document.createElement("div");
-        card.className = "recipe-card";
-        card.innerHTML = `
-          <a href="${recipe.url}">
-            <div class="recipe-image-wrapper">
-              <img src="${imageUrl}" alt="${recipe.title}">
-            </div>
-            <div class="recipe-title-box">
-              <h2 class="recipe-title">${recipe.title}</h2>
-            </div>
-          </a>
-        `;
-        grid.appendChild(card);
-      });
+---
+layout: null
+permalink: /api/recipes/{{ page.book_slug }}.json
+---
+[
+  {% assign book_recipes = site.recipes | where: "book.title_slug", page.book_slug %}
+  {% for recipe in book_recipes %}
+    {
+      "title": {{ recipe.title | jsonify }},
+      "url": {{ recipe.url | relative_url | jsonify }},
+      "featured_image": {{ recipe.featured_image | default: "" | relative_url | jsonify }},
+      "book_cover": {{ recipe.book.cover | default: "" | relative_url | jsonify }},
+      "excerpt": {{ (recipe.excerpt | default: recipe.content) | strip_html | strip_newlines | truncate: 160 | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]
