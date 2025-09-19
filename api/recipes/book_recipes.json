@@ -3,7 +3,7 @@ layout: null
 permalink: /api/recipes/{{ page.book_slug }}.json
 ---
 [
-  {% assign book_recipes = site.recipes | where: "book_slug", page.book_slug %}
+  {% assign book_recipes = site.recipes | where: "book.title_slug", page.book_slug %}
   {% for recipe in book_recipes %}
     {
       "title": {{ recipe.title | jsonify }},
