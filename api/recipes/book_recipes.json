@@ -3,17 +3,14 @@ layout: null
 permalink: /api/recipes/{{ page.book_slug | slugify }}.json
 ---
 [
-  {% assign book_recipes = site.recipes | where_exp: "item", "item.book.title_slug == page.book_slug" %}
+  {% assign book_recipes = site.recipes | where_exp: "item", "item.book.title_slug | slugify == page.book_slug | slugify" %}
   {% for recipe in book_recipes %}
     {
       "title": {{ recipe.title | jsonify }},
-      "url": {{ recipe.url | absolute_url | jsonify }},
-      "featured_image": {{ recipe.featured_image | prepend: site.baseurl | default: "/images/fallback.jpg" | jsonify }},
-      "book_cover": {{ recipe.book.cover | prepend: site.baseurl | default: "/images/fallback-book.jpg" | jsonify }},
-      "excerpt": {{ (recipe.excerpt | default: recipe.content) | strip_html | strip_newlines | truncate: 160 | jsonify }},
-      "debug_book_slug": {{ page.book_slug | jsonify }},
-      "debug_featured_image": {{ recipe.featured_image | jsonify }},
-      "debug_book_cover": {{ recipe.book.cover | jsonify }}
+      "url": {{ recipe.url | relative_url | jsonify }},
+      "featured_image": {{ recipe.featured_image | relative_url | default: "" | jsonify }},
+      "book_cover": {{ recipe.book.cover | relative_url | default: "" | jsonify }},
+      "excerpt": {{ (recipe.excerpt | default: recipe.content) | strip_html | strip_newlines | truncate: 160 | jsonify }}
     }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 ]
