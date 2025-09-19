@@ -58,7 +58,6 @@ recipe:
     5. Выпекайте около 12 минут, пока кукисы не станут слегка золотистыми, но не пересушенными.'
 book:
   title: Les cookeis de nos reve (Кукис нашей мечты)
-  title_slug: les-cookeis-de-nos-reve
   featured_image: /images/les-cookeis-de-nos-reve/bolshoi-kukis-shokolad-i-pekan.jpeg
   author: Deborah Dupont-Daguet, Géraldine Martens
   cover: /images/les-cookeis-de-nos-reve/les-cookeis-de-nos-reve-oblozhka.jpeg
