@@ -4,8 +4,8 @@ layout: default
 {% assign book_title_slug = page.url | split: '/' | last %}
 {% assign book_title_display = book_title_slug | replace: '-', ' ' | capitalize %}
 
-{% assign current_book_recipes_with_image = site.recipes | where: 'book.title', book_title_display | where_exp: 'item', 'item.featured_image' | sort: 'title' %}
-{% assign current_book_recipes_without_image = site.recipes | where: 'book.title', book_title_display | where_exp: 'item', 'item.featured_image == nil' | sort: 'title' %}
+{% assign current_book_recipes_with_image = site.recipes | where: 'book.title', book_title_display | where_exp: 'item', 'item.featured_image' %}
+{% assign current_book_recipes_without_image = site.recipes | where: 'book.title', book_title_display | where_exp: 'item', 'item.featured_image == nil' %}
 
 {% assign all_recipes_from_book = current_book_recipes_with_image | concat: current_book_recipes_without_image %}
 {% assign total_recipes = all_recipes_from_book.size %}
@@ -13,16 +13,23 @@ layout: default
 
 <div class="book-page-container">
     <div class="book-page-header">
-        <h1 class="book-title-heading">Все рецепты из книги «{{ book_title_display }}»</h1>
-        <div class="book-info">
-            <div class="recipes-count-plaque">
-                <span class="plaque-text">Всего рецептов в книге: <span>{{ total_recipes }}</span></span>
-            </div>
+        <h1 class="book-title-heading">
+            Все рецепты из книги
             {% if book_link.url %}
-                <div class="book-link-plaque">
-                    <a href="{{ book_link.url | relative_url }}" class="plaque-text book-link-btn">Ссылка на книгу</a>
-                </div>
+                <a href="{{ book_link.url | relative_url }}" class="book-name">{{ book_title_display }}</a>
+            {% else %}
+                <span class="book-name">{{ book_title_display }}</span>
             {% endif %}
+        </h1>
+        <div class="book-info-desktop-only">
+            <div class="recipes-count-plaque">
+                <span class="plaque-text">Всего рецептов в книге: {{ total_recipes }}</span>
+            </div>
+        </div>
+        <div class="book-info-mobile-only">
+            <div class="recipes-count-plaque">
+                <span class="plaque-text">Всего рецептов в книге: {{ total_recipes }}</span>
+            </div>
         </div>
     </div>
 
@@ -55,35 +62,44 @@ layout: default
         padding: 20px;
     }
     .book-page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start; /* Изменено для лучшего выравнивания плашек */
+        position: relative;
+        text-align: center;
         margin-bottom: 30px;
-        flex-wrap: wrap;
+        padding-bottom: 50px;
     }
     .book-title-heading {
-        font-size: 1.5em; /* Уменьшен размер шрифта */
-        font-weight: normal; /* Убрана жирность */
+        font-size: 1.5em;
+        font-weight: normal;
         margin: 0;
+        color: #333;
     }
-    .book-info {
-        text-align: right;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end; /* Выравнивание плашек по правому краю */
+    .book-title-heading .book-name {
+        font-weight: bold;
+        color: #333;
+        text-decoration: underline; /* Подчеркивание для ссылки */
     }
-    .recipes-count-plaque,
-    .book-link-plaque {
+    .book-title-heading a.book-name {
+        color: #333;
+        text-decoration: underline;
+    }
+    .book-info-desktop-only {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: block; /* Показываем на десктопе */
+    }
+    .book-info-mobile-only {
+        display: none; /* Скрываем на десктопе */
+        text-align: center;
+    }
+    .recipes-count-plaque {
         background-color: #fa8569;
         color: white;
         padding: 10px 15px;
         display: inline-block;
-        margin-bottom: 10px;
         text-align: center;
-        white-space: nowrap; /* Предотвращает перенос текста на новую строку */
-    }
-    .book-link-plaque {
-        margin-bottom: 0;
+        white-space: nowrap;
+        font-weight: normal;
     }
     .plaque-text {
         color: white;
@@ -130,24 +146,37 @@ layout: default
         margin: 0;
         color: #333;
     }
-    @media (max-width: 1200px) {
-        .recipe-grid {
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+
+    /* Медиа-запросы для адаптивности */
+    @media (min-width: 769px) {
+        .book-info-mobile-only {
+            display: none;
+        }
+        .book-info-desktop-only {
+            display: block;
         }
     }
     @media (max-width: 768px) {
+        .book-info-desktop-only {
+            display: none;
+        }
+        .book-info-mobile-only {
+            display: block;
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
         .book-page-header {
-            flex-direction: column;
-            align-items: flex-start; /* Изменено для лучшего отображения на мобильных */
-            text-align: left;
+            position: static;
+            padding-bottom: 0;
         }
         .book-title-heading {
             width: 100%;
         }
-        .book-info {
-            text-align: left;
-            margin-top: 20px;
-            align-items: flex-start;
+    }
+    @media (max-width: 1200px) {
+        .recipe-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         }
     }
     @media (max-width: 500px) {
