@@ -1,28 +1,30 @@
 ---
 layout: post
-title: Тестовый рецепт
+title: Test Recipe
+permalink: /test-recipe/
 date: 2025-09-12 17:15:00 +0300
 categories:
-  - Тест
+  - Test
 featured_image: /assets/images/masonary-post/post-1.jpg
 recipe:
-  servings: 2
-  prep: 10 минут
-  cook: 20 минут
-  difficulty: "***"
-  ingredients_markdown: |-
-    **Ингредиенты:**
-    * 1 помидор
-    * 1 огурец
-    * Соль, перец
-  directions_markdown: |-
-    1. Нарежь овощи.
-    2. Добавь специи.
-    3. Приятного аппетита!
+  servings: 2
+  prep: 10 min
+  cook: 20 min
+  difficulty: "***"
+  ingredients_markdown: |-
+    **Ingredients:**
+    * 1 tomato
+    * 1 cucumber
+    * Salt, pepper
+  directions_markdown: |-
+    1. Cut the vegetables.
+    2. Add spices.
+    3. Enjoy your meal!
 book:
-  title: Тестовая книга
-  author: Тестовый Автор
-  cover: /assets/images/masonary-post/post-1.jpg
-  link: https://example.com
+  title: Test Book
+  author: Test Author
+  cover: /assets/images/masonary-post/post-1.jpg
+  link: https://example.com
+  title_slug: testovaia kniga
 ---
-Aden, on the Yemeni coast, is the Mongolia’s final port of call before Fogg sets sail for India. Verne calls it ‘the Gibraltar of the Indian Ocean’ and like Gibraltar, Aden acts as a kind of gateway between two cultures — Arabia and India — and the influence of both is discernible in this dish. Sweet and aromatic, like Nigella, these lamb shanks create the most delicious smell and taste just as good.
+This is a test recipe for diagnostic purposes.
