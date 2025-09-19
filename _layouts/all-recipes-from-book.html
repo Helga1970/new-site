@@ -47,17 +47,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     const grid = document.getElementById("recipes-grid");
     if (recipes.length > 0) {
       recipes.forEach(recipe => {
-        const card = document.createElement("div");
-        card.className = "recipe-card";
-        card.innerHTML = `
-          <a href="${recipe.url}">
-            <div class="recipe-title-box">
-              <h2 class="recipe-title">${recipe.title}</h2>
+        const imageUrl = recipe.featured_image || recipe.book_cover;
+        const card = document.createElement("div");
+        card.className = "recipe-card";
+        card.innerHTML = `
+          <a href="${recipe.url}">
+            <div class="recipe-image-wrapper">
+              <img src="${imageUrl}" alt="${recipe.title}">
             </div>
-          </a>
-        `;
-        grid.appendChild(card);
-      });
+            <div class="recipe-title-box">
+              <h2 class="recipe-title">${recipe.title}</h2>
+            </div>
+          </a>
+        `;
+        grid.appendChild(card);
+      });
     } else {
       grid.innerHTML = "<p>К сожалению, рецепты из этой книги пока не добавлены.</p>";
     }
