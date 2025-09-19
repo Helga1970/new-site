@@ -222,26 +222,108 @@ layout: default
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  function truncateByWidth(el, maxLines = 1) {
-    const original = el.textContent.trim();
-    let text = original;
-    while (el.scrollHeight > el.clientHeight * maxLines || el.scrollWidth > el.clientWidth) {
-      text = text.split(" ").slice(0, -1).join(" ");
-      el.textContent = text + "…";
-      if (text.length === 0) break;
+
+  // Получаем/сохраняем оригинальный текст (чтоб не резать уже урезанные строки при повторном запуске)
+  function getOriginal(el) {
+    if (!el.dataset.original) el.dataset.original = el.textContent.trim();
+    return el.dataset.original;
+  }
+
+  // Парсим высоту строки из computedStyle (fallback = fontSize * 1.2)
+  function getLineHeight(el) {
+    const cs = getComputedStyle(el);
+    const lh = cs.lineHeight;
+    if (lh && lh !== 'normal') return parseFloat(lh);
+    const fs = parseFloat(cs.fontSize) || 16;
+    return fs * 1.2;
+  }
+
+  // Основная функция: обрезать элемент по размеру контейнера
+  // maxLines: сколько строк можно занимать (1 или 2)
+  // paddingPx: запас до края (например 10px)
+  function truncateByContainer(el, maxLines = 1, paddingPx = 10) {
+    const original = getOriginal(el);
+    if (!original) return;
+
+    // Работаем со словами (не рвём слова посередине)
+    let words = original.split(/\s+/);
+    // Сначала поставим полный текст (чтоб корректно измерять)
+    el.textContent = original;
+
+    const lineH = getLineHeight(el);
+    const maxH = Math.ceil(maxLines * lineH);
+
+    // Проверка: помещается ли уже
+    const fits = () => {
+      if (maxLines > 1) {
+        // проверяем высоту *и* ширину на случай неразрывных токенов
+        return (el.scrollHeight <= maxH + paddingPx) && (el.scrollWidth <= el.clientWidth - paddingPx);
+      } else {
+        // для одной строки — проверяем ширину
+        return el.scrollWidth <= el.clientWidth - paddingPx;
+      }
+    };
+
+    if (fits()) return; // всё ок
+
+    // Укорачиваем по словам (удаляем по одному слову с конца), пока не влезет
+    let iter = 0;
+    while (!fits() && words.length > 0 && ++iter < 200) {
+      words.pop();
+      el.textContent = words.join(' ') + (words.length ? '…' : '');
+    }
+
+    // Если даже после удаления всех слов что-то не влезает (редкий случай — длинное неразрывное слово),
+    // делаем посимвольную подгонку (бинарный или простой перебор).
+    if (!fits()) {
+      const s = original;
+      // Простой убывающий перебор символов (обычно короткие строки, перебор быстрый)
+      for (let len = s.length; len > 0; len--) {
+        el.textContent = s.slice(0, len) + '…';
+        if (fits()) return;
+      }
+      // Если и так не влезло — оставим просто многоточие
+      el.textContent = '…';
     }
   }
 
-  // Верхняя строка – максимум 2 строки
-  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4').forEach(el => {
-    truncateByWidth(el, 2);
+  // Применяем для верхних элементов (до 2 строк)
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4')
+    .forEach(el => {
+      try {
+        truncateByContainer(el, 2, 10); // 2 строки, запас 10px
+      } catch (e) {
+        // fallback: обрезаем простыми словами (8 слов)
+        const orig = getOriginal(el);
+        const words = orig.split(/\s+/).slice(0, 8);
+        el.textContent = words.join(' ') + (orig.split(/\s+/).length > 8 ? '…' : '');
+      }
+    });
+
+  // Применяем для нижних (1 строка). Если есть span.book-title, режем его, иначе режем весь <p>
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(p => {
+    try {
+      const titleSpan = p.querySelector('.book-title');
+      if (titleSpan) {
+        // Режем именно содержимое названия (span), но учитываем ширину всего p (внутри fits() проверяет scrollWidth vs clientWidth)
+        truncateByContainer(titleSpan, 1, 10);
+        // Если после обрезки span всё ещё слишком широк из-за префикса — попробуем ещё раз, но уже уменьшая span сильнее:
+        if (p.scrollWidth > p.clientWidth - 10) {
+          // повторно укорачиваем titleSpan, на случай когда префикс занимает значимую ширину
+          truncateByContainer(titleSpan, 1, 12);
+        }
+      } else {
+        truncateByContainer(p, 1, 10);
+      }
+    } catch (e) {
+      // fallback: старое поведение — по 5 слов
+      const orig = getOriginal(p);
+      const words = orig.split(/\s+/).slice(0, 5);
+      p.textContent = words.join(' ') + (orig.split(/\s+/).length > 5 ? '…' : '');
+    }
   });
 
-  // Нижняя строка – только 1 строка
-  document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
-    truncateByWidth(el, 1);
-  });
-});
+}); // DOMContentLoaded
 </script>
 
 
