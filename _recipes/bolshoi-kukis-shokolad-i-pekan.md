@@ -1,6 +1,6 @@
 ---
 title: Большой кукис шоколад и пекан
-featured_image: images/les-cookeis-de-nos-reve/bolshoi-kukis-shokolad-i-pekan.jpeg
+featured_image: /images/les-cookeis-de-nos-reve/bolshoi-kukis-shokolad-i-pekan.jpeg
 categories:
 - печенье
 - выпечка
@@ -58,8 +58,9 @@ recipe:
     5. Выпекайте около 12 минут, пока кукисы не станут слегка золотистыми, но не пересушенными.'
 book:
   title: Les cookeis de nos reve (Кукис нашей мечты)
+  title_slug: les cookeis de nos reve
   author: Deborah Dupont-Daguet, Géraldine Martens
-  cover: /assets/images/les-cookeis-de-nos-reve-oblozhka.jpeg
+  cover: /images/les-cookeis-de-nos-reve-oblozhka.jpeg
   link: https://pdf-cookbook.pro-culinaria.ru/index.html?file=%2Fproxy%2Finbooks%2Fles-cookeis-de-nos-reve.pdf
 ---
 
