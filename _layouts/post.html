@@ -136,7 +136,7 @@ layout: default
 .recipe-card-list-item {
   flex-basis: calc(50% - 10px);
   margin-bottom: 20px;
-  background-color: #f7f7f7;
+  background-color: #fafafa;
   display: flex;
   align-items: flex-start;
   overflow: hidden;
@@ -167,6 +167,8 @@ layout: default
   flex-direction: column;
   justify-content: center;
   height: 100%;
+  padding-top: 6px;     /* равномерный верхний отступ */
+  padding-bottom: 6px;  /* равномерный нижний отступ */		
 }
 
 /* Верхняя строка - название рецепта, жирная, максимум 8 слов */
@@ -180,7 +182,7 @@ layout: default
   overflow: hidden;
 }
 
-/* Нижняя строка - подзаголовок / книга, обычный шрифт, 5 слов с многоточием */
+/* Нижняя строка - подзаголовок / книга, обычный шрифт, 6 слов с многоточием */
 .recipe-card-content-list-item p.recipe-book {
   font-weight: 400;
   font-size: 14px;
@@ -227,11 +229,11 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Нижняя строка - обрезаем после 6 слов
+  // Нижняя строка - обрезаем после 7 слов
   document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
     let words = el.textContent.trim().split(/\s+/);
-    if (words.length > 6) {
-      el.textContent = words.slice(0, 6).join(' ') + '…';
+    if (words.length > 7) {
+      el.textContent = words.slice(0, 7).join(' ') + '…';
     }
   });
 });
