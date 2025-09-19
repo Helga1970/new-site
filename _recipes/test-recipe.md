@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Test Recipe
-permalink: /test-recipe/
+permalink: /all-recipes-from-book/testovaia-kniga/
 date: 2025-09-12 17:15:00 +0300
 categories:
   - Test
