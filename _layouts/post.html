@@ -218,77 +218,31 @@ layout: default
 .recipe-card-list-item.hidden {
   display: none;
 }
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-
-  function getOriginal(el) {
-    if (!el.dataset.original) el.dataset.original = el.textContent.trim();
-    return el.dataset.original;
-  }
-
-  function getLineHeight(el) {
-    const cs = getComputedStyle(el);
-    const lh = cs.lineHeight;
-    if (lh && lh !== 'normal') return parseFloat(lh);
-    const fs = parseFloat(cs.fontSize) || 16;
-    return fs * 1.2;
-  }
-
-  function truncateByContainer(el, maxLines = 1, paddingPx = 10) {
-    const original = getOriginal(el);
-    if (!original) return;
-
-    let words = original.split(/\s+/);
-    el.textContent = original;
-
-    const lineH = getLineHeight(el);
-    const maxH = Math.ceil(maxLines * lineH);
-
-    const fits = () => {
-      if (maxLines > 1) {
-        return (el.scrollHeight <= maxH + paddingPx) && (el.scrollWidth <= el.clientWidth + paddingPx);
-      } else {
-        return el.scrollWidth <= el.clientWidth + paddingPx;
-      }
-    };
-
-    if (fits()) return;
-
-    let iter = 0;
-    while (!fits() && words.length > 1 && ++iter < 200) {
-      words.pop();
-      el.textContent = words.join(' ') + '…';
-    }
-
-    // Крайняя мера: посимвольно, если одно длинное слово не влезает
-    if (!fits() && words.length === 1) {
-      const s = words[0];
-      for (let len = s.length; len > 0; len--) {
-        el.textContent = s.slice(0, len) + '…';
-        if (fits()) return;
-      }
-      el.textContent = '…';
+  function truncateByWidth(el, maxLines = 1) {
+    const original = el.textContent.trim();
+    let text = original;
+    while (el.scrollHeight > el.clientHeight * maxLines || el.scrollWidth > el.clientWidth) {
+      text = text.split(" ").slice(0, -1).join(" ");
+      el.textContent = text + "…";
+      if (text.length === 0) break;
     }
   }
 
-  // Верхняя строка — до 2 линий
-  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4')
-    .forEach(el => truncateByContainer(el, 2, 10));
-
-  // Нижняя строка — 1 линия, span.book-title если есть
-  document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(p => {
-    const titleSpan = p.querySelector('.book-title');
-    if (titleSpan) {
-      truncateByContainer(titleSpan, 1, 10);
-    } else {
-      truncateByContainer(p, 1, 10);
-    }
+  // Верхняя строка – максимум 2 строки
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4').forEach(el => {
+    truncateByWidth(el, 2);
   });
 
+  // Нижняя строка – только 1 строка
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
+    truncateByWidth(el, 1);
+  });
 });
 </script>
-
-
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
 <script>
 	$(function() {
