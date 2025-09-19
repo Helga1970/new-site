@@ -14,14 +14,14 @@ layout: default
 <div class="book-page-container">
     <div class="book-page-header">
         <h1 class="book-title-heading">
-            Все рецепты из книги
+            Все рецепты из книги:
             {% if book_link.url %}
                 <a href="{{ book_link.url | relative_url }}" class="book-name">{{ book_title_display }}</a>
             {% else %}
                 <span class="book-name">{{ book_title_display }}</span>
             {% endif %}
         </h1>
-        <div class="book-info-plaque">
+        <div class="book-info-plaque-container">
             <div class="recipes-count-plaque">
                 <span class="plaque-text">Всего рецептов в книге: {{ total_recipes }}</span>
             </div>
@@ -58,34 +58,34 @@ layout: default
     }
     .book-page-header {
         display: flex;
-        justify-content: center;
-        align-items: flex-start;
+        flex-direction: column;
+        align-items: center;
         margin-bottom: 30px;
         position: relative;
     }
     .book-title-heading {
-        font-size: 1.1em; /* Уменьшаем размер шрифта */
-        font-weight: normal; /* Убираем жирность */
+        font-size: 1.1em;
+        font-weight: normal;
         margin: 0;
         color: #333;
         text-align: center;
     }
     .book-title-heading .book-name {
-        font-size: 1.5em; /* Делаем название книги больше */
-        font-weight: bold; /* Делаем название книги жирным */
+        font-size: 1.5em;
+        font-weight: normal; /* Убираем жирность */
         color: inherit;
-        display: block; /* Чтобы имя было на отдельной строке */
-        text-decoration: underline;
+        display: block;
         margin-top: 5px;
+        text-decoration: underline;
     }
     .book-title-heading a.book-name {
         color: inherit;
-        text-decoration: underline;
     }
-    .book-info-plaque {
+    .book-info-plaque-container {
         position: absolute;
         top: 0;
         right: 0;
+        z-index: 10; /* Убедимся, что плашка находится поверх заголовка */
     }
     .recipes-count-plaque {
         background-color: #fa8569;
@@ -149,7 +149,7 @@ layout: default
             align-items: center;
             position: static;
         }
-        .book-info-plaque {
+        .book-info-plaque-container {
             position: static;
             margin-top: 20px;
         }
@@ -159,6 +159,16 @@ layout: default
         .book-title-heading .book-name {
             font-size: 1.5em;
         }
+        .recipe-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    @media (min-width: 769px) and (max-width: 1200px) {
+        .recipe-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+    }
+    @media (max-width: 500px) {
         .recipe-grid {
             grid-template-columns: 1fr;
         }
