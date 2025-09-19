@@ -8,8 +8,8 @@ permalink: /api/recipes/{{ page.book_slug }}.json
     {
       "title": {{ recipe.title | jsonify }},
       "url": {{ recipe.url | relative_url | jsonify }},
-      "featured_image": {{ recipe.featured_image | default: "" | relative_url | jsonify }},
-      "book_cover": {{ recipe.book.cover | default: "" | relative_url | jsonify }},
+      "featured_image": {{ recipe.featured_image | default: "" | jsonify }},
+      "book_cover": {{ recipe.book.cover | default: "" | jsonify }},
       "excerpt": {{ (recipe.excerpt | default: recipe.content) | strip_html | strip_newlines | truncate: 160 | jsonify }}
     }{% unless forloop.last %},{% endunless %}
   {% endfor %}
