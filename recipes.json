@@ -1,0 +1,17 @@
+---
+layout: null
+permalink: /assets/data/recipes.json
+---
+
+[
+{% for r in site.recipes %}
+  {
+    "title": {{ r.title | jsonify }},
+    "url": {{ r.url | relative_url | jsonify }},
+    "featured_image": {{ r.featured_image | default: "" | relative_url | jsonify }},
+    "book_title": {{ r.book.title | default: "" | jsonify }},
+    "book_slug": {{ (r.book.title_slug | default: r.book.title) | slugify | jsonify }},
+    "excerpt": {{ (r.excerpt | default: r.content) | strip_html | strip_newlines | truncate: 160 | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]
