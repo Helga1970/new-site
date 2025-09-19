@@ -25,7 +25,6 @@ book:
   author: Test Author
   cover: /assets/images/masonary-post/post-1.jpg
   link: https://example.com
-  title_slug: testovaia-kniga
-book_slug: testovaia-kniga
+  title_slug: testovaia kniga
 ---
 This is a test recipe for diagnostic purposes.
