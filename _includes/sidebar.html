@@ -24,7 +24,7 @@
 			<p class="book-author">{{ include.page.book.author }}</p>
 		</div>
 		{% comment %} Добавляем кнопку "Еще рецепты из книги" с новым дизайном и центрированием текста {% endcomment %}
-		<a href="/all-recipes-from-book/{{ include.page.book.title_slug | slugify }}" class="book-recipes-link desktop-only" style="background-color:#fa8569; color:#fff; border-radius:0; padding:8px 16px; font-size:1em; display:inline-block; border:none; cursor:pointer; width:100%; text-align:center;">
+		<a href="/all-recipes-from-book/{{ include.page.book.title | slugify }}" class="book-recipes-link desktop-only" style="background-color:#fa8569; color:#fff; border-radius:0; padding:8px 16px; font-size:1em; display:inline-block; border:none; cursor:pointer; width:100%; text-align:center;">
 			Ещё рецепты из книги
 		</a>
 	</div>
