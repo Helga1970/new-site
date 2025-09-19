@@ -40,9 +40,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     const grid = document.getElementById("recipes-grid");
 
     if (recipes.length > 0) {
-      // Заполняем заголовок книги из первого рецепта
+      // Заполняем заголовок книги
       document.getElementById("book-name").textContent =
-        recipes[0].book_title_slug.replace(/-/g, " ");
+        recipes[0].book_title.replace(/-/g, " ");
 
       // Счётчик рецептов
       document.getElementById("recipes-count").textContent = recipes.length;
@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 });
 </script>
-
 <style>
 .book-page-container { padding: 20px; }
 .book-page-header {
