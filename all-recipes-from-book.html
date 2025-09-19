@@ -21,10 +21,8 @@ layout: default
                 <span class="book-name">{{ book_title_display }}</span>
             {% endif %}
         </h1>
-        <div class="book-info-plaque-container">
-            <div class="recipes-count-plaque">
-                <span class="plaque-text">Всего рецептов в книге: {{ total_recipes }}</span>
-            </div>
+        <div class="recipes-count-plaque">
+            <span class="plaque-text">Всего рецептов в книге: {{ total_recipes }}</span>
         </div>
     </div>
 
@@ -58,8 +56,8 @@ layout: default
     }
     .book-page-header {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        justify-content: space-between;
+        align-items: flex-start;
         margin-bottom: 30px;
         position: relative;
     }
@@ -68,12 +66,14 @@ layout: default
         font-weight: normal;
         margin: 0;
         color: #333;
+        flex-grow: 1;
         text-align: center;
+        margin-right: 20px;
     }
     .book-title-heading .book-name {
         font-size: 1.5em;
-        font-weight: normal; /* Убираем жирность */
-        color: inherit;
+        font-weight: normal;
+        color: #333;
         display: block;
         margin-top: 5px;
         text-decoration: underline;
@@ -81,18 +81,11 @@ layout: default
     .book-title-heading a.book-name {
         color: inherit;
     }
-    .book-info-plaque-container {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 10; /* Убедимся, что плашка находится поверх заголовка */
-    }
     .recipes-count-plaque {
         background-color: #fa8569;
         color: white;
         padding: 10px 15px;
         display: inline-block;
-        text-align: center;
         white-space: nowrap;
         font-weight: normal;
     }
@@ -142,19 +135,20 @@ layout: default
         color: #333;
     }
 
-    /* Адаптивность для мобильных устройств */
+    /* Адаптивность */
     @media (max-width: 768px) {
         .book-page-header {
             flex-direction: column;
             align-items: center;
             position: static;
         }
-        .book-info-plaque-container {
-            position: static;
-            margin-top: 20px;
-        }
         .book-title-heading {
-            font-size: 1.1em;
+            text-align: center;
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+        .recipes-count-plaque {
+            margin-top: 20px;
         }
         .book-title-heading .book-name {
             font-size: 1.5em;
