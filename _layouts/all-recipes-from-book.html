@@ -23,43 +23,47 @@ document.addEventListener("DOMContentLoaded", async function () {
   const pathParts = window.location.pathname.split("/").filter(Boolean);
   const bookSlug = pathParts[pathParts.length - 1];
 
-  // Загружаем JSON всех рецептов
-  const response = await fetch("/recipes.json");
-  let recipes = await response.json();
+  // Указываем путь к нашему новому JSON-файлу, специфичному для книги
+  const jsonUrl = `/api/recipes/${bookSlug}.json`;
 
-  // Фильтруем по book.title_slug
-  let filtered = recipes.filter(r => r.book && r.book.title_slug === bookSlug);
+  try {
+    // Загружаем только JSON с рецептами для этой книги
+    const response = await fetch(jsonUrl);
 
-  // Сортируем так, чтобы рецепты с картинкой шли первыми
-  filtered.sort((a, b) => (b.featured_image ? 1 : 0) - (a.featured_image ? 1 : 0));
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-  // Заполняем заголовок книги
-  document.getElementById("book-name").textContent =
-    filtered.length > 0 ? filtered[0].book.title : bookSlug.replace(/-/g, " ");
+    const recipes = await response.json();
 
-  // Счётчик рецептов
-  document.getElementById("recipes-count").textContent = filtered.length;
+    // Заполняем заголовок книги
+    document.getElementById("book-name").textContent =
+      bookSlug.replace(/-/g, " ");
 
-  // Рендер карточек
-  const grid = document.getElementById("recipes-grid");
-  if (filtered.length > 0) {
-    filtered.forEach(recipe => {
-      const card = document.createElement("div");
-      card.className = "recipe-card";
-      card.innerHTML = `
-        <a href="${recipe.url}">
-          <div class="recipe-image-wrapper">
-            <img src="${recipe.featured_image || recipe.book.cover || '/assets/images/book-cover-placeholder.jpg'}" alt="${recipe.title}">
-          </div>
-          <div class="recipe-title-box">
-            <h2 class="recipe-title">${recipe.title}</h2>
-          </div>
-        </a>
-      `;
-      grid.appendChild(card);
-    });
-  } else {
-    grid.innerHTML = "<p>К сожалению, рецепты из этой книги пока не добавлены.</p>";
+    // Счётчик рецептов
+    document.getElementById("recipes-count").textContent = recipes.length;
+
+    // Рендер карточек
+    const grid = document.getElementById("recipes-grid");
+    if (recipes.length > 0) {
+      recipes.forEach(recipe => {
+        const card = document.createElement("div");
+        card.className = "recipe-card";
+        card.innerHTML = `
+          <a href="${recipe.url}">
+            <div class="recipe-title-box">
+              <h2 class="recipe-title">${recipe.title}</h2>
+            </div>
+          </a>
+        `;
+        grid.appendChild(card);
+      });
+    } else {
+      grid.innerHTML = "<p>К сожалению, рецепты из этой книги пока не добавлены.</p>";
+    }
+  } catch (error) {
+    console.error("Ошибка при загрузке данных:", error);
+    document.getElementById("recipes-grid").innerHTML = `<p>Не удалось загрузить рецепты. Пожалуйста, попробуйте позже. (${error.message})</p>`;
   }
 });
 </script>
