@@ -3,14 +3,21 @@ layout: null
 permalink: /api/recipes/{{ page.book_slug | slugify }}.json
 ---
 [
-  {% assign book_recipes = site.recipes | where_exp: "item", "item.book.title_slug == page.book_slug" %}
-  {% for recipe in book_recipes %}
-    {
-      "title": {{ recipe.title | jsonify }},
-      "url": {{ recipe.url | relative_url | jsonify }},
-      "featured_image": {{ recipe.featured_image | relative_url | default: "" | jsonify }},
-      "book_cover": {{ recipe.book.cover | relative_url | default: "" | jsonify }},
-      "excerpt": {{ recipe.excerpt | default: recipe.content | strip_html | strip_newlines | truncate: 160 | jsonify }}
-    }{% unless forloop.last %},{% endunless %}
+  {% assign book_recipes = "" %}
+  {% for recipe in site.recipes %}
+    {% if recipe.book.title_slug | slugify == page.book_slug %}
+      {% if book_recipes == "" %}
+        {% assign book_recipes = "true" %}
+      {% else %}
+        ,
+      {% endif %}
+      {
+        "title": {{ recipe.title | jsonify }},
+        "url": {{ recipe.url | relative_url | jsonify }},
+        "featured_image": {{ recipe.featured_image | relative_url | default: "" | jsonify }},
+        "book_cover": {{ recipe.book.cover | relative_url | default: "" | jsonify }},
+        "excerpt": {{ (recipe.excerpt | default: recipe.content) | strip_html | strip_newlines | truncate: 160 | jsonify }}
+      }
+    {% endif %}
   {% endfor %}
 ]
