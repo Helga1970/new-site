@@ -2,20 +2,19 @@
 layout: default
 ---
 {% assign book_title_slug = page.url | split: '/' | last %}
-{% assign book_title_display = book_title_slug | replace: '-', ' ' %}
 
-{% assign all_recipes_from_book = site.recipes | where: 'book.title', book_title_display %}
+{% assign all_recipes_from_book = site.recipes | where: 'book.title_slug', book_title_slug %}
 {% assign total_recipes = all_recipes_from_book.size %}
-{% assign book_link = site.data.books | where: 'title', book_title_display | first %}
+{% assign book_link = site.data.books | where: 'title_slug', book_title_slug | first %}
 
 <div class="book-page-container">
     <div class="book-page-header">
         <h1 class="book-title-heading">
             Все рецепты из книги:
-            {% if book_link.url %}
-                <a href="{{ book_link.url | relative_url }}" class="book-name">{{ book_title_display }}</a>
+            {% if book_link %}
+                <a href="{{ book_link.url | relative_url }}" class="book-name">{{ book_link.title }}</a>
             {% else %}
-                <span class="book-name">{{ book_title_display }}</span>
+                <span class="book-name">{{ book_title_slug | replace: '-', ' ' }}</span>
             {% endif %}
         </h1>
         <div class="recipes-count-plaque">
@@ -32,7 +31,7 @@ layout: default
                             {% if recipe.featured_image %}
                                 <img src="{{ recipe.featured_image | relative_url }}" alt="{{ recipe.title }}">
                             {% else %}
-                                <img src="/assets/images/book-cover-placeholder.jpg" alt="Обложка книги: {{ book_title_display }}">
+                                <img src="/assets/images/book-cover-placeholder.jpg" alt="Обложка книги: {{ recipe.book.title }}">
                             {% endif %}
                         </div>
                         <div class="recipe-title-box">
@@ -131,6 +130,7 @@ layout: default
         margin: 0;
         color: #333;
     }
+
     /* Адаптивность */
     @media (max-width: 768px) {
         .book-page-header {
