@@ -36,6 +36,9 @@ collections:
     sort_by: 'date'
     reverse: true
     paginate: true
+  books:
+    output: true
+    permalink: /all-recipes-from-book/:name/
 
 defaults:
   -
