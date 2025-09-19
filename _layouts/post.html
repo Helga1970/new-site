@@ -221,24 +221,43 @@ layout: default
 </style>
 
 <script>
-// Верхняя строка - обрезаем после 8 слов
 document.addEventListener("DOMContentLoaded", function() {
-  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4').forEach(el => {
+
+  function fits(el, maxHeight) {
+    return el.scrollHeight <= maxHeight;
+  }
+
+  function truncateByContainer(el, maxHeight) {
     let words = el.textContent.trim().split(/\s+/);
-    if (words.length > 8) {
-      el.textContent = words.slice(0, 8).join(' ') + '…';
+    while (words.length > 0) {
+      el.textContent = words.join(' ');
+      if (fits(el, maxHeight)) return;
+      words.pop();
     }
+    // Если одно слово не помещается, обрезаем посимвольно
+    let s = el.textContent;
+    for (let len = s.length; len > 0; len--) {
+      el.textContent = s.slice(0, len) + '…';
+      if (fits(el, maxHeight)) return;
+    }
+    el.textContent = '…';
+  }
+
+  // Верхняя строка
+  document.querySelectorAll('.recipe-card-content-list-item p.recipe-title, .recipe-card-content-list-item h4').forEach(el => {
+    let maxHeight = parseFloat(getComputedStyle(el).lineHeight) * 2; // максимум 2 линии
+    truncateByContainer(el, maxHeight);
   });
 
-  // Нижняя строка - обрезаем после 7 слов
+  // Нижняя строка
   document.querySelectorAll('.recipe-card-content-list-item p.recipe-book').forEach(el => {
-    let words = el.textContent.trim().split(/\s+/);
-    if (words.length > 7) {
-      el.textContent = words.slice(0, 7).join(' ') + '…';
-    }
+    let maxHeight = parseFloat(getComputedStyle(el).height); // одна линия
+    truncateByContainer(el, maxHeight);
   });
+
 });
 </script>
+
 <script type="text/javascript" src="{{ site.baseurl }}/js/jquery.imgPin.min.js"></script>
 <script>
 	$(function() {
