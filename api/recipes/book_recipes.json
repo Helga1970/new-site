@@ -1,9 +1,9 @@
 ---
 layout: null
-permalink: /api/recipes/{{ page.book_slug }}.json
+permalink: /api/recipes/{{ page.book_slug | slugify }}.json
 ---
 [
-  {% assign book_recipes = site.recipes | where: "book.title_slug", page.book_slug %}
+  {% assign book_recipes = site.recipes | where_exp: "item", "item.book.title_slug == page.book_slug" %}
   {% for recipe in book_recipes %}
     {
       "title": {{ recipe.title | jsonify }},
