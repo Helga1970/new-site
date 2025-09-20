@@ -28,141 +28,136 @@ permalink: /all-recipes-from-book/index.html
 
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
-  const pathParts = window.location.pathname.split("/").filter(Boolean);
-  const bookSlug = pathParts[pathParts.length - 1];
-  const jsonUrl = `/api/recipes/${bookSlug}.json`;
+    const pathParts = window.location.pathname.split("/").filter(Boolean);
+    const bookSlug = pathParts[pathParts.length - 1];
+    const jsonUrl = `/api/recipes/${bookSlug}.json`;
 
-  const grid = document.getElementById("recipes-grid");
-  const filterToggle = document.getElementById("filter-toggle");
-  const checkboxContainer = document.getElementById("checkbox-list-container");
-  const selectedCountSpan = document.querySelector('.selected-count');
-  const allCategoriesCheckbox = document.getElementById('all-categories');
-  let allRecipes = [];
+    const grid = document.getElementById("recipes-grid");
+    const filterToggle = document.getElementById("filter-toggle");
+    const checkboxContainer = document.getElementById("checkbox-list-container");
+    const selectedCountSpan = document.querySelector('.selected-count');
+    const allCategoriesCheckbox = document.getElementById('all-categories');
+    let allRecipes = [];
 
-  const updateSelectedCount = () => {
-    const checkedBoxes = checkboxContainer.querySelectorAll('input[type="checkbox"]:checked');
-    const count = checkedBoxes.length;
-    if (count > 0 && !checkedBoxes[0].value === 'all') {
-      selectedCountSpan.textContent = `(${count} выбрано)`;
-    } else {
-      selectedCountSpan.textContent = '';
-    }
-  };
+    const updateSelectedCount = () => {
+        const checkedBoxes = checkboxContainer.querySelectorAll('input[type="checkbox"]:checked');
+        const count = checkedBoxes.length;
+        if (count > 0 && checkedBoxes[0].value !== 'all') {
+            selectedCountSpan.textContent = `(${count} выбрано)`;
+        } else {
+            selectedCountSpan.textContent = '';
+        }
+    };
 
-  const renderRecipes = (recipesToRender) => {
-    grid.innerHTML = "";
-    if (recipesToRender.length > 0) {
-      recipesToRender.forEach(recipe => {
-        const imageUrl = recipe.featured_image || recipe.book_cover;
-        const card = document.createElement("div");
-        card.className = "recipe-card";
-        card.innerHTML = `
-          <a href="${recipe.url}">
-            <div class="recipe-image-wrapper">
-              <img src="${imageUrl}" alt="${recipe.title}">
-            </div>
-            <div class="recipe-title-box">
-              <h2 class="recipe-title">${recipe.title}</h2>
-            </div>
-          </a>
-        `;
-        grid.appendChild(card);
-      });
-    } else {
-      grid.innerHTML = "<p>К сожалению, рецепты по этой категории не найдены.</p>";
-    }
-  };
+    const renderRecipes = (recipesToRender) => {
+        grid.innerHTML = "";
+        if (recipesToRender.length > 0) {
+            recipesToRender.forEach(recipe => {
+                const imageUrl = recipe.featured_image || recipe.book_cover;
+                const card = document.createElement("div");
+                card.className = "recipe-card";
+                card.innerHTML = `
+                    <a href="${recipe.url}">
+                        <div class="recipe-image-wrapper">
+                            <img src="${imageUrl}" alt="${recipe.title}">
+                        </div>
+                        <div class="recipe-title-box">
+                            <h2 class="recipe-title">${recipe.title}</h2>
+                        </div>
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        } else {
+            grid.innerHTML = "<p>К сожалению, рецепты по этой категории не найдены.</p>";
+        }
+    };
 
-  try {
-    const response = await fetch(jsonUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    allRecipes = await response.json();
-    
-    document.getElementById("book-name").textContent = allRecipes[0].book_title;
-    document.getElementById("recipes-count").textContent = allRecipes.length;
+    try {
+        const response = await fetch(jsonUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        allRecipes = await response.json();
+        
+        document.getElementById("book-name").textContent = allRecipes[0].book_title;
+        document.getElementById("recipes-count").textContent = allRecipes.length;
 
-    const categories = [...new Set(allRecipes.flatMap(r => r.categories))].sort();
-    
-    // ... ваш код до этого места
-const categories = [...new Set(allRecipes.flatMap(r => r.categories))].sort();
+        const categories = [...new Set(allRecipes.flatMap(r => r.categories))].sort();
 
-// НОВЫЙ КОД: Считаем количество рецептов для каждой категории
-const categoryCounts = allRecipes.reduce((counts, recipe) => {
-  if (recipe.categories) {
-    recipe.categories.forEach(category => {
-      counts[category] = (counts[category] || 0) + 1;
-    });
-  }
-  return counts;
-}, {});
-    
-categories.forEach(category => {
-    const checkboxId = `cat-${category.replace(/\s+/g, '-').toLowerCase()}`;
-    const count = categoryCounts[category] || 0;
-    const itemDiv = document.createElement("div");
-    itemDiv.className = "checkbox-item";
-    
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = checkboxId;
-    checkbox.value = category;
+        // Считаем количество рецептов для каждой категории
+        const categoryCounts = allRecipes.reduce((counts, recipe) => {
+            if (recipe.categories) {
+                recipe.categories.forEach(category => {
+                    counts[category] = (counts[category] || 0) + 1;
+                });
+            }
+            return counts;
+        }, {});
+        
+        categories.forEach(category => {
+            const checkboxId = `cat-${category.replace(/\s+/g, '-').toLowerCase()}`;
+            const count = categoryCounts[category] || 0;
+            const itemDiv = document.createElement("div");
+            itemDiv.className = "checkbox-item";
+            
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = checkboxId;
+            checkbox.value = category;
 
-    const label = document.createElement("label");
-    label.htmlFor = checkboxId;
-    
-    // ИЗМЕНЕНИЕ: Добавляем количество в текст
-    label.textContent = `${category} (${count})`;
-    
-    itemDiv.appendChild(checkbox);
-    itemDiv.appendChild(label);
-    checkboxContainer.appendChild(itemDiv);
-});
-
-    renderRecipes(allRecipes);
-
-    filterToggle.addEventListener("click", () => {
-      checkboxContainer.classList.toggle("hidden");
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!filterToggle.contains(e.target) && !checkboxContainer.contains(e.target)) {
-        checkboxContainer.classList.add("hidden");
-      }
-    });
-
-    checkboxContainer.addEventListener("change", (e) => {
-      if (e.target.id === 'all-categories') {
-        checkboxContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-          if (cb !== allCategoriesCheckbox) {
-            cb.checked = false;
-          }
+            const label = document.createElement("label");
+            label.htmlFor = checkboxId;
+            label.textContent = `${category} (${count})`;
+            
+            itemDiv.appendChild(checkbox);
+            itemDiv.appendChild(label);
+            checkboxContainer.appendChild(itemDiv);
         });
-      } else {
-        allCategoriesCheckbox.checked = false;
-      }
 
-      updateSelectedCount();
-
-      const checkedBoxes = Array.from(checkboxContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-      
-      if (checkedBoxes.length === 0 || checkedBoxes.includes('all')) {
         renderRecipes(allRecipes);
-      } else {
-        const filteredRecipes = allRecipes.filter(recipe => {
-          if (!recipe.categories) return false;
-          return checkedBoxes.every(cat => recipe.categories.includes(cat));
-        });
-        renderRecipes(filteredRecipes);
-      }
-    });
 
-  } catch (error) {
-    console.error("Ошибка при загрузке данных:", error);
-    grid.innerHTML = `<p>Не удалось загрузить рецепты. Пожалуйста, попробуйте позже. (${error.message})</p>`;
-  }
+        filterToggle.addEventListener("click", () => {
+            checkboxContainer.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!filterToggle.contains(e.target) && !checkboxContainer.contains(e.target)) {
+                checkboxContainer.classList.add("hidden");
+            }
+        });
+
+        checkboxContainer.addEventListener("change", (e) => {
+            if (e.target.id === 'all-categories') {
+                checkboxContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    if (cb !== allCategoriesCheckbox) {
+                        cb.checked = false;
+                    }
+                });
+            } else {
+                allCategoriesCheckbox.checked = false;
+            }
+
+            updateSelectedCount();
+
+            const checkedBoxes = Array.from(checkboxContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+            
+            if (checkedBoxes.length === 0 || checkedBoxes.includes('all')) {
+                renderRecipes(allRecipes);
+            } else {
+                const filteredRecipes = allRecipes.filter(recipe => {
+                    if (!recipe.categories) return false;
+                    return checkedBoxes.every(cat => recipe.categories.includes(cat));
+                });
+                renderRecipes(filteredRecipes);
+            }
+        });
+
+    } catch (error) {
+        console.error("Ошибка при загрузке данных:", error);
+        grid.innerHTML = `<p>Не удалось загрузить рецепты. Пожалуйста, попробуйте позже. (${error.message})</p>`;
+    }
 });
 </script>
 
