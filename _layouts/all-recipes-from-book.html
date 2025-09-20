@@ -86,24 +86,40 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const categories = [...new Set(allRecipes.flatMap(r => r.categories))].sort();
     
-    categories.forEach(category => {
-      const checkboxId = `cat-${category.replace(/\s+/g, '-').toLowerCase()}`;
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "checkbox-item";
-      
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.id = checkboxId;
-      checkbox.value = category;
+    // ... ваш код до этого места
+const categories = [...new Set(allRecipes.flatMap(r => r.categories))].sort();
 
-      const label = document.createElement("label");
-      label.htmlFor = checkboxId;
-      label.textContent = category;
-      
-      itemDiv.appendChild(checkbox);
-      itemDiv.appendChild(label);
-      checkboxContainer.appendChild(itemDiv);
+// НОВЫЙ КОД: Считаем количество рецептов для каждой категории
+const categoryCounts = allRecipes.reduce((counts, recipe) => {
+  if (recipe.categories) {
+    recipe.categories.forEach(category => {
+      counts[category] = (counts[category] || 0) + 1;
     });
+  }
+  return counts;
+}, {});
+    
+categories.forEach(category => {
+    const checkboxId = `cat-${category.replace(/\s+/g, '-').toLowerCase()}`;
+    const count = categoryCounts[category] || 0;
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "checkbox-item";
+    
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = checkboxId;
+    checkbox.value = category;
+
+    const label = document.createElement("label");
+    label.htmlFor = checkboxId;
+    
+    // ИЗМЕНЕНИЕ: Добавляем количество в текст
+    label.textContent = `${category} (${count})`;
+    
+    itemDiv.appendChild(checkbox);
+    itemDiv.appendChild(label);
+    checkboxContainer.appendChild(itemDiv);
+});
 
     renderRecipes(allRecipes);
 
