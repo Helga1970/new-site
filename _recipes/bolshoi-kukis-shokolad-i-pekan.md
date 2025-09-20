@@ -1,10 +1,12 @@
 ---
 title: Большой кукис шоколад и пекан
-permalink: /recipes/bolshoi-kukis-shokolad-i-pekan/
+title_slug: bolshoi-kukis-shokolad-i-pekan
 featured_image: /images/les-cookeis-de-nos-reve/bolshoi-kukis-shokolad-i-pekan.jpeg
 categories:
-- печенье
-- выпечка
+- С черным шоколадом
+- С орехами
+- С семенами
+- С ванилью
 tags:
 - ваниль
 - выпечка
@@ -58,12 +60,11 @@ recipe:
 
     5. Выпекайте около 12 минут, пока кукисы не станут слегка золотистыми, но не пересушенными.'
 book:
-  title: Les cookeis de nos reve (Кукис нашей мечты)
-  title_slug: les cookeis de nos reve
-  featured_image: images/les-cookeis-de-nos-reve/bolshoi-kukis-shokolad-i-pekan.jpeg
+  title: Кукис нашей мечты
   author: Deborah Dupont-Daguet, Géraldine Martens
   cover: /images/les-cookeis-de-nos-reve/les-cookeis-de-nos-reve-oblozhka.jpeg
   link: https://pdf-cookbook.pro-culinaria.ru/index.html?file=%2Fproxy%2Finbooks%2Fles-cookeis-de-nos-reve.pdf
 ---
 
 Гийом Гомес, шеф-повар кухни Елисейского дворца и один из лучших мастеров Франции в кулинарии, настоящий гурман. Достаточно взглянуть на количество шоколадных десертов в его трех первых книгах. Когда я высказала удивление, что там нет ни одного рецепта кукис, он ответил, что обожает их, регулярно готовит, но, так как это не традиционный французский рецепт, предпочел не включать его в свои книги. И все же он согласился поделиться со мной своим очень удачным рецептом, пропорции которого я уменьшила вдвое, чтобы получить формат «семейного» размера.
+
