@@ -1,6 +1,6 @@
 ---
 title: Большой кукис шоколад и пекан
-title_slug: bolshoi-kukis-shokolad-i-pekan
+title_slug: les cookeis de nos reve
 featured_image: /images/les-cookeis-de-nos-reve/bolshoi-kukis-shokolad-i-pekan.jpeg
 categories:
 - С черным шоколадом
