@@ -6,14 +6,10 @@ permalink: /all-recipes-from-book/index.html
 <div class="book-page-container">
   <div class="book-page-header">
     <h1 class="book-title-heading">
-      Все рецепты из книги:
-      <span id="book-name" class="book-name"></span>
-    </h1>
-    <div class="header-controls">
-  <div class="recipes-count-container">
-    <span class="recipes-count-text">Всего рецептов в книге: <span id="recipes-count">0</span></span>
-  </div>
-</div>
+  Все рецепты из книги
+  <span id="book-name" class="book-name"></span>
+  (<span id="recipes-count">0</span>)
+</h1>
   </div>
   <div id="recipes-grid" class="recipe-grid"></div>
 </div>
@@ -84,14 +80,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   font-weight: bold;
   color: #333;
 }
-#recipes-count-plaque {
-  background-color: #fa8569;
-  color: white;
-  padding: 10px 15px;
+.book-title-heading {
+  font-size: 1.5em;
   font-weight: normal;
-  position: absolute;
-  right: 0;
-  top: 0;
+  text-align: left; /* Изменено, чтобы текст был слева */
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .book-title-heading {
+    text-align: center; /* Центрирует на мобильных устройствах */
+  }
 }
 .recipe-grid {
   display: grid;
