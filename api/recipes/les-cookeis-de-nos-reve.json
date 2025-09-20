@@ -2,9 +2,9 @@
 layout: null
 permalink: /api/recipes/les-cookeis-de-nos-reve.json
 ---
-{% assign current_book = site.books | where: "title_slug", "les-cookeis-de-nos-reve" | first %}
+{% assign current_book = site.books | where: "title_slug", "les cookeis de nos reve" | first %}
 [
-  {% assign book_recipes = site.recipes | where: "book.title_slug", "les-cookeis-de-nos-reve" %}
+  {% assign book_recipes = site.recipes | where: "book.title_slug", "les cookeis de nos reve" %}
   {% for recipe in book_recipes %}
     {
       "title": {{ recipe.title | jsonify }},
