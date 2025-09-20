@@ -26,20 +26,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   const bookSlug = pathParts[pathParts.length - 1];
   const jsonUrl = `/api/recipes/${bookSlug}.json`;
 
-  try {
-    const response = await fetch(jsonUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    const recipes = await response.json();
-    const grid = document.getElementById("recipes-grid");
+  const grid = document.getElementById("recipes-grid");
+  const filter = document.getElementById("category-filter");
+  let allRecipes = []; // Переменная для хранения всех рецептов
 
-    document.getElementById("book-name").textContent = bookSlug.replace(/-/g, " ");
-    document.getElementById("recipes-count").textContent = recipes.length;
-
-    if (recipes.length > 0) {
-      recipes.forEach(recipe => {
+  const renderRecipes = (recipesToRender) => {
+    grid.innerHTML = "";
+    if (recipesToRender.length > 0) {
+      recipesToRender.forEach(recipe => {
         const imageUrl = recipe.featured_image || recipe.book_cover;
         const card = document.createElement("div");
         card.className = "recipe-card";
@@ -56,11 +50,48 @@ document.addEventListener("DOMContentLoaded", async function () {
         grid.appendChild(card);
       });
     } else {
-      grid.innerHTML = "<p>К сожалению, рецепты из этой книги пока не добавлены.</p>";
+      grid.innerHTML = "<p>К сожалению, рецепты по этой категории не найдены.</p>";
     }
+  };
+
+  try {
+    const response = await fetch(jsonUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    allRecipes = await response.json(); // Сохраняем все рецепты
+    
+    document.getElementById("book-name").textContent = allRecipes[0].book_title;
+    document.getElementById("recipes-count").textContent = allRecipes.length;
+
+    // Собираем все уникальные категории
+    const categories = [...new Set(allRecipes.flatMap(r => r.categories))].sort();
+    
+    // Динамически добавляем опции в выпадающий список
+    categories.forEach(category => {
+      const option = document.createElement("option");
+      option.value = category;
+      option.textContent = category;
+      filter.appendChild(option);
+    });
+
+    renderRecipes(allRecipes);
+
+    // Добавляем обработчик событий на изменение фильтра
+    filter.addEventListener("change", (e) => {
+      const selectedCategory = e.target.value;
+      if (selectedCategory === "all") {
+        renderRecipes(allRecipes);
+      } else {
+        const filteredRecipes = allRecipes.filter(recipe => recipe.categories && recipe.categories.includes(selectedCategory));
+        renderRecipes(filteredRecipes);
+      }
+    });
+
   } catch (error) {
     console.error("Ошибка при загрузке данных:", error);
-    document.getElementById("recipes-grid").innerHTML = `<p>Не удалось загрузить рецепты. Пожалуйста, попробуйте позже. (${error.message})</p>`;
+    grid.innerHTML = `<p>Не удалось загрузить рецепты. Пожалуйста, попробуйте позже. (${error.message})</p>`;
   }
 });
 </script>
@@ -88,12 +119,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   font-weight: bold;
   margin-right: 10px;
 }
-.book-title-heading {
-  font-size: 1.5em;
-  font-weight: normal;
-  text-align: center;
-  margin: 0;
-}
+
 .book-title-heading .book-name {
   display: block;
   margin-top: 5px;
@@ -158,12 +184,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 @media (min-width: 769px) and (max-width: 1200px) {
   .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
 }
-.book-title-heading .book-name {
-  display: block;
-  margin-top: 5px;
-  font-weight: bold;
-  color: #333;
-}
 .recipe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -183,22 +203,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   text-decoration: none;
   color: inherit;
 }
-.recipe-image-wrapper {
-  width: 100%;
-  padding-top: 100%;
-  position: relative;
-}
 .recipe-image-wrapper img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60%;
+  height: 95%;
   object-fit: cover;
-}
-.recipe-title-box {
-  padding: 7px;
-  text-align: center;
 }
 .recipe-title {
   font-size: 1.1em;
