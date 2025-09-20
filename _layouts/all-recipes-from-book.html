@@ -11,11 +11,17 @@ permalink: /all-recipes-from-book/index.html
     (<span id="recipes-count">0</span>)
   </h1>
   <div class="filter-container">
-    <label for="category-filter">Фильтр по категории:</label>
-    <select id="category-filter">
-      <option value="all">Все</option>
-    </select>
-  </div>
+  <button class="filter-toggle" id="filter-toggle">
+    <span class="button-text">Фильтр по категории</span>
+    <span class="selected-count"></span>
+  </button>
+  <div class="checkbox-list-container hidden" id="checkbox-list-container">
+    <div class="checkbox-item all-option">
+      <input type="checkbox" id="all-categories" value="all">
+      <label for="all-categories">Все</label>
+    </div>
+    </div>
+</div>
 </div>
   <div id="recipes-grid" class="recipe-grid"></div>
 </div>
@@ -27,8 +33,21 @@ document.addEventListener("DOMContentLoaded", async function () {
   const jsonUrl = `/api/recipes/${bookSlug}.json`;
 
   const grid = document.getElementById("recipes-grid");
-  const filter = document.getElementById("category-filter");
-  let allRecipes = []; // Переменная для хранения всех рецептов
+  const filterToggle = document.getElementById("filter-toggle");
+  const checkboxContainer = document.getElementById("checkbox-list-container");
+  const selectedCountSpan = document.querySelector('.selected-count');
+  const allCategoriesCheckbox = document.getElementById('all-categories');
+  let allRecipes = [];
+
+  const updateSelectedCount = () => {
+    const checkedBoxes = checkboxContainer.querySelectorAll('input[type="checkbox"]:checked');
+    const count = checkedBoxes.length;
+    if (count > 0 && !checkedBoxes[0].value === 'all') {
+      selectedCountSpan.textContent = `(${count} выбрано)`;
+    } else {
+      selectedCountSpan.textContent = '';
+    }
+  };
 
   const renderRecipes = (recipesToRender) => {
     grid.innerHTML = "";
@@ -60,31 +79,66 @@ document.addEventListener("DOMContentLoaded", async function () {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
-    allRecipes = await response.json(); // Сохраняем все рецепты
+    allRecipes = await response.json();
     
     document.getElementById("book-name").textContent = allRecipes[0].book_title;
     document.getElementById("recipes-count").textContent = allRecipes.length;
 
-    // Собираем все уникальные категории
     const categories = [...new Set(allRecipes.flatMap(r => r.categories))].sort();
     
-    // Динамически добавляем опции в выпадающий список
     categories.forEach(category => {
-      const option = document.createElement("option");
-      option.value = category;
-      option.textContent = category;
-      filter.appendChild(option);
+      const checkboxId = `cat-${category.replace(/\s+/g, '-').toLowerCase()}`;
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "checkbox-item";
+      
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = checkboxId;
+      checkbox.value = category;
+
+      const label = document.createElement("label");
+      label.htmlFor = checkboxId;
+      label.textContent = category;
+      
+      itemDiv.appendChild(checkbox);
+      itemDiv.appendChild(label);
+      checkboxContainer.appendChild(itemDiv);
     });
 
     renderRecipes(allRecipes);
 
-    // Добавляем обработчик событий на изменение фильтра
-    filter.addEventListener("change", (e) => {
-      const selectedCategory = e.target.value;
-      if (selectedCategory === "all") {
+    filterToggle.addEventListener("click", () => {
+      checkboxContainer.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!filterToggle.contains(e.target) && !checkboxContainer.contains(e.target)) {
+        checkboxContainer.classList.add("hidden");
+      }
+    });
+
+    checkboxContainer.addEventListener("change", (e) => {
+      if (e.target.id === 'all-categories') {
+        checkboxContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          if (cb !== allCategoriesCheckbox) {
+            cb.checked = false;
+          }
+        });
+      } else {
+        allCategoriesCheckbox.checked = false;
+      }
+
+      updateSelectedCount();
+
+      const checkedBoxes = Array.from(checkboxContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+      
+      if (checkedBoxes.length === 0 || checkedBoxes.includes('all')) {
         renderRecipes(allRecipes);
       } else {
-        const filteredRecipes = allRecipes.filter(recipe => recipe.categories && recipe.categories.includes(selectedCategory));
+        const filteredRecipes = allRecipes.filter(recipe => {
+          if (!recipe.categories) return false;
+          return checkedBoxes.every(cat => recipe.categories.includes(cat));
+        });
         renderRecipes(filteredRecipes);
       }
     });
