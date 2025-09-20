@@ -1,11 +1,9 @@
 ---
 title: Кукис банан, хлопья, орехи и шоколад
-title_slug: kukis-banan-khlopia-orekhi-i-shokolad
 featured_image: /images/les-cookeis-de-nos-reve/kukis-banan-khlopia-orekhi-i-shokolad.jpeg
 categories:
-- С черным шоколадом
-- С орехами
-- С овощами и фруктами
+- печенье
+- выпечка
 tags:
 - банан
 - выпечка
@@ -51,7 +49,8 @@ recipe:
     2. Сформируйте шарики с помощью ложки для мороженого. Выложите их на противень,
     застеленный бумагой для выпекания, на расстоянии друг от друга. Выпекайте 15 минут.'
 book:
-  title: Кукис нашей мечты
+  title: Les cookeis de nos reve (Кукис нашей мечты)
+  title_slug: les cookeis de nos reve
   author: Deborah Dupont-Daguet, Géraldine Martens
   cover: /images/les-cookeis-de-nos-reve/les-cookeis-de-nos-reve-oblozhka.jpeg
   link: https://pdf-cookbook.pro-culinaria.ru/index.html?file=%2Fproxy%2Finbooks%2Fles-cookeis-de-nos-reve.pdf
@@ -59,4 +58,3 @@ book:
 
 Этот вариант кукиса вполне можно назвать "спортивным". Благодаря своему составу он получается питательным и отлично подходит, чтобы восполнить нехватку энергии.
 Тесто получается довольно мягким, липким и сложным в работе, если не дать ему как следует остыть в холодильнике. Дайте кукисам остыть 2–3 минуты на противне — так они немного затвердеют.
-
