@@ -150,105 +150,164 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 </script>
 <style>
-.book-page-container { padding: 20px; } /* Внутренний отступ контейнера страницы */
+.book-page-container { padding: 20px; }
 .book-page-header {
-  text-align: center; /* Выравнивание текста заголовка по центру */
-  margin-bottom: 20px; /* Отступ снизу от заголовка */
+  text-align: center;
+  margin-bottom: 20px;
 }
 .header-controls {
-  display: flex; /* Создает гибкий контейнер для элементов управления */
-  flex-direction: column; /* Элементы расположены в столбец по умолчанию */
-  align-items: center; /* Выравнивает элементы по центру по горизонтали */
-  gap: 15px; /* Отступ между элементами */
-  margin-bottom: 30px; /* Отступ снизу */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
 }
-@media (min-width: 768px) { /* Медиа-запрос для экранов шириной 768px и более */
+@media (min-width: 768px) {
   .header-controls {
-    flex-direction: row; /* Элементы расположены в строку */
-    justify-content: space-between; /* Распределение элементов по краям */
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 .filter-container label {
-  font-weight: bold; /* Жирный шрифт для метки фильтра */
-  margin-right: 10px; /* Отступ справа от метки */
+  font-weight: bold;
+  margin-right: 10px;
 }
 
 .book-title-heading .book-name {
-  display: block; /* Отображает элемент как блочный */
-  margin-top: 5px; /* Отступ сверху */
-  font-weight: bold; /* Жирный шрифт */
-  color: #333; /* Цвет текста */
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+  color: #333;
 }
+
 .book-title-heading {
-  font-size: 1.5em; /* Размер шрифта */
-  font-weight: normal; /* Обычный вес шрифта */
+  font-size: 1.5em;
+  font-weight: normal;
   text-align: left; /* Изменено, чтобы текст был слева */
-  margin: 0; /* Убирает все внешние отступы */
+  margin: 0;
 }
-@media (max-width: 768px) { /* Медиа-запрос для экранов до 768px */
+@media (max-width: 768px) {
   .book-title-heading {
     text-align: center; /* Центрирует на мобильных устройствах */
   }
 }
 .recipe-image-wrapper {
-  width: 100%; /* Ширина 100% от родителя */
-  padding-top: 120%; /* Отступ сверху, чтобы создать пропорции */
-  position: relative; /* Относительное позиционирование для дочерних элементов */
+  width: 100%;
+  padding-top: 120%;
+  position: relative;
 }
 .recipe-image-wrapper img {
-  position: absolute; /* Абсолютное позиционирование */
-  top: 0; /* Привязывает к верхнему краю */
-  left: 0; /* Привязывает к левому краю */
-  width: 100%; /* Ширина 100% от родителя */
-  height: 95%; /* Высота 95% от родителя */
-  object-fit: cover; /* Масштабирует изображение, чтобы оно заполняло контейнер */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 95%;
+  object-fit: cover;
 }
 .recipe-title-box {
-  padding: 15px; /* Внутренний отступ */
-  text-align: center; /* Выравнивание текста по центру */
+  padding: 15px;
+  text-align: center;
 }
 .recipe-title {
-  font-size: 1.1em; /* Размер шрифта */
-  margin: 0; /* Убирает внешние отступы */
-  color: #333; /* Цвет текста */
+  font-size: 1.1em;
+  margin: 0;
+  color: #333;
 }
 .recipe-grid {
-  display: grid; /* Создает грид-сетку */
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Автоматически заполняет колонки */
-  gap: 20px; /* Отступ между элементами сетки */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 }
 .recipe-card {
-  overflow: hidden; /* Скрывает содержимое, выходящее за границы */
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Тень вокруг карточки */
-  transition: transform 0.2s, box-shadow 0.2s; /* Плавный переход для анимации */
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 .recipe-card:hover {
-  transform: translateY(-5px); /* Поднимает карточку на 5px при наведении */
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Увеличивает тень при наведении */
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 .recipe-card a {
-  display: block; /* Отображает ссылку как блочный элемент */
-  text-decoration: none; /* Убирает подчеркивание у ссылки */
-  color: inherit; /* Наследует цвет текста от родителя */
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 .recipe-image-wrapper img {
-  position: absolute; /* Абсолютное позиционирование */
-  top: 0; /* Привязывает к верхнему краю */
-  left: 0; /* Привязывает к левому краю */
-  width: 100%; /* Ширина 100% от родителя */
-  height: 95%; /* Высота 95% от родителя */
-  object-fit: cover; /* Масштабирует изображение, чтобы оно заполняло контейнер */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 95%;
+  object-fit: cover;
 }
 .recipe-title {
-  font-size: 1.1em; /* Размер шрифта */
-  margin: 0; /* Убирает внешние отступы */
-  color: #333; /* Цвет текста */
+  font-size: 1.1em;
+  margin: 0;
+  color: #333;
 }
-@media (max-width: 768px) { /* Медиа-запрос для мобильных устройств */
-  .recipe-grid { grid-template-columns: 1fr; } /* Одна колонка на маленьких экранах */
+@media (max-width: 768px) {
+  .recipe-grid { grid-template-columns: 1fr; }
 }
-@media (min-width: 769px) and (max-width: 1200px) { /* Медиа-запрос для планшетов */
-  .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } /* Другой шаблон колонок */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+
+  .filter-container {
+  position: relative;
+  width: 250px; /* Вы можете изменить ширину */
+}
+.filter-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1em;
+  text-align: left;
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.filter-toggle:focus {
+  outline: none;
+  border-color: #fa8569;
+}
+.selected-count {
+  font-size: 0.9em;
+  color: #666;
+}
+.checkbox-list-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  padding: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.hidden {
+  display: none;
+}
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.checkbox-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+.all-option {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
 }
 .filter-container {
   position: relative; /* Контекст для позиционирования выпадающего списка */
