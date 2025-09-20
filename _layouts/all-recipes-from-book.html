@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const selectedCountSpan = document.querySelector('.selected-count');
     const allCategoriesCheckbox = document.getElementById('all-categories');
     let allRecipes = [];
+    let categoryCounts = {}; // Здесь будут храниться счетчики
 
     const updateSelectedCount = () => {
         const checkedBoxes = checkboxContainer.querySelectorAll('input[type="checkbox"]:checked');
@@ -86,8 +87,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const categories = [...new Set(allRecipes.flatMap(r => r.categories))].sort();
 
-        // Считаем количество рецептов для каждой категории
-        const categoryCounts = allRecipes.reduce((counts, recipe) => {
+        // Считаем количество рецептов для каждой категории при загрузке
+        categoryCounts = allRecipes.reduce((counts, recipe) => {
             if (recipe.categories) {
                 recipe.categories.forEach(category => {
                     counts[category] = (counts[category] || 0) + 1;
@@ -96,9 +97,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             return counts;
         }, {});
         
+        // Создаем элементы без цифр
         categories.forEach(category => {
             const checkboxId = `cat-${category.replace(/\s+/g, '-').toLowerCase()}`;
-            const count = categoryCounts[category] || 0;
             const itemDiv = document.createElement("div");
             itemDiv.className = "checkbox-item";
             
@@ -109,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             const label = document.createElement("label");
             label.htmlFor = checkboxId;
-            label.textContent = `${category} (${count})`;
+            label.textContent = category;
             
             itemDiv.appendChild(checkbox);
             itemDiv.appendChild(label);
@@ -129,14 +130,26 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         checkboxContainer.addEventListener("change", (e) => {
-            if (e.target.id === 'all-categories') {
+            const changedCheckbox = e.target;
+            const label = changedCheckbox.nextElementSibling;
+            const categoryName = changedCheckbox.value;
+
+            if (changedCheckbox.id === 'all-categories') {
                 checkboxContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
                     if (cb !== allCategoriesCheckbox) {
                         cb.checked = false;
+                        cb.nextElementSibling.textContent = cb.value; // Убираем цифры со всех
                     }
                 });
             } else {
                 allCategoriesCheckbox.checked = false;
+                
+                // Добавляем или убираем цифру
+                if (changedCheckbox.checked) {
+                    label.textContent = `${categoryName} (${categoryCounts[categoryName] || 0})`;
+                } else {
+                    label.textContent = categoryName;
+                }
             }
 
             updateSelectedCount();
