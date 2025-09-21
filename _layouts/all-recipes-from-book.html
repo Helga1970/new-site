@@ -160,9 +160,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 renderRecipes(allRecipes);
             } else {
                 const filteredRecipes = allRecipes.filter(recipe => {
-                    if (!recipe.categories) return false;
-                    return checkedBoxes.every(cat => recipe.categories.includes(cat));
-                });
+    if (!recipe.categories) return false;
+    return checkedBoxes.some(cat => recipe.categories.includes(cat));
+});
                 renderRecipes(filteredRecipes);
             }
         });
@@ -333,7 +333,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   background-color: white; /* Белый фон списка */
   border: 1px solid #ccc; /* Граница списка */
   border-top: none; /* Убирает верхнюю границу для "прилипания" */
-  border-radius: 0 0 5px 5px; /* Скругляет только нижние углы */
+  border-radius: 0 0 0px 0px; /* Скругляет только нижние углы */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Добавляет тень */
   z-index: 10; /* Показывает список поверх других элементов */
   padding: 10px; /* Внутренние отступы списка */
