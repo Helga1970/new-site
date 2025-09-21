@@ -8,7 +8,7 @@ layout: null
     "title": "{{ post.title | escape }}",
     "url": "{{ post.url | relative_url }}",
     "featured_image": "{{ post.featured_image | relative_url }}",
-    "catalogue": {{ post.collections.catalogue | jsonify }},
+    "categories": {{ post.categories | jsonify }},
     "book": {
       "title": "{{ post.book.title | escape }}",
       "link": "{{ post.book.link }}"
