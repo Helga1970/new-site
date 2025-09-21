@@ -56,7 +56,9 @@
     </p>
     <h4 class="mb-3">{{ post.title }}</h4>
     <p class="font-secondary mb-4">{{ post.content | strip_html | truncatewords: 25 }}</p>
-    <a href="{{ post.url | relative_url }}" class="text-uppercase font-primary font-extra-small" style="color: #fa8569; position: absolute; bottom: 15px; right: 15px;">
+    <div class="card-body d-flex flex-column align-items-center" style="position: relative;">
+    ...
+    <a href="{{ post.url | relative_url }}" class="text-uppercase font-primary font-extra-small" style="color: #fa8569; font-weight: bold; margin-top: auto;">
         Открыть рецепт
     </a>
 </div>
