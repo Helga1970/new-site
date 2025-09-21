@@ -1,0 +1,19 @@
+---
+layout: null
+---
+[
+{% assign recipes = site.recipes %}
+{% for post in recipes %}
+  {
+    "title": "{{ post.title | escape }}",
+    "url": "{{ post.url | relative_url }}",
+    "featured_image": "{{ post.featured_image | relative_url }}",
+    "catalogue": {{ post.collections.catalogue | jsonify }},
+    "book": {
+      "title": "{{ post.book.title | escape }}",
+      "link": "{{ post.book.link }}"
+    },
+    "content": "{{ post.content | strip_html | escape }}"
+  }{% if forloop.last == false %},{% endif %}
+{% endfor %}
+]
