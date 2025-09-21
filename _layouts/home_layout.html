@@ -48,14 +48,14 @@
                 <div class="card-body">
     <ul class="list-inline mb-3">
         {% for category in post.categories %}
-        <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small" style="font-size: 0.8rem;">
-            <a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a>
-        </li>
+        <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small" style="font-size: 0.8rem;"><a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a></li>
         {% endfor %}
     </ul>
-    <p class="font-secondary mb-3 mt-1 font-extra-small">
-        Рецепт из книги: <span class="book-title"><a href="{{ post.book.link }}" style="color: #fa8569; font-weight: bold;">{{ post.book.title }}</a></span>
-    </p>
+    <p class="font-secondary mb-3 mt-1 font-extra-small">Рецепт из книги: <span class="book-title"><a href="{{ post.book.link }}" style="color: #fa8569; font-weight: bold;">{{ post.book.title }}</a></span></p>
+    <h4 class="mb-1">{{ post.title }}</h4>
+    <p class="font-secondary mb-3">{{ post.content | strip_html | truncatewords: 25 }}</p>
+    <a href="{{ post.url | relative_url }}" class="text-uppercase font-primary font-extra-small" style="color: #fa8569;">Открыть рецепт</a>
+</div>
     <h4 class="mb-1">{{ post.title }}</h4>
     <p class="font-secondary mb-4">{{ post.content | strip_html | truncatewords: 25 }}</p>
     <a href="{{ post.url | relative_url }}" class="text-uppercase font-primary font-extra-small" style="color: #fa8569; position: absolute; bottom: 15px; right: 15px;">
