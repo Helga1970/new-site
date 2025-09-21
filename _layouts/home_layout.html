@@ -83,38 +83,35 @@
   <script src="{{ site.baseurl }}/assets/js/script.js"></script>
 
 <script>
+  // Этот код сработает после того, как все элементы будут на месте
   document.addEventListener("DOMContentLoaded", function() {
     var container = document.querySelector('.masonry-container');
-    var items = Array.from(container.children);
+    if (!container) return;
 
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
+    var items = Array.from(container.children);
+    
+    // Перемешиваем элементы
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
     }
 
-    var shuffledItems = shuffleArray(items);
-
-    // Очищаем контейнер и добавляем перемешанные элементы обратно
-    shuffledItems.forEach(item => container.appendChild(item));
-
-    // После перемешивания обновляем Masonry
+    // Вставляем элементы в новом порядке
+    items.forEach(item => container.appendChild(item));
+    
+    // Сообщаем Masonry, что нужно обновить сетку
     if (typeof Masonry !== 'undefined') {
       imagesLoaded(container, function() {
-        new Masonry(container, {
+        var msnry = new Masonry(container, {
           itemSelector: '.masonry-item',
           percentPosition: true,
           gutter: 30
         });
+        msnry.layout(); // Принудительно обновляем расположение
       });
     }
   });
 </script>
-
-</body>
-</html>
 </body>
 
 </html>
