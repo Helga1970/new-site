@@ -37,7 +37,6 @@
           <div class="row masonry-container pt-5">
             {% for post in site.recipes | sample: 100 %}
     {% if post.featured_image %}
-    {% if post.featured_image %}
     <div class="col-lg-3 col-sm-6 mb-5 masonry-item">
         <div class="card p-0 border-0 rounded-0 hover-shadow">
             <a href="{{ post.url | relative_url }}">
@@ -49,8 +48,9 @@
         <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small" style="font-size: 0.8rem;">
             <a href="{{ site.baseurl }}/catalogue/{{ item | downcase | slugify }}" class="text-color">{{ item }}</a>
         </li>
-        {% endfor %}
-    {% endif %}
+       ...
+        </div>
+    </div>
 </ul>
     <p class="font-secondary mb-3 mt-1 font-extra-small">
         Рецепт из книги: <span class="book-title"><a href="{{ post.book.link }}" style="color: #fa8569; font-weight: bold;">{{ post.book.title }}</a></span>
