@@ -82,34 +82,37 @@
   ...
   <script src="{{ site.baseurl }}/assets/js/script.js"></script>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-      // Получаем контейнер с рецептами
-      var container = document.querySelector('.masonry-container');
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var container = document.querySelector('.masonry-container');
+    var items = Array.from(container.children);
 
-      // Проверяем, существует ли контейнер, прежде чем продолжить
-      if (container) {
-        // Получаем все элементы рецептов
-        var items = Array.from(container.children);
-
-        // Функция для случайного перемешивания массива
-        function shuffleArray(array) {
-          for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-          }
-          return array;
-        }
-
-        // Перемешиваем элементы
-        var shuffledItems = shuffleArray(items);
-
-        // Очищаем контейнер и добавляем перемешанные элементы обратно
-        container.innerHTML = '';
-        shuffledItems.forEach(item => container.appendChild(item));
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
       }
-    });
-  </script>
+      return array;
+    }
+
+    var shuffledItems = shuffleArray(items);
+
+    // Очищаем контейнер и добавляем перемешанные элементы обратно
+    shuffledItems.forEach(item => container.appendChild(item));
+
+    // После перемешивания обновляем Masonry
+    if (typeof Masonry !== 'undefined') {
+      imagesLoaded(container, function() {
+        new Masonry(container, {
+          itemSelector: '.masonry-item',
+          percentPosition: true,
+          gutter: 30
+        });
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
 </body>
