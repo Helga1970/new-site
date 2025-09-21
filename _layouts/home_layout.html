@@ -55,16 +55,16 @@
 <script>
 let recipes = [];
 let index = 0;
-const perPage = 12;
+const perPage = 12; // сколько карточек показывать за раз
 
 async function loadRecipes() {
     const response = await fetch('/assets/data/recipes.json');
     const data = await response.json();
 
-    // оставляем только рецепты с картинкой
+    // только рецепты с картинкой
     recipes = data.filter(r => r.featured_image);
 
-    // перемешиваем массив
+    // перемешиваем
     recipes = recipes.sort(() => Math.random() - 0.5);
 
     // выводим первые карточки
@@ -74,7 +74,6 @@ async function loadRecipes() {
 function appendRecipes() {
     const container = document.querySelector('.masonry-container');
     const slice = recipes.slice(index, index + perPage);
-
     slice.forEach(post => {
         const card = document.createElement('div');
         card.className = 'col-lg-3 col-sm-6 mb-5 masonry-item';
@@ -102,29 +101,17 @@ function appendRecipes() {
         `;
         container.appendChild(card);
     });
-
     index += perPage;
-
-    // обновляем Masonry после добавления новых карточек
-    if (typeof Masonry !== 'undefined') {
-        imagesLoaded(container, function() {
-            new Masonry(container, {
-                itemSelector: '.masonry-item',
-                percentPosition: true,
-                gutter: 30
-            });
-        });
-    }
 }
 
-// infinite scroll
+// infinite scroll: подгружаем новые карточки при прокрутке вниз
 window.addEventListener('scroll', () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
         appendRecipes();
     }
 });
 
-// запуск при загрузке страницы
+// запускаем при загрузке страницы
 loadRecipes();
 </script>
 
