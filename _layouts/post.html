@@ -22,15 +22,13 @@ layout: default
 		{{ content }}
 	</div>
 	
-	<div class="recipe-wrapper">
-	<div class="recipe-body">
-		{{ content }}
-	</div>
-	
+	{% if page.featured_image %}
 	<div class="image">
 		<img src="{{ page.featured_image }}" alt="{{ page.title }}">
 	</div>
-</div>
+	{% else %}
+	<hr class="recipe-divider">
+	{% endif %}
 </div>
 
 	<ul id="recipe" class="recipe-overview">
