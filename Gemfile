@@ -15,4 +15,5 @@ group :jekyll_plugins do
   gem 'jekyll-sitemap'
   gem 'jekyll-archives'
   gem 'jekyll-tagging'
+  gem 'jekyll-random-post'
 end
