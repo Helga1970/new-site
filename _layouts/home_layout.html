@@ -45,12 +45,14 @@
                 <img class="img-fluid rounded-top rounded-0" src="{{ post.featured_image | relative_url }}" alt="feature-image">
                 <div class="card-body" style="position: relative;">
     <ul class="list-inline mb-3">
-        {% for category in post.categories %}
+    {% if post.collections and post.collections.catalogue %}
+        {% for item in post.collections.catalogue %}
         <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small" style="font-size: 0.8rem;">
-            <a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a>
+            <a href="{{ site.baseurl }}/catalogue/{{ item | downcase | slugify }}" class="text-color">{{ item }}</a>
         </li>
         {% endfor %}
-    </ul>
+    {% endif %}
+</ul>
     <p class="font-secondary mb-3 mt-1 font-extra-small">
         Рецепт из книги: <span class="book-title"><a href="{{ post.book.link }}" style="color: #fa8569; font-weight: bold;">{{ post.book.title }}</a></span>
     </p>
