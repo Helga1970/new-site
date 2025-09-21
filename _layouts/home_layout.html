@@ -35,9 +35,22 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="row masonry-container pt-5">
-            {% assign recipes = site.recipes | sort: "date" | reverse %}
+            {% assign selected_recipes = "" | split: "" %}
+{% assign catalogs = "выпечка,сладкая выпечка,печенье,кукис" | split: "," %}
 
-{% for post in recipes %}
+{% for catalog in catalogs %}
+  {% for post in site.recipes %}
+    {% if post.collections and post.collections.catalogue contains catalog %}
+      {% assign selected_recipes = selected_recipes | push: post %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+{% assign selected_recipes = selected_recipes | uniq %}
+{% assign recipes_random = selected_recipes | sample: 12 %}
+
+{% for post in recipes_random %}
+
     {% if post.featured_image %}
     <div class="col-lg-3 col-sm-6 mb-5 masonry-item">
         <div class="card p-0 border-0 rounded-0 hover-shadow">
