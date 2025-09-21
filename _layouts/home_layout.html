@@ -40,25 +40,29 @@
             {% assign recipes = site.recipes | sort: "date" | reverse %}
 
 {% for post in recipes %}
-                <div class="col-lg-3 col-sm-6 mb-5 masonry-item">
-                  <div class="card p-0 border-0 rounded-0 hover-shadow">
-                    <img class="img-fluid rounded-top rounded-0" src="{{ post.featured_image | relative_url }}" alt="feature-image">
-                    <div class="card-body">
-                      <ul class="list-inline mb-3">
+    {% if post.featured_image %}
+    <div class="col-lg-3 col-sm-6 mb-5 masonry-item">
+        <div class="card p-0 border-0 rounded-0 hover-shadow">
+            <a href="{{ post.url | relative_url }}">
+                <img class="img-fluid rounded-top rounded-0" src="{{ post.featured_image | relative_url }}" alt="feature-image">
+                <div class="card-body">
+                    <ul class="list-inline mb-3">
                         {% for category in post.categories %}
-                        <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small"><a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a></li>
+                        <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small" style="font-size: 0.8rem;"><a href="{{ site.baseurl }}/categories/{{ category | downcase | slugify }}" class="text-color">{{ category }}</a></li>
                         {% endfor %}
-                      </ul>
-                      <p class="font-secondary mb-3 mt-1 font-extra-small">Рецепт из книги: <span class="book-title">{{ post.book.title }}</span></p>
-                      
-                        <h4 class="mb-3">{{ post.title }}</h4>
-                      </a>
-                      <p class="font-secondary mb-4">{{ post.content | strip_html | truncatewords: 25 }}</p>
-                      <a href="{{ post.url | relative_url }}" class="text-uppercase font-primary font-extra-small">Открыть рецепт</a>
-                    </div>
-                  </div>
+                    </ul>
+                    <p class="font-secondary mb-3 mt-1 font-extra-small">Рецепт из книги: <span class="book-title"><a href="{{ post.book.link }}">{{ post.book.title }}</a></span></p>
+                    <h4 class="mb-3">{{ post.title }}</h4>
                 </div>
-              {% endfor %}
+            </a>
+            <div class="card-body">
+                <p class="font-secondary mb-4">{{ post.content | strip_html | truncatewords: 25 }}</p>
+                <a href="{{ post.url | relative_url }}" class="text-uppercase font-primary font-extra-small" style="color: #fa8569;">Открыть рецепт</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
             </div>
           </div>
         </div>
