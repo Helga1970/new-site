@@ -1,5 +1,5 @@
 ---
-title: Большой кукис шоколад и пекан
+title: Большой кукис шоколад и пекан 
 featured_image: /images/les-cookeis-de-nos-reve/bolshoi-kukis-shokolad-i-pekan.jpeg
 categories:
 - С черным шоколадом
