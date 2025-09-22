@@ -44,24 +44,26 @@
                             <img class="img-fluid rounded-top rounded-0" src="{{ post.featured_image | relative_url }}" alt="feature-image">
                             <div class="card-body" style="position: relative;">
                                 <ul class="list-inline mb-3">
-    {% if post.collections and post.collections.catalogue %}
-        {% assign catalogue = post.collections.catalogue %}
-
-        {% if catalogue.subcategory %}
-            <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small" style="font-size: 0.8rem;">
-                <a href="{{ site.baseurl }}/catalogue/{{ catalogue.subcategory | downcase | slugify }}" class="text-color">{{ catalogue.subcategory }}</a>
-            </li>
-        {% endif %}
-
-        {% if catalogue.collections %}
-            {% for item in catalogue.collections %}
-                <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small" style="font-size: 0.8rem;">
-                    <a href="{{ site.baseurl }}/catalogue/{{ item | downcase | slugify }}" class="text-color">{{ item }}</a>
-                </li>
-            {% endfor %}
-        {% endif %}
-    {% endif %}
-</ul>
+                                    {% if post.collections and post.collections.catalogue %}
+  {% assign cat = post.collections.catalogue %}
+  {% if cat.subcategory %}
+    <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small" style="font-size: 0.8rem;">
+      <a href="{{ site.baseurl }}/catalogue/{{ cat.subcategory | downcase | slugify }}" class="text-color">
+        {{ cat.subcategory }}
+      </a>
+    </li>
+  {% endif %}
+  {% if cat.collections %}
+    {% for item in cat.collections %}
+      <li class="list-inline-item mr-3 text-uppercase font-primary font-extra-small" style="font-size: 0.8rem;">
+        <a href="{{ site.baseurl }}/catalogue/{{ item | downcase | slugify }}" class="text-color">
+          {{ item }}
+        </a>
+      </li>
+    {% endfor %}
+  {% endif %}
+{% endif %}
+                                </ul>
                                 <p class="font-secondary mb-3 mt-1 font-extra-small">
                                     Рецепт из книги: <span class="book-title"><a href="{{ post.book.link }}" style="color: #fa8569; font-weight: bold;">{{ post.book.title }}</a></span>
                                 </p>
@@ -93,35 +95,32 @@
   <script src="{{ site.baseurl }}/assets/js/script.js"></script>
 
 <script>
-  // Этот код сработает после того, как все элементы будут на месте
-  document.addEventListener("DOMContentLoaded", function() {
-    var container = document.querySelector('.masonry-container');
-    if (!container) return;
+document.addEventListener("DOMContentLoaded", function() {
+  var container = document.querySelector('.masonry-container');
+  if (!container) return;
 
-    var items = Array.from(container.children);
-    
-    // Перемешиваем элементы
-    for (let i = items.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [items[i], items[j]] = [items[j], items[i]];
-    }
+  // Выбираем все элементы masonry-item
+  var items = Array.from(container.querySelectorAll('.masonry-item'));
 
-    // Вставляем элементы в новом порядке
-    items.forEach(item => container.appendChild(item));
-    
-    // Сообщаем Masonry, что нужно обновить сетку
-    if (typeof Masonry !== 'undefined') {
-      imagesLoaded(container, function() {
-        var msnry = new Masonry(container, {
-          itemSelector: '.masonry-item',
-          percentPosition: true,
-          gutter: 30
-        });
-        msnry.layout(); // Принудительно обновляем расположение
-      });
-    }
+  // Перемешиваем элементы
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+
+  // Удаляем текущие элементы и вставляем в новом порядке
+  items.forEach(item => container.appendChild(item));
+
+  // Инициализация Masonry после загрузки изображений
+  imagesLoaded(container, function() {
+    var msnry = new Masonry(container, {
+      itemSelector: '.masonry-item',
+      percentPosition: true,
+      gutter: 30
+    });
+    msnry.layout();
   });
+});
 </script>
 </body>
-
 </html>
