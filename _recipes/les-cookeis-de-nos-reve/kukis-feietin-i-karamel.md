@@ -1,6 +1,6 @@
 ---
 title: Кукис фейетин и карамель
-featured_image: /images/les-cookeis-de-nos-reve/ kukis-feietin-i-karamel.jpeg
+featured_image: /images/les-cookeis-de-nos-reve/kukis-feietin-i-karamel.jpeg
 categories:
 - С ванилью
 - С орехами
