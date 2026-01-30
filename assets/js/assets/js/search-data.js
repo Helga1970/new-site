@@ -2,29 +2,18 @@
 layout: none
 ---
 window.store = {
-  {% comment %} 1. Сначала индексируем все рецепты {% endcomment %}
-  {% for post in site.recipes %}
-    "recipe-{{ forloop.index }}": {
-      "type": "recipe",
-      "title": {{ post.title | jsonify }},
-      "category": {{ post.categories | join: ', ' | jsonify }},
-      "content": {{ post.content | strip_html | strip_newlines | truncatewords: 50 | jsonify }},
-      "url": "{{ post.url | relative_url }}",
-      "featured_image": "{{ post.featured_image | relative_url }}",
-      "book_title": {{ post.book.title | jsonify }},
-      "content_preview": {{ post.content | strip_html | truncatewords: 15 | jsonify }}
-    }{% unless forloop.last %},{% endunless %}
-    {% if forloop.last and site.books.size > 0 %},{% endif %}
-  {% endfor %}
-
-  {% comment %} 2. Затем индексируем книги (если у вас есть коллекция _books) {% endcomment %}
-  {% for book in site.books %}
-    "book-{{ forloop.index }}": {
-      "type": "book",
-      "title": {{ book.title | jsonify }},
-      "cover": "{{ book.cover | relative_url }}",
-      "url": "{{ book.url | relative_url }}",
-      "content": {{ book.description | strip_html | jsonify }}
+  {% assign all_items = site.recipes | concat: site.books %}
+  {% for item in all_items %}
+    "item-{{ forloop.index }}": {
+      "type": "{% if item.layout == 'recipe' or item.recipe %}recipe{% else %}book{% endif %}",
+      "title": {{ item.title | jsonify }},
+      "category": {{ item.categories | join: ', ' | jsonify }},
+      "url": "{{ item.url | relative_url }}",
+      "featured_image": "{{ item.featured_image | relative_url }}",
+      "cover": "{{ item.cover | relative_url }}",
+      "book_title": {{ item.book.title | jsonify }},
+      "content": {{ item.content | strip_html | strip_newlines | truncatewords: 50 | jsonify }},
+      "content_preview": {{ item.content | strip_html | truncatewords: 15 | jsonify }}
     }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 };
