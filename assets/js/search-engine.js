@@ -43,12 +43,9 @@
           </div>
           <div style="padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; text-align: center;">
             <div>
-              <p style="font-size: 0.7rem; color: #fa8569; text-transform: uppercase; margin-bottom: 5px; font-weight: bold;">
-                ${item.book_title || 'Рецепт'}
-              </p>
-              <h4 style="font-size: 1rem; margin: 0 0 10px 0; line-height: 1.3; color: #333;">${item.title}</h4>
+              <h4 style="font-size: 1rem; margin: 10px 0 10px 0; line-height: 1.3; color: #333;">${item.title}</h4>
             </div>
-            <span style="font-size: 0.8rem; font-weight: bold; color: #fa8569; text-transform: uppercase;">Открыть</span>
+            <span style="font-size: 0.8rem; font-weight: bold; color: #fa8569; text-transform: uppercase; margin-top: 10px;">ОТКРЫТЬ РЕЦЕПТ</span>
           </div>
         </a>
       `;
