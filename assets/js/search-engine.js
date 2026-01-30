@@ -14,15 +14,15 @@
       return;
     }
 
-    // Создаем гибкую сетку: от 1 до 5 карточек в ряд, всегда по центру
+    // Твоя идеальная сетка: от 1 до 5 карточек в ряд, всегда по центру
     const grid = document.createElement('div');
     grid.style.display = 'grid';
-    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))'; // Минимум 200px на карточку
+    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))'; 
     grid.style.gap = '25px';
-    grid.style.justifyContent = 'center'; // Центровка всей сетки
+    grid.style.justifyContent = 'center'; 
     grid.style.width = '100%';
-    grid.style.maxWidth = '1200px'; // Чтобы на сверхшироких экранах не было по 10 штук
-    grid.style.margin = '0 auto'; // Центровка контейнера по горизонтали
+    grid.style.maxWidth = '1200px'; 
+    grid.style.margin = '0 auto'; 
     grid.style.padding = '20px 0';
 
     results.forEach(item => {
@@ -33,7 +33,7 @@
       card.style.display = 'flex';
       card.style.flexDirection = 'column';
       card.style.transition = 'transform 0.2s';
-      card.className = 'hover-shadow'; // Оставляем твою тень
+      card.className = 'hover-shadow'; 
 
       card.innerHTML = `
         <a href="${item.url}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
@@ -61,16 +61,22 @@
     
     if (!query || !window.store) return;
 
+    // Очищаем поисковый запрос от лишних символов и пробелов
     const searchTerm = decodeURIComponent(query).toLowerCase().trim();
     const allItems = Object.keys(window.store).map(k => window.store[k]);
 
     const results = allItems.filter(item => {
-      return (item.title || "").toLowerCase().includes(searchTerm) || 
-             (item.content || "").toLowerCase().includes(searchTerm);
+      // Подготовка данных рецепта для сравнения (удаляем лишние пробелы)
+      const title = (item.title || "").toLowerCase().replace(/\s+/g, ' ');
+      const content = (item.content || "").toLowerCase().replace(/\s+/g, ' ');
+
+      // Ищем прямое вхождение слова
+      return title.indexOf(searchTerm) !== -1 || content.indexOf(searchTerm) !== -1;
     });
 
     displayResults(results);
   }
 
-  setTimeout(startSearch, 200);
+  // Запуск с небольшой задержкой, чтобы данные в window.store точно успели подгрузиться
+  setTimeout(startSearch, 300);
 })();
