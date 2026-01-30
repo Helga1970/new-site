@@ -11,6 +11,8 @@
     const booksSection = document.getElementById('books-section');
     const loadMoreBtn = document.getElementById('load-more');
 
+    if (!recipesContainer) return;
+
     recipesContainer.innerHTML = '';
     booksContainer.innerHTML = '';
 
@@ -28,6 +30,8 @@
             </a>
           </div>`;
       });
+    } else {
+      booksSection.classList.add('d-none');
     }
 
     // 2. Вывод Рецептов
@@ -42,10 +46,10 @@
             <a href="${item.url}">
               <img class="img-fluid" src="${item.featured_image}" alt="${item.title}">
               <div class="card-body">
-                <p class="small text-muted mb-1">Рецепт из книги: <span style="color: #fa8569;">${item.book_title}</span></p>
+                <p class="small text-muted mb-1">Рецепт из книги: <span style="color: #fa8569;">${item.book_title || '—'}</span></p>
                 <h4>${item.title}</h4>
-                <p>${item.content_preview}</p>
-                <a href="${item.url}" class="text-uppercase font-weight-bold" style="color: #fa8569; font-size: 0.8rem;">Открыть рецепт</a>
+                <p>${item.content_preview || ''}</p>
+                <span class="text-uppercase font-weight-bold" style="color: #fa8569; font-size: 0.8rem;">Открыть рецепт</span>
               </div>
             </a>
           </div>
@@ -63,6 +67,8 @@
 
   function renderFilters(results) {
     const filterContainer = document.getElementById('dynamic-filters');
+    if (!filterContainer) return;
+    
     const recipesOnly = results.filter(item => item.type === 'recipe');
     const categories = [...new Set(recipesOnly.flatMap(r => r.category ? r.category.split(', ') : []))];
     
@@ -71,6 +77,8 @@
       filterContainer.innerHTML += categories.map(cat => `
         <button class="filter-btn" onclick="applyFilter('${cat}')">${cat}</button>
       `).join('');
+    } else {
+      filterContainer.innerHTML = '';
     }
   }
 
@@ -78,9 +86,8 @@
     currentFilter = category;
     currentVisibleItems = ITEMS_PER_PAGE;
     
-    // Подсветка активной кнопки
     document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.innerText.includes(category));
+      btn.classList.toggle('active', btn.innerText === category);
     });
 
     if (category === 'Все') {
@@ -95,7 +102,7 @@
 
   function refreshMasonry() {
     const container = document.querySelector('#search-results');
-    if (typeof imagesLoaded !== 'undefined' && typeof Masonry !== 'undefined') {
+    if (container && typeof imagesLoaded !== 'undefined' && typeof Masonry !== 'undefined') {
       imagesLoaded(container, function() {
         new Masonry(container, {
           itemSelector: '.masonry-item',
@@ -105,25 +112,43 @@
     }
   }
 
-  document.getElementById('load-more').addEventListener('click', function() {
-    currentVisibleItems += ITEMS_PER_PAGE;
-    displayResults();
-  });
+  const loadMoreBtn = document.getElementById('load-more');
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', function() {
+      currentVisibleItems += ITEMS_PER_PAGE;
+      displayResults();
+    });
+  }
 
-  // Запуск поиска по параметру 'q'
-  const searchTerm = new URLSearchParams(window.location.search).get('q');
-  if (searchTerm && window.store) {
+  // Запуск поиска
+  const rawQuery = new URLSearchParams(window.location.search).get('q');
+  if (rawQuery && window.store) {
+    const searchTerm = rawQuery.toLowerCase().trim();
     document.getElementById('search-box').value = searchTerm;
 
     const idx = lunr(function () {
-      this.field('title', { boost: 10 });
+      // Отключаем стандартный стеммер, чтобы не портить русские окончания
+      this.pipeline.remove(lunr.stemmer);
+      this.searchPipeline.remove(lunr.stemmer);
+
+      this.field('title');
       this.field('category');
       this.field('content');
       this.ref('id');
-      Object.keys(window.store).forEach(key => this.add({ id: key, ...window.store[key] }));
+
+      Object.keys(window.store).forEach(key => {
+        const item = window.store[key];
+        this.add({
+          id: key,
+          title: (item.title || "").toLowerCase(),
+          category: (item.category || "").toLowerCase(),
+          content: (item.content || "").toLowerCase()
+        });
+      });
     });
 
-    const results = idx.search(searchTerm);
+    // Поиск по слову + поиск по части слова (для гибкости)
+    const results = idx.search(`${searchTerm} ${searchTerm}*`);
     allResults = results.map(r => window.store[r.ref]);
     filteredResults = [...allResults];
     
