@@ -10,60 +10,70 @@
     }
 
     if (results.length === 0) {
-      container.innerHTML = '<div class="col-12 text-center"><h3>Ничего не найдено</h3></div>';
+      container.innerHTML = '<div style="text-align: center; width: 100%; padding: 50px;"><h3>Ничего не найдено</h3></div>';
       return;
     }
 
-    // Создаем строку-контейнер для сетки Bootstrap
-    let htmlContent = '<div class="row pt-5">';
+    // Создаем гибкую сетку: от 1 до 5 карточек в ряд, всегда по центру
+    const grid = document.createElement('div');
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))'; // Минимум 200px на карточку
+    grid.style.gap = '25px';
+    grid.style.justifyContent = 'center'; // Центровка всей сетки
+    grid.style.width = '100%';
+    grid.style.maxWidth = '1200px'; // Чтобы на сверхшироких экранах не было по 10 штук
+    grid.style.margin = '0 auto'; // Центровка контейнера по горизонтали
+    grid.style.padding = '20px 0';
 
     results.forEach(item => {
-      // Верстка в точности по твоему образцу
-      htmlContent += `
-        <div class="col-lg-3 col-sm-6 mb-5">
-          <div class="card p-0 border-0 rounded-0 hover-shadow" style="height: 100%; min-height: 450px;">
-            <a href="${item.url}">
-              <img class="img-fluid rounded-top rounded-0" src="${item.featured_image}" alt="${item.title}" style="width: 100%; height: 250px; object-fit: cover;">
-              <div class="card-body" style="position: relative; padding-bottom: 60px;">
-                <p class="font-secondary mb-3 mt-1 font-extra-small">
-                  Рецепт из книги: <span style="color: #fa8569; font-weight: bold;">${item.book_title || 'Книга'}</span>
-                </p>
-                <h4 class="mb-3" style="color: #333;">${item.title}</h4>
-                <p class="font-secondary mb-4" style="color: #666;">${item.content ? item.content.substring(0, 80) + '...' : ''}</p>
-                <span class="text-uppercase font-primary font-extra-small" style="color: #fa8569; font-weight: bold; position: absolute; bottom: 15px; left: 0; right: 0; text-align: center;">
-                  Открыть рецепт
-                </span>
-              </div>
-            </a>
+      const card = document.createElement('div');
+      card.style.background = '#fff';
+      card.style.border = '1px solid #eee';
+      card.style.overflow = 'hidden';
+      card.style.display = 'flex';
+      card.style.flexDirection = 'column';
+      card.style.transition = 'transform 0.2s';
+      card.className = 'hover-shadow'; // Оставляем твою тень
+
+      card.innerHTML = `
+        <a href="${item.url}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+          <div style="width: 100%; padding-top: 100%; position: relative;">
+            <img src="${item.featured_image}" alt="${item.title}" 
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
           </div>
-        </div>`;
+          <div style="padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; text-align: center;">
+            <div>
+              <p style="font-size: 0.7rem; color: #fa8569; text-transform: uppercase; margin-bottom: 5px; font-weight: bold;">
+                ${item.book_title || 'Рецепт'}
+              </p>
+              <h4 style="font-size: 1rem; margin: 0 0 10px 0; line-height: 1.3; color: #333;">${item.title}</h4>
+            </div>
+            <span style="font-size: 0.8rem; font-weight: bold; color: #fa8569; text-transform: uppercase;">Открыть</span>
+          </div>
+        </a>
+      `;
+      grid.appendChild(card);
     });
 
-    htmlContent += '</div>';
-    container.innerHTML = htmlContent;
+    container.appendChild(grid);
   }
 
   function startSearch() {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get('q');
     
-    if (!query || !window.store) {
-      console.log("Ожидание данных или запроса...");
-      return;
-    }
+    if (!query || !window.store) return;
 
     const searchTerm = decodeURIComponent(query).toLowerCase().trim();
     const allItems = Object.keys(window.store).map(k => window.store[k]);
 
     const results = allItems.filter(item => {
-      const title = (item.title || "").toLowerCase();
-      const content = (item.content || "").toLowerCase();
-      return title.includes(searchTerm) || content.includes(searchTerm);
+      return (item.title || "").toLowerCase().includes(searchTerm) || 
+             (item.content || "").toLowerCase().includes(searchTerm);
     });
 
     displayResults(results);
   }
 
-  // Запуск через короткую паузу
   setTimeout(startSearch, 200);
 })();
