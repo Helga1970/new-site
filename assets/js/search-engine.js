@@ -14,14 +14,15 @@
       return;
     }
 
+    // Создаем сетку с автоматическим заполнением и центровкой
     var grid = document.createElement('div');
     grid.style.display = 'grid';
-    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(220px, 1fr))';
-    grid.style.gap = '30px';
-    grid.style.justifyContent = 'center';
+    // Настраиваем 5 в ряд на больших экранах, сохраняя адаптивность
+    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
+    grid.style.gap = '25px';
     grid.style.width = '100%';
-    grid.style.maxWidth = '1200px';
     grid.style.margin = '0 auto';
+    grid.style.justifyItems = 'center'; // Центрирует карточку внутри её ячейки
 
     results.forEach(function(item) {
       var card = document.createElement('div');
@@ -29,15 +30,16 @@
       card.style.background = '#fff';
       card.style.display = 'flex';
       card.style.flexDirection = 'column';
+      card.style.width = '100%'; // Карточка занимает всю ширину ячейки
+      card.style.maxWidth = '250px'; // Но не раздувается больше 250px
 
-      // Только картинка и заголовок, без лишних надписей
       card.innerHTML = 
         '<a href="' + item.url + '" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">' +
           '<div style="width: 100%; padding-top: 100%; position: relative; overflow: hidden;">' +
             '<img src="' + item.featured_image + '" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">' +
           '</div>' +
-          '<div style="padding: 20px; flex-grow: 1; display: flex; align-items: center; justify-content: center; text-align: center;">' +
-            '<h4 style="font-size: 1.1rem; margin: 0; line-height: 1.4; color: #333; font-weight: normal;">' + item.title + '</h4>' +
+          '<div style="padding: 15px; flex-grow: 1; display: flex; align-items: center; justify-content: center; text-align: center; min-height: 80px;">' +
+            '<h4 style="font-size: 1rem; margin: 0; line-height: 1.3; color: #333; font-weight: normal;">' + item.title + '</h4>' +
           '</div>' +
         '</a>';
       grid.appendChild(card);
@@ -68,6 +70,5 @@
     displayResults(results);
   }
 
-  // Запуск через паузу для загрузки данных
   setTimeout(startSearch, 300);
 })();
