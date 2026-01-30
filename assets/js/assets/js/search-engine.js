@@ -91,4 +91,24 @@
     
     displayResults();
   }
+  function renderFilters(results) {
+  const filterContainer = document.getElementById('dynamic-filters');
+  // Собираем все уникальные категории из найденных рецептов
+  const categories = [...new Set(results.flatMap(r => r.category ? r.category.split(', ') : []))];
+  
+  filterContainer.innerHTML = categories.map(cat => `
+    <button class="filter-btn" onclick="applyFilter('${cat}')">${cat}</button>
+  `).join('');
+}
+  // Функция для правильной расстановки плитки
+function refreshMasonry() {
+  const container = document.querySelector('#search-results');
+  imagesLoaded(container, function() {
+    new Masonry(container, {
+      itemSelector: '.masonry-item',
+      columnWidth: '.masonry-item',
+      percentPosition: true
+    });
+  });
+}
 })();
