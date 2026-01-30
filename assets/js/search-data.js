@@ -8,7 +8,8 @@ window.store = {
       "title": {{ post.title | jsonify }},
       "url": "{{ post.url | relative_url }}",
       "featured_image": "{{ post.featured_image | relative_url }}",
-      "content": {{ post.content | strip_html | strip_newlines | truncatewords: 20 | jsonify }}
+      "category": {{ post.categories | join: ', ' | jsonify }},
+      "content": {{ post.content | strip_html | strip_newlines | truncatewords: 100 | jsonify }}
     }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 };
