@@ -1,5 +1,5 @@
 ---
-title: Кукис орехи пекан- шоколад
+title: Кукис орехи пекан и шоколад
 featured_image: /images/les-cookeis-de-nos-reve/kukis-orekhi-pekan--shokolad.jpeg
 categories:
 - С орехами
