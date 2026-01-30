@@ -52,3 +52,34 @@ layout: default
 
 <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<style>
+  /* Стили для плитки рецептов */
+  .masonry-item { transition: transform 0.3s ease; }
+  .hover-shadow:hover { 
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; 
+  }
+  .card-body h4 { font-size: 1.1rem; margin-top: 10px; color: #333; }
+  
+  /* Стили для ленты книг */
+  #books-container::-webkit-scrollbar { height: 6px; }
+  #books-container::-webkit-scrollbar-thumb { background: #fa8569; border-radius: 10px; }
+  .book-card img { transition: 0.3s; cursor: pointer; }
+  .book-card img:hover { transform: scale(1.05); }
+
+  /* Стили для динамических фильтров */
+  .filter-btn {
+    border: 1px solid #ddd;
+    background: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: #fa8569;
+    color: #fff;
+    border-color: #fa8569;
+  }
+</style>
