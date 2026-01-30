@@ -14,15 +14,16 @@
       return;
     }
 
-    // Создаем сетку с автоматическим заполнением и центровкой
+    // Создаем контейнер-сетку
     var grid = document.createElement('div');
     grid.style.display = 'grid';
-    // Настраиваем 5 в ряд на больших экранах, сохраняя адаптивность
-    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
-    grid.style.gap = '25px';
+    // ЖЕСТКО: 5 колонок на широком экране, авто-подстройка на маленьком
+    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(210px, 1fr))';
+    grid.style.gap = '20px';
     grid.style.width = '100%';
-    grid.style.margin = '0 auto';
-    grid.style.justifyItems = 'center'; // Центрирует карточку внутри её ячейки
+    grid.style.maxWidth = '1200px'; // Ширина твоего контента
+    grid.style.margin = '0 auto'; // Магия центровки: одинаковые отступы слева и справа
+    grid.style.justifyContent = 'center';
 
     results.forEach(function(item) {
       var card = document.createElement('div');
@@ -30,16 +31,15 @@
       card.style.background = '#fff';
       card.style.display = 'flex';
       card.style.flexDirection = 'column';
-      card.style.width = '100%'; // Карточка занимает всю ширину ячейки
-      card.style.maxWidth = '250px'; // Но не раздувается больше 250px
+      card.style.width = '100%';
 
       card.innerHTML = 
         '<a href="' + item.url + '" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">' +
           '<div style="width: 100%; padding-top: 100%; position: relative; overflow: hidden;">' +
             '<img src="' + item.featured_image + '" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">' +
           '</div>' +
-          '<div style="padding: 15px; flex-grow: 1; display: flex; align-items: center; justify-content: center; text-align: center; min-height: 80px;">' +
-            '<h4 style="font-size: 1rem; margin: 0; line-height: 1.3; color: #333; font-weight: normal;">' + item.title + '</h4>' +
+          '<div style="padding: 15px; flex-grow: 1; display: flex; align-items: center; justify-content: center; text-align: center; min-height: 70px;">' +
+            '<h4 style="font-size: 0.95rem; margin: 0; line-height: 1.3; color: #333; font-weight: normal;">' + item.title + '</h4>' +
           '</div>' +
         '</a>';
       grid.appendChild(card);
@@ -62,6 +62,7 @@
       var item = window.store[keys[i]];
       var title = (item.title || "").toLowerCase();
       var content = (item.content || "").toLowerCase();
+      // Ищем везде
       if (title.indexOf(searchTerm) !== -1 || content.indexOf(searchTerm) !== -1) {
         results.push(item);
       }
