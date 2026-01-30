@@ -1,6 +1,6 @@
 ---
 title: Кукис грецкие орехи и шоколад
-featured_image: : /images/les-cookeis-de-nos-reve/kukis-gretskie-orekhi-i-shokolad.jpeg
+featured_image: /images/les-cookeis-de-nos-reve/kukis-gretskie-orekhi-i-shokolad.jpeg
 categories:
 - С орехами
 - С черным шоколадом
