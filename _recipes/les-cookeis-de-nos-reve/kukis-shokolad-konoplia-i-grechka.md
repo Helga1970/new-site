@@ -1,5 +1,5 @@
 ---
-title: Кукис шоколад, конoпля и гречка
+title: Кукис шоколад, конопля и гречка
 featured_image: /images/les-cookeis-de-nos-reve/kukis-shokolad-konoplia-i-grechka.jpeg
 categories:
 - Без орехов
