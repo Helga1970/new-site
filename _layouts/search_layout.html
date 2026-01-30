@@ -1,69 +1,15 @@
-(function() {
-  function displayResults(results) {
-    const container = document.getElementById('search-results');
-    const recipesCount = document.getElementById('recipes-count');
-    if (!container) return;
+---
+layout: default
+---
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 d-flex justify-content-between align-items-center mb-4">
+        <h3 id="recipes-count">Рецепты</h3>
+      </div>
+    </div>
 
-    container.innerHTML = '';
-    
-    // Обновляем заголовок количеством найденного
-    if (recipesCount) {
-      recipesCount.innerText = `Рецепты (${results.length})`;
-    }
-
-    if (results.length === 0) {
-      container.innerHTML = '<div class="col-12 text-center"><h3>Ничего не найдено</h3></div>';
-      return;
-    }
-
-    results.forEach(item => {
-      // Убираем проверку на type, берем ВСЁ, что нашел Lunr
-      container.innerHTML += `
-        <div class="col-lg-3 col-sm-6 mb-5">
-          <div class="card p-0 border-0 rounded-0 shadow-sm">
-            <a href="${item.url}">
-              <img class="img-fluid" src="${item.featured_image}" alt="${item.title}" onerror="this.src='/images/default.jpg'">
-              <div class="card-body">
-                <p class="small text-muted mb-1">${item.category || ''}</p>
-                <h4 style="color: #333;">${item.title}</h4>
-                <p class="small text-muted">${item.content ? item.content.substring(0, 100) : ''}...</p>
-                <span style="color: #fa8569; font-weight: bold; font-size: 0.8rem;">ЧИТАТЬ РЕЦЕПТ</span>
-              </div>
-            </a>
-          </div>
-        </div>`;
-    });
-  }
-
-  // Берем запрос ПРЯМО из адресной строки браузера
-  const urlParams = new URLSearchParams(window.location.search);
-  const query = urlParams.get('q');
-
-  if (query && window.store) {
-    const searchTerm = decodeURIComponent(query).toLowerCase().trim();
-    
-    // Инициализация нового Lunr (который мы подключили в шаблоне)
-    const idx = lunr(function () {
-      this.pipeline.remove(lunr.stemmer);
-      this.searchPipeline.remove(lunr.stemmer);
-      this.field('title');
-      this.field('content');
-      this.ref('id');
-
-      Object.keys(window.store).forEach(key => {
-        this.add({
-          id: key,
-          title: (window.store[key].title || "").toLowerCase(),
-          content: (window.store[key].content || "").toLowerCase()
-        });
-      });
-    });
-
-    // Ищем
-    const results = idx.search(`${searchTerm} ${searchTerm}*`);
-    const foundItems = results.map(r => window.store[r.ref]);
-    
-    // Сразу выводим
-    displayResults(foundItems);
-  }
-})();
+    <div id="search-results" class="row masonry-container">
+    </div>
+  </div>
+</section>
