@@ -1,5 +1,5 @@
 ---
-title: Кукис матча- шоколад
+title: Кукис матча и шоколад
 featured_image: /images/les-cookeis-de-nos-reve/kukis-matcha--shokolad.jpeg
 categories:
 - Без орехов
