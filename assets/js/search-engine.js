@@ -61,22 +61,23 @@
     
     if (!query || !window.store) return;
 
-    // Очищаем поисковый запрос от лишних символов и пробелов
+    // Подготовка поискового запроса
     const searchTerm = decodeURIComponent(query).toLowerCase().trim();
     const allItems = Object.keys(window.store).map(k => window.store[k]);
 
     const results = allItems.filter(item => {
-      // Подготовка данных рецепта для сравнения (удаляем лишние пробелы)
-      const title = (item.title || "").toLowerCase().replace(/\s+/g, ' ');
-      const content = (item.content || "").toLowerCase().replace(/\s+/g, ' ');
+      // Прямой поиск по названию (Title) — теперь это приоритет №1
+      const title = (item.title || "").toLowerCase();
+      // Поиск по описанию/контенту
+      const content = (item.content || "").toLowerCase();
 
-      // Ищем прямое вхождение слова
+      // Скрипт выдаст результат, если слово есть В НАЗВАНИИ или В ОПИСАНИИ
       return title.indexOf(searchTerm) !== -1 || content.indexOf(searchTerm) !== -1;
     });
 
     displayResults(results);
   }
 
-  // Запуск с небольшой задержкой, чтобы данные в window.store точно успели подгрузиться
+  // Запуск
   setTimeout(startSearch, 300);
 })();
