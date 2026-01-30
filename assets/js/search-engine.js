@@ -1,57 +1,58 @@
 (function() {
-  function displayResults(results) {
-    var container = document.getElementById('search-results');
-    var recipesCount = document.getElementById('recipes-count');
-    if (!container) return;
+    const container = document.getElementById('search-results');
+    const recipesCount = document.getElementById('recipes-count');
+    
+    // 1. Берем запрос из адреса
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
 
-    container.innerHTML = '';
-    if (recipesCount) { recipesCount.innerText = "Рецепты (" + results.length + ")"; }
+    if (!query || !container) return;
 
-    if (results.length === 0) {
-      container.innerHTML = '<div class="col-12 text-center"><h3>Ничего не найдено</h3></div>';
-      return;
-    }
+    const searchTerm = decodeURIComponent(query).toLowerCase().trim();
 
-    for (var i = 0; i < results.length; i++) {
-      var item = results[i];
-      var preview = item.content ? item.content.substring(0, 100) : "";
-      container.innerHTML += 
-        '<div class="col-lg-3 col-sm-6 mb-5">' +
-          '<div class="card p-0 border-0 rounded-0 shadow-sm">' +
-            '<a href="' + item.url + '">' +
-              '<img class="img-fluid" src="' + item.featured_image + '" alt="' + item.title + '">' +
-              '<div class="card-body">' +
-                '<p class="small text-muted mb-1">' + (item.category || "") + '</p>' +
-                '<h4 style="color: #333;">' + item.title + '</h4>' +
-                '<p class="small text-muted">' + preview + '...</p>' +
-                '<span style="color: #fa8569; font-weight: bold; font-size: 0.8rem;">ОТКРЫТЬ</span>' +
-              '</div>' +
-            '</a>' +
-          '</div>' +
-        '</div>';
-    }
-  }
+    // 2. Идем за данными ТАК ЖЕ, как это делает твоя рабочая страница
+    // Мы берем общий файл со всеми рецептами
+    fetch('/assets/js/search-data.js')
+        .then(response => response.text())
+        .then(text => {
+            // Превращаем текст файла в объект данных
+            // (Так как search-data.js обычно начинается с window.store =)
+            const jsonData = text.replace('window.store = ', '').replace(/;$/, '');
+            const store = JSON.parse(jsonData);
 
-  var query = new URLSearchParams(window.location.search).get('q');
-  if (query && window.store) {
-    var searchTerm = decodeURIComponent(query).toLowerCase().trim();
-    var idx = lunr(function () {
-      this.pipeline.remove(lunr.stemmer);
-      this.searchPipeline.remove(lunr.stemmer);
-      this.field('title');
-      this.field('content');
-      this.ref('id');
-      Object.keys(window.store).forEach(function(key) {
-        this.add({
-          id: key,
-          title: (window.store[key].title || "").toLowerCase(),
-          content: (window.store[key].content || "").toLowerCase()
+            // 3. Фильтруем данные вручную (без Lunr, чтобы не было ошибок)
+            const results = Object.keys(store).map(key => store[key]).filter(item => {
+                return item.title.toLowerCase().includes(searchTerm) || 
+                       (item.content && item.content.toLowerCase().includes(searchTerm));
+            });
+
+            // 4. Отрисовываем результат в твоем дизайне
+            render(results);
+        })
+        .catch(err => console.error("Ошибка загрузки данных поиска:", err));
+
+    function render(results) {
+        container.innerHTML = '';
+        if (recipesCount) recipesCount.innerText = `Рецепты (${results.length})`;
+
+        if (results.length === 0) {
+            container.innerHTML = '<div class="col-12 text-center"><h3>Ничего не найдено</h3></div>';
+            return;
+        }
+
+        results.forEach(item => {
+            container.innerHTML += `
+                <div class="col-lg-3 col-sm-6 mb-5">
+                    <div class="card p-0 border-0 rounded-0 shadow-sm">
+                        <a href="${item.url}">
+                            <img class="img-fluid" src="${item.featured_image}" alt="${item.title}">
+                            <div class="card-body">
+                                <h4 style="color: #333;">${item.title}</h4>
+                                <span style="color: #fa8569; font-weight: bold; font-size: 0.8rem;">ЧИТАТЬ</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>`;
         });
-      }, this);
-    });
-
-    var results = idx.search(searchTerm + " " + searchTerm + "*");
-    var foundItems = results.map(function(r) { return window.store[r.ref]; });
-    displayResults(foundItems);
-  }
+    }
 })();
