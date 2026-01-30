@@ -1,4 +1,5 @@
-function displayResults(results) {
+(function() {
+  function displayResults(results) {
     var container = document.getElementById('search-results');
     var recipesCount = document.getElementById('recipes-count');
     if (!container) return;
@@ -28,8 +29,8 @@ function displayResults(results) {
       card.style.background = '#fff';
       card.style.display = 'flex';
       card.style.flexDirection = 'column';
-      card.style.transition = '0.3s';
 
+      // Только картинка и заголовок, без лишних надписей
       card.innerHTML = 
         '<a href="' + item.url + '" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">' +
           '<div style="width: 100%; padding-top: 100%; position: relative; overflow: hidden;">' +
@@ -44,3 +45,29 @@ function displayResults(results) {
 
     container.appendChild(grid);
   }
+
+  function startSearch() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var query = urlParams.get('q');
+    
+    if (!query || !window.store) return;
+
+    var searchTerm = decodeURIComponent(query).toLowerCase().trim();
+    var keys = Object.keys(window.store);
+    var results = [];
+
+    for (var i = 0; i < keys.length; i++) {
+      var item = window.store[keys[i]];
+      var title = (item.title || "").toLowerCase();
+      var content = (item.content || "").toLowerCase();
+      if (title.indexOf(searchTerm) !== -1 || content.indexOf(searchTerm) !== -1) {
+        results.push(item);
+      }
+    }
+
+    displayResults(results);
+  }
+
+  // Запуск через паузу для загрузки данных
+  setTimeout(startSearch, 300);
+})();
