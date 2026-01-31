@@ -2,7 +2,7 @@
 title: Кукис каштан, шоколад и апельсин
 featured_image: /images/les-cookeis-de-nos-reve/kukis-kashtan-shokolad-i-apelsin.jpeg
 categories:
-- Без орехов
+- С орехами
 - С черным шоколадом
 - С овощами и фруктами
 - С сухофруктами и цукатами
@@ -13,6 +13,7 @@ tags:
 - каштан
 - шоколад
 - апельсин
+- цукаты
 recipe:
   servings: 12 печенья по 40 г
   prep: 10 минут подготовки
