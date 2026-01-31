@@ -3,15 +3,15 @@ title: Кукис на сковороде, без духовки
 featured_image: /images/les-cookeis-de-nos-reve/ kukis-na-skovorode-bez-dukhovki.jpeg
 categories:
 - С орехами
+- Без орехов
 - С черным шоколадом
 - Без духовки
 tags:
 - выпечка
 - десерты
-- мука
+- печенье
 - орех
-- сахар
-- яйцо
+- шоколад
 recipe:
   servings: 1 печенье диаметром 14-16 см
   prep: 10 минут подготовки
