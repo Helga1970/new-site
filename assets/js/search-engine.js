@@ -1,17 +1,15 @@
 (function() {
-  // 1. Лечим латиницу и приводим к стандарту
+  // 1. Исправляем латиницу и приводим к стандарту (оставляем буквы и цифры)
   function normalizeText(text) {
     if (!text) return "";
     const map = {'a':'а', 'o':'о', 'c':'с', 'e':'е', 'p':'р', 'x':'х', 'y':'у', 'k':'к', 'm':'м'};
     let fixed = text.toLowerCase().split('').map(char => map[char] || char).join('');
-    // Оставляем только буквы и цифры для чистого поиска
     return fixed.replace(/[^а-яё0-9\s]/g, "").trim();
   }
 
   // 2. Выделяем корень слова (упрощенно для падежей)
   function getStem(word) {
     if (word.length < 4) return word;
-    // Отсекаем популярные окончания падежей (а, я, ом, ем, у, ю, и, ы, е)
     return word.replace(/(а|я|ом|ем|у|ю|и|ы|е|ом|ями|ам|ях|ию|ия|ь)$/g, "");
   }
 
@@ -68,7 +66,7 @@
     const rawSearch = decodeURIComponent(query);
     const searchTerm = normalizeText(rawSearch);
     
-    // Разбиваем запрос на отдельные слова (например: ["кокос", "пекан"])
+    // Разбиваем запрос на отдельные слова
     const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 2);
     
     if (searchWords.length === 0) return;
@@ -76,14 +74,18 @@
     const allItems = Object.keys(window.store).map(k => window.store[k]);
 
     const results = allItems.filter(item => {
+      // Собираем данные для поиска: Название + Категории + Теги
       const title = normalizeText(item.title);
-      const content = normalizeText(item.content);
-      const combinedData = title + " " + content;
+      const cats = item.categories ? item.categories.map(c => normalizeText(c)).join(" ") : "";
+      const tags = item.tags ? item.tags.map(t => normalizeText(t)).join(" ") : "";
+      
+      // Объединяем всё, кроме описания (content убран)
+      const searchHaystack = title + " " + cats + " " + tags;
 
-      // Проверяем, чтобы КАЖДОЕ слово из поиска (или его корень) было в рецепте
+      // Проверяем, чтобы КАЖДОЕ слово из поиска (или его корень) было в этом наборе
       return searchWords.every(word => {
         const stem = getStem(word);
-        return combinedData.includes(stem);
+        return searchHaystack.includes(stem);
       });
     });
 
