@@ -77,16 +77,20 @@
 
     const results = allItems.filter(item => {
       const title = normalizeText(item.title);
-      // Описание (content) удалено, поиск идет только по названию
-      const combinedData = title;
+      
+      // Вытягиваем категории и теги, превращая их в одну строку для поиска
+      const cats = item.categories ? item.categories.join(" ") : "";
+      const tags = item.tags ? item.tags.join(" ") : "";
+      
+      // Объединяем Название + Категории + Теги (нормализуем всё вместе)
+      const combinedData = normalizeText(title + " " + cats + " " + tags);
 
-      // Проверяем, чтобы КАЖДОЕ слово из поиска (или его корень) было в названии
+      // Проверяем, чтобы КАЖДОЕ слово из поиска (или его корень) было в этой куче данных
       return searchWords.every(word => {
         const stem = getStem(word);
         return combinedData.includes(stem);
       });
     });
-
     displayResults(results);
   }
 
