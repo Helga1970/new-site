@@ -1,13 +1,14 @@
 (function() {
-  // 1. Исправляем латиницу и приводим к стандарту (оставляем буквы и цифры)
+  // 1. Исправляем латиницу и приводим к стандарту
   function normalizeText(text) {
     if (!text) return "";
     const map = {'a':'а', 'o':'о', 'c':'с', 'e':'е', 'p':'р', 'x':'х', 'y':'у', 'k':'к', 'm':'м'};
     let fixed = text.toLowerCase().split('').map(char => map[char] || char).join('');
+    // Оставляем буквы и цифры, не трогаем пробелы
     return fixed.replace(/[^а-яё0-9\s]/g, "").trim();
   }
 
-  // 2. Выделяем корень слова (упрощенно для падежей)
+  // 2. Выделяем корень слова (для падежей: имбирь/имбирем)
   function getStem(word) {
     if (word.length < 4) return word;
     return word.replace(/(а|я|ом|ем|у|ю|и|ы|е|ом|ями|ам|ях|ию|ия|ь)$/g, "");
@@ -63,10 +64,7 @@
     const query = urlParams.get('q');
     if (!query || !window.store) return;
 
-    const rawSearch = decodeURIComponent(query);
-    const searchTerm = normalizeText(rawSearch);
-    
-    // Разбиваем запрос на отдельные слова
+    const searchTerm = normalizeText(decodeURIComponent(query));
     const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 2);
     
     if (searchWords.length === 0) return;
@@ -74,18 +72,18 @@
     const allItems = Object.keys(window.store).map(k => window.store[k]);
 
     const results = allItems.filter(item => {
-      // Собираем данные для поиска: Название + Категории + Теги
+      // Собираем ВСЕ важные поля в одну строку для поиска
       const title = normalizeText(item.title);
       const cats = item.categories ? item.categories.map(c => normalizeText(c)).join(" ") : "";
       const tags = item.tags ? item.tags.map(t => normalizeText(t)).join(" ") : "";
       
-      // Объединяем всё, кроме описания (content убран)
-      const searchHaystack = title + " " + cats + " " + tags;
+      // Теперь поиск идет по Названию + Категориям + Тегам одновременно
+      const combinedData = title + " " + cats + " " + tags;
 
-      // Проверяем, чтобы КАЖДОЕ слово из поиска (или его корень) было в этом наборе
+      // Проверяем каждое слово по корню (падежи снова работают)
       return searchWords.every(word => {
         const stem = getStem(word);
-        return searchHaystack.includes(stem);
+        return combinedData.includes(stem);
       });
     });
 
