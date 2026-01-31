@@ -1,5 +1,5 @@
 ---
-title: Кукис шоколад- фундучное пралине
+title: Кукис шоколад и фундучное пралине
 featured_image: /images/les-cookeis-de-nos-reve/kukis-shokolad--funduchnoe-praline.jpeg
 categories:
 - С орехами
