@@ -4,13 +4,14 @@ featured_image: /images/les-cookeis-de-nos-reve/kukis-bez-muki-pesakh.jpeg
 categories:
 - С орехами
 - С сухофруктами и цукатами
+- С овощами и фруктами
 tags:
 - апельсин
 - выпечка
 - десерты
-- мука
-- сахар
-- яйцо
+- печенье
+- цедра
+- маца
 recipe:
   servings: 10 печений по 50 г
   prep: 10 минут подготовки
