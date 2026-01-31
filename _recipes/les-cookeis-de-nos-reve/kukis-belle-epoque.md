@@ -4,15 +4,15 @@ featured_image: /images/les-cookeis-de-nos-reve/kukis-belle-epoque.jpeg
 categories:
 - С орехами
 - С черным шоколадом
+- Со специями
 tags:
 - выпечка
 - десерты
 - имбирь
-- мука
-- сахар
+- печенье
 - фундук
 - шоколад
-- яйцо
+- корица
 recipe:
   servings: 30 печений по ~ 20 г
   prep: 15 минут подготовки
