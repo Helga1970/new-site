@@ -2,7 +2,7 @@
 title: Кукис греческий йогурт и макадамия
 featured_image: /images/les-cookeis-de-nos-reve/kukis-grecheskii-iogurt-i-makadamiia.jpeg
 categories:
-- Без орехов
+- С орехами
 - С белым шоколадом
 - С молочными продуктами
 tags:
@@ -10,10 +10,9 @@ tags:
 - десерты
 - йогурт
 - макадамия
-- мука
-- сахар
+- орех
+- печенье
 - шоколад
-- яйцо
 recipe:
   servings: 10 печений по 60 г
   prep: 10 минут подготовки + 15 минут отдыха
