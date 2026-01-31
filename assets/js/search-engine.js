@@ -68,8 +68,10 @@
     const rawSearch = decodeURIComponent(query);
     const searchTerm = normalizeText(rawSearch);
     
-    // Разбиваем запрос на отдельные слова (например: ["кокос", "пекан"])
-    const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 2);
+    // Если в запросе есть "без", ищем фразу целиком, иначе разбиваем по словам
+    const searchWords = searchTerm.includes("без") 
+      ? [searchTerm] 
+      : searchTerm.split(/\s+/).filter(word => word.length > 2);
     
     if (searchWords.length === 0) return;
 
@@ -77,17 +79,15 @@
 
     const results = allItems.filter(item => {
       const title = normalizeText(item.title);
-      
-      // Теперь категории и теги ТОЧНО есть в базе, склеиваем их
       const cats = Array.isArray(item.categories) ? item.categories.join(" ") : (item.categories || "");
       const tags = Array.isArray(item.tags) ? item.tags.join(" ") : (item.tags || "");
       
-      // Описание (content) не добавляем, чтобы не было мусора
       const combinedData = normalizeText(title + " " + cats + " " + tags);
 
       return searchWords.every(word => {
-        const stem = getStem(word);
-        return combinedData.includes(stem);
+        // Для фраз с "без" ищем точное вхождение, для одиночных слов - по корню
+        const queryPart = word.includes("без") ? word : getStem(word);
+        return combinedData.includes(queryPart);
       });
     });
     displayResults(results);
