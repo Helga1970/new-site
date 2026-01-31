@@ -68,7 +68,7 @@
     const rawSearch = decodeURIComponent(query);
     const searchTerm = normalizeText(rawSearch);
     
-    // Разбиваем запрос на отдельные слова (например: ["кокос", "пекан"])
+    // Разбиваем запрос на отдельные слова
     const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 2);
     
     if (searchWords.length === 0) return;
@@ -77,10 +77,11 @@
 
     const results = allItems.filter(item => {
       const title = normalizeText(item.title);
-      const content = normalizeText(item.content);
-      const combinedData = title + " " + content;
+      // ПРАВКА: Убрали content, добавили categories
+      const categories = item.categories ? item.categories.map(c => normalizeText(c)).join(" ") : "";
+      const combinedData = title + " " + categories;
 
-      // Проверяем, чтобы КАЖДОЕ слово из поиска (или его корень) было в рецепте
+      // Проверяем каждое слово
       return searchWords.every(word => {
         const stem = getStem(word);
         return combinedData.includes(stem);
