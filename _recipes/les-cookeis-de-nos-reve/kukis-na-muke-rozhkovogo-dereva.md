@@ -3,7 +3,7 @@ title: Кукис на муке рожкового дерева
 featured_image: /images/les-cookeis-de-nos-reve/kukis-na-muke-rozhkovogo-dereva.jpeg
 categories:
 - Без орехов
-- Без муки
+- Без глютена
 - С молочным шоколадом
 tags:
 - выпечка
