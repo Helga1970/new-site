@@ -1,17 +1,14 @@
 (function() {
-  // 1. Исправляем латиницу и приводим к стандарту
   function normalizeText(text) {
     if (!text) return "";
     const map = {'a':'а', 'o':'о', 'c':'с', 'e':'е', 'p':'р', 'x':'х', 'y':'у', 'k':'к', 'm':'м'};
     let fixed = text.toLowerCase().split('').map(char => map[char] || char).join('');
-    // Оставляем буквы и цифры, не трогаем пробелы
-    return fixed.replace(/[^а-яё0-9\s]/g, "").trim();
+    return fixed.replace(/[^а-яёa-z0-9\s]/g, "").trim(); // Оставил латиницу a-z для слова cookies
   }
 
-  // 2. Выделяем корень слова (для падежей: имбирь/имбирем)
   function getStem(word) {
     if (word.length < 4) return word;
-    return word.replace(/(а|я|ом|ем|у|ю|и|ы|е|ом|ями|ам|ях|ию|ия|ь)$/g, "");
+    return word.replace(/(а|я|ом|ем|у|ю|и|ы|е|ом|ями|ам|ях|ию|ия|ь|ми|ыми)$/g, "");
   }
 
   function displayResults(results) {
@@ -65,25 +62,24 @@
     if (!query || !window.store) return;
 
     const searchTerm = normalizeText(decodeURIComponent(query));
-    const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 2);
+    // Теперь мы игнорируем слова короче 2 символов (как "с"), чтобы они не ломали поиск
+    const searchWords = searchTerm.split(/\s+/).filter(word => word.length >= 2);
     
     if (searchWords.length === 0) return;
 
     const allItems = Object.keys(window.store).map(k => window.store[k]);
 
     const results = allItems.filter(item => {
-      // Собираем ВСЕ важные поля в одну строку для поиска
       const title = normalizeText(item.title);
       const cats = item.categories ? item.categories.map(c => normalizeText(c)).join(" ") : "";
       const tags = item.tags ? item.tags.map(t => normalizeText(t)).join(" ") : "";
       
-      // Теперь поиск идет по Названию + Категориям + Тегам одновременно
-      const combinedData = title + " " + cats + " " + tags;
+      const searchHaystack = title + " " + cats + " " + tags;
 
-      // Проверяем каждое слово по корню (падежи снова работают)
+      // Ключевое исправление: проверяем каждое значимое слово
       return searchWords.every(word => {
         const stem = getStem(word);
-        return combinedData.includes(stem);
+        return searchHaystack.includes(stem);
       });
     });
 
