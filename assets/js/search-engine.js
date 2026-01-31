@@ -76,16 +76,17 @@
     const allItems = Object.keys(window.store).map(k => window.store[k]);
 
     const results = allItems.filter(item => {
+      // Подготовка данных: всё приводим к нижнему регистру и чистим от символов
       const title = normalizeText(item.title);
       
-      // Вытягиваем категории и теги, превращая их в одну строку для поиска
-      const cats = item.categories ? item.categories.join(" ") : "";
-      const tags = item.tags ? item.tags.join(" ") : "";
+      // Обрабатываем массивы категорий и тегов, чтобы они стали строкой, понятной для поиска по корню
+      const cats = Array.isArray(item.categories) ? item.categories.map(c => normalizeText(c)).join(" ") : "";
+      const tags = Array.isArray(item.tags) ? item.tags.map(t => normalizeText(t)).join(" ") : "";
       
-      // Объединяем Название + Категории + Теги (нормализуем всё вместе)
-      const combinedData = normalizeText(title + " " + cats + " " + tags);
+      // Создаем единое поле поиска (без описания)
+      const combinedData = title + " " + cats + " " + tags;
 
-      // Проверяем, чтобы КАЖДОЕ слово из поиска (или его корень) было в этой куче данных
+      // Логика "И": каждое слово из запроса должно найтись в этой строке по его корню
       return searchWords.every(word => {
         const stem = getStem(word);
         return combinedData.includes(stem);
