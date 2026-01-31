@@ -1,5 +1,5 @@
 ---
-title: Кукис тыква, пряности, и шоколад
+title: Кукис тыква, пряности и шоколад
 featured_image: /images/les-cookeis-de-nos-reve/kukis-tykva-prianosti-i-shokolad.jpeg
 categories:
 - С орехами
