@@ -77,10 +77,10 @@
 
     const results = allItems.filter(item => {
       const title = normalizeText(item.title);
-      const content = normalizeText(item.content);
-      const combinedData = title + " " + content;
+      // Описание (content) удалено, поиск идет только по названию
+      const combinedData = title;
 
-      // Проверяем, чтобы КАЖДОЕ слово из поиска (или его корень) было в рецепте
+      // Проверяем, чтобы КАЖДОЕ слово из поиска (или его корень) было в названии
       return searchWords.every(word => {
         const stem = getStem(word);
         return combinedData.includes(stem);
