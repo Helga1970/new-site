@@ -1,5 +1,5 @@
 ---
-title: Кукис кабачrb, фундук и шоколад
+title: Кукис кабачки, фундук и шоколад
 featured_image: /images/les-cookeis-de-nos-reve/kukis-kabachki-funduk-i-shokolad.jpeg
 categories:
 - С орехами
