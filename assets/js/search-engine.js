@@ -1,48 +1,80 @@
 (function() {
-  // 1. Лечим латиницу и приводим к стандарту
   function normalizeText(text) {
     if (!text) return "";
     const map = {'a':'а', 'o':'о', 'c':'с', 'e':'е', 'p':'р', 'x':'х', 'y':'у', 'k':'к', 'm':'м'};
     let fixed = text.toLowerCase().split('').map(char => map[char] || char).join('');
-    // Оставляем только буквы и цифры для чистого поиска
     return fixed.replace(/[^а-яё0-9\s]/g, "").trim();
   }
 
-  // 2. Выделяем корень слова (упрощенно для падежей)
   function getStem(word) {
     if (word.length < 4) return word;
-    // Отсекаем популярные окончания падежей (а, я, ом, ем, у, ю, и, ы, е)
     return word.replace(/(а|я|ом|ем|у|ю|и|ы|е|ом|ями|ам|ях|ию|ия|ь)$/g, "");
   }
 
   function displayResults(results) {
     const container = document.getElementById('search-results');
-    const recipesCount = document.getElementById('recipes-count');
     if (!container) return;
     container.innerHTML = '';
-    if (recipesCount) { recipesCount.innerText = "Рецепты (" + results.length + ")"; }
-    
+
     if (results.length === 0) {
       container.innerHTML = '<div style="text-align: center; width: 100%; padding: 50px;"><h3>Ничего не найдено</h3></div>';
       return;
     }
 
+    // --- БЛОК 1: КНИГИ (Горизонтально) ---
+    const uniqueBooks = {};
+    results.forEach(item => {
+      if (item.book && item.book.slug) {
+        uniqueBooks[item.book.slug] = item.book;
+      }
+    });
+
+    const booksArray = Object.values(uniqueBooks);
+    if (booksArray.length > 0) {
+      const booksSection = document.createElement('div');
+      booksSection.style.marginBottom = '40px';
+      
+      let booksHtml = '<h2 style="font-size: 1.2rem; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">Книги</h2>';
+      booksHtml += '<div style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: thin;">';
+      
+      booksArray.forEach(book => {
+        booksHtml += `
+          <div style="flex: 0 0 150px; text-align: center;">
+            <a href="${book.link}" target="_blank" style="text-decoration: none; color: inherit;">
+              <div style="width: 150px; height: 210px; margin-bottom: 10px; overflow: hidden; border-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <img src="${book.cover}" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div style="font-size: 0.9rem; font-weight: bold; line-height: 1.2; color: #333;">${book.title}</div>
+            </a>
+          </div>`;
+      });
+      
+      booksHtml += '</div>';
+      booksSection.innerHTML = booksHtml;
+      container.appendChild(booksSection);
+    }
+
+    // --- БЛОК 2: РЕЦЕПТЫ (Сетка) ---
+    const recipesCount = results.length;
+    const recipesHeader = document.createElement('h2');
+    recipesHeader.innerHTML = `Рецепты <span style="color: #999; font-weight: normal;">(${recipesCount})</span>`;
+    recipesHeader.style.fontSize = '1.2rem';
+    recipesHeader.style.borderBottom = '2px solid #eee';
+    recipesHeader.style.paddingBottom = '10px';
+    recipesHeader.style.marginBottom = '20px';
+    container.appendChild(recipesHeader);
+
     const grid = document.createElement('div');
     grid.style.display = 'grid';
     grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))'; 
     grid.style.gap = '25px';
-    grid.style.justifyContent = 'center'; 
     grid.style.width = '100%';
-    grid.style.maxWidth = '1200px'; 
-    grid.style.margin = '0 auto'; 
-    grid.style.padding = '20px 0';
 
     results.forEach(item => {
       const card = document.createElement('div');
       card.className = 'hover-shadow';
       card.style.background = '#fff';
       card.style.border = '1px solid #eee';
-      card.style.overflow = 'hidden';
       card.style.display = 'flex';
       card.style.flexDirection = 'column';
       card.innerHTML = `
@@ -50,8 +82,8 @@
           <div style="width: 100%; padding-top: 100%; position: relative;">
             <img src="${item.featured_image}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
           </div>
-          <div style="padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; text-align: center;">
-            <h4 style="font-size: 1rem; margin: 10px 0; line-height: 1.3; color: #333;">${item.title}</h4>
+          <div style="padding: 15px; flex-grow: 1; text-align: center;">
+            <h4 style="font-size: 1rem; margin: 10px 0; color: #333;">${item.title}</h4>
             <span style="font-size: 0.8rem; font-weight: bold; color: #fa8569; text-transform: uppercase;">ОТКРЫТЬ РЕЦЕПТ</span>
           </div>
         </a>`;
@@ -68,7 +100,6 @@
     const rawSearch = decodeURIComponent(query);
     const searchTerm = normalizeText(rawSearch);
     
-    // Если в запросе есть "без", ищем фразу целиком, иначе разбиваем по словам
     const searchWords = searchTerm.includes("без") 
       ? [searchTerm] 
       : searchTerm.split(/\s+/).filter(word => word.length > 2);
@@ -81,11 +112,12 @@
       const title = normalizeText(item.title);
       const cats = Array.isArray(item.categories) ? item.categories.join(" ") : (item.categories || "");
       const tags = Array.isArray(item.tags) ? item.tags.join(" ") : (item.tags || "");
+      const bookTitle = item.book && item.book.title ? normalizeText(item.book.title) : "";
       
-      const combinedData = normalizeText(title + " " + cats + " " + tags);
+      // Ищем в названии, категориях, тегах и названии книги
+      const combinedData = title + " " + cats + " " + tags + " " + bookTitle;
 
       return searchWords.every(word => {
-        // Для фраз с "без" ищем точное вхождение, для одиночных слов - по корню
         const queryPart = word.includes("без") ? word : getStem(word);
         return combinedData.includes(queryPart);
       });
