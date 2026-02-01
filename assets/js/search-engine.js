@@ -1,78 +1,115 @@
-function displayResults(results) {
+(function() {
+  function normalizeText(text) {
+    if (!text) return "";
+    const map = {'a':'а', 'o':'о', 'c':'с', 'e':'е', 'p':'р', 'x':'х', 'y':'у', 'k':'к', 'm':'м'};
+    let fixed = text.toLowerCase().split('').map(char => map[char] || char).join('');
+    return fixed.replace(/[^а-яё0-9\s]/g, "").trim();
+  }
+
+  function getStem(word) {
+    if (word.length < 4) return word;
+    return word.replace(/(а|я|ом|ем|у|ю|и|ы|е|ом|ями|ам|ях|ию|ия|ь)$/g, "");
+  }
+
+  function displayResults(results) {
     const container = document.getElementById('search-results');
     if (!container) return;
     container.innerHTML = '';
 
     if (results.length === 0) {
-      container.innerHTML = '<div style="text-align: center; padding: 50px;"><h3>Ничего не найдено</h3></div>';
+      container.innerHTML = '<div style="text-align: center; width: 100%; padding: 50px;"><h3>Ничего не найдено</h3></div>';
       return;
     }
 
-    // --- БЛОК 1: ВЫВОД КНИГ (ГОРИЗОНТАЛЬНО) ---
-    // Собираем уникальные книги по их slug
-    const uniqueBooks = [];
-    const bookSlugs = new Set();
-
+    // 1. Собираем уникальные книги
+    const uniqueBooks = {};
     results.forEach(item => {
-      if (item.book && item.book.slug && !bookSlugs.has(item.book.slug)) {
-        bookSlugs.add(item.book.slug);
-        uniqueBooks.push(item.book);
+      if (item.book_slug) {
+        uniqueBooks[item.book_slug] = {
+          title: item.book_title,
+          cover: item.book_cover,
+          link: item.book_link
+        };
       }
     });
 
-    if (uniqueBooks.length > 0) {
+    const booksArray = Object.values(uniqueBooks);
+    
+    // Вывод книг
+    if (booksArray.length > 0) {
       const booksSection = document.createElement('div');
-      booksSection.style.marginBottom = '40px';
-      
-      let booksHtml = '<h2 style="font-size: 1.2rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Книги</h2>';
-      booksHtml += '<div style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px;">';
-      
-      uniqueBooks.forEach(book => {
+      booksSection.style.marginBottom = '30px';
+      let booksHtml = '<h2 style="font-size: 1.2rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">Книги</h2>';
+      booksHtml += '<div style="display: flex; gap: 20px; overflow-x: auto; padding: 10px 0;">';
+      booksArray.forEach(book => {
         booksHtml += `
           <div style="flex: 0 0 140px; text-align: center;">
             <a href="${book.link}" target="_blank" style="text-decoration: none; color: inherit;">
-              <img src="${book.cover}" style="width: 140px; height: 190px; object-fit: cover; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 8px;">
-              <div style="font-size: 0.9rem; font-weight: bold; line-height: 1.2;">${book.title}</div>
+              <img src="${book.cover}" style="width: 140px; height: 190px; object-fit: cover; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+              <div style="font-size: 0.9rem; font-weight: bold; margin-top: 5px;">${book.title}</div>
             </a>
           </div>`;
       });
-      
       booksHtml += '</div>';
       booksSection.innerHTML = booksHtml;
       container.appendChild(booksSection);
     }
 
-    // --- БЛОК 2: ВЫВОД РЕЦЕПТОВ (СЕТКА) ---
+    // 2. Вывод рецептов
     const recipesHeader = document.createElement('h2');
     recipesHeader.innerText = `Рецепты (${results.length})`;
     recipesHeader.style.fontSize = '1.2rem';
-    recipesHeader.style.marginBottom = '15px';
-    recipesHeader.style.border-bottom = '1px solid #eee';
-    recipesHeader.style.paddingBottom = '10px';
     container.appendChild(recipesHeader);
 
     const grid = document.createElement('div');
     grid.style.display = 'grid';
     grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
     grid.style.gap = '25px';
+    grid.style.marginTop = '20px';
 
     results.forEach(item => {
       const card = document.createElement('div');
-      card.style.background = '#fff';
       card.style.border = '1px solid #eee';
-      card.style.display = 'flex';
-      card.style.flexDirection = 'column';
       card.innerHTML = `
         <a href="${item.url}" style="text-decoration: none; color: inherit;">
-          <div style="width: 100%; padding-top: 100%; position: relative;">
-            <img src="${item.featured_image}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-          </div>
+          <img src="${item.featured_image}" style="width: 100%; height: 200px; object-fit: cover;">
           <div style="padding: 15px; text-align: center;">
-            <h4 style="font-size: 1rem; margin: 10px 0;">${item.title}</h4>
-            <span style="font-size: 0.8rem; font-weight: bold; color: #fa8569;">ОТКРЫТЬ РЕЦЕПТ</span>
+            <h4 style="margin: 0; font-size: 1rem;">${item.title}</h4>
           </div>
         </a>`;
       grid.appendChild(card);
     });
     container.appendChild(grid);
   }
+
+  function startSearch() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
+    if (!query || !window.store) return;
+
+    const searchTerm = normalizeText(decodeURIComponent(query));
+    const searchWords = searchTerm.includes("без") 
+      ? [searchTerm] 
+      : searchTerm.split(/\s+/).filter(word => word.length > 2);
+
+    const allItems = Object.values(window.store);
+
+    const results = allItems.filter(item => {
+      const title = normalizeText(item.title);
+      const cats = Array.isArray(item.categories) ? item.categories.join(" ") : "";
+      const tags = Array.isArray(item.tags) ? item.tags.join(" ") : "";
+      const bookT = normalizeText(item.book_title || "");
+      
+      const combinedData = title + " " + cats + " " + tags + " " + bookT;
+
+      return searchWords.every(word => {
+        const queryPart = word.includes("без") ? word : getStem(word);
+        return combinedData.includes(queryPart);
+      });
+    });
+
+    displayResults(results);
+  }
+
+  setTimeout(startSearch, 300);
+})();
