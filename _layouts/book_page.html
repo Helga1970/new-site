@@ -1,47 +1,67 @@
+---
+layout: default
+---
+
+<div class="book-page-container" style="max-width: 1100px; margin: 0 auto; padding: 40px 20px; font-family: sans-serif;">
+  
+  <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+    
+    <div style="flex: 0 0 300px; text-align: center;">
+      <img id="book-cover" src="{{ page.book_cover }}" style="width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-bottom: 20px;">
+      
+      <a id="book-link" href="{{ page.book_link }}" target="_blank" style="display: block; background: #fa8569; color: #fff; text-decoration: none; padding: 15px; border-radius: 5px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+        Читать книгу
+      </a>
+    </div>
+
+    <div style="flex: 1; min-width: 300px;">
+      <h1 id="book-title" style="margin-top: 0; font-size: 2rem; color: #333;">{{ page.book_title }}</h1>
+      <p id="book-author" style="color: #888; font-style: italic; margin-bottom: 30px;">{{ page.book_author }}</p>
+      
+      <div id="remote-description-container">
+        <div id="loader" style="color: #999;">
+          <span class="spinner"></span> Загрузка описания с основного сайта...
+        </div>
+        <div id="book-description" style="line-height: 1.6; color: #444; font-size: 1.1rem;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   const descriptionContainer = document.getElementById('book-description');
   const loader = document.getElementById('loader');
   
-  // Берем slug из параметров страницы. 
-  // В твоем случае для "Кукис нашей мечты" slug должен быть "nmvc7b95g1-kukis-nashei-mechti"
+  // Берем slug книги, который мы передадим в эту страницу
   const bookSlug = "{{ page.book_slug }}";
   
+  // URL твоего другого сайта, откуда тянем данные
+  // Замени 'another-site.com' на реальный домен
+  const targetUrl = `https://another-site.com/books/${bookSlug}`;
+
   if (bookSlug) {
-    // Формируем прямой URL к странице на Tilda
-    const targetUrl = `https://pro-culinaria.ru/tpost/${bookSlug}`;
-
-    // Используем сервис-прокси, чтобы обойти блокировку CORS (защита Tilda)
-    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl);
-
-    fetch(proxyUrl)
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error('Network response was not ok.');
-      })
-      .then(data => {
+    fetch(targetUrl)
+      .then(response => response.text())
+      .then(html => {
         const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'text/html');
+        const doc = parser.parseFromString(html, 'text/html');
         
-        // На Tilda основной контент статьи обычно в этих блоках
-        const content = doc.querySelector('.t603') || doc.querySelector('.t-article-font') || doc.querySelector('.t-records');
+        // Здесь мы должны указать селектор блока на ТОМ сайте
+        // Например, если там описание лежит в <div class="entry-content">
+        const content = doc.querySelector('.entry-content') || doc.querySelector('article');
         
         if (content) {
           loader.style.display = 'none';
-          // Очищаем от лишних стилей Tilda, если нужно, или вставляем как есть
           descriptionContainer.innerHTML = content.innerHTML;
-          
-          // Маленький хак: удаляем кнопки купить или лишние ссылки, если они прилетели с того сайта
-          const extraButtons = descriptionContainer.querySelectorAll('.t-btn, .t-form');
-          extraButtons.forEach(btn => btn.remove());
-          
         } else {
-          loader.innerText = 'Описание готовится к публикации.';
+          loader.innerText = 'Описание временно недоступно.';
         }
       })
       .catch(err => {
         console.error(err);
-        loader.innerText = 'Не удалось загрузить описание напрямую. Вы можете прочитать его на основном сайте.';
+        loader.innerText = 'Ошибка при подключении к базе данных.';
       });
   }
 });
