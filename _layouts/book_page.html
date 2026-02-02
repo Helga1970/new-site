@@ -2,48 +2,68 @@
 layout: default
 ---
 
-<div class="book-page-container" style="max-width: 1100px; margin: 0 auto; padding: 40px 20px; font-family: sans-serif;">
-  <div style="display: flex; gap: 40px; flex-wrap: wrap;">
-    <div style="flex: 0 0 300px; text-align: center;">
-      <img src="{{ page.book_cover }}" style="width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-bottom: 20px;">
-      <a href="{{ page.book_link }}" target="_blank" style="display: block; background: #fa8569; color: #fff; text-decoration: none; padding: 15px; border-radius: 5px; font-weight: bold; text-transform: uppercase;">
-        Читать книгу
-      </a>
-    </div>
+<div class="book-page-container" style="max-width: 1000px; margin: 0 auto; padding: 40px 20px; font-family: sans-serif;">
+  
+  <img src="{{ page.book_cover }}" alt="{{ page.book_title }}" 
+       style="float: left; width: 300px; margin: 0 30px 20px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
 
-    <div style="flex: 1; min-width: 300px;">
-      <h1 style="margin-top: 0; font-size: 2rem; color: #333;">{{ page.book_title }}</h1>
-      <p style="color: #888; font-style: italic; margin-bottom: 30px;">{{ page.book_author }}</p>
-      <div id="loader">Загрузка...</div>
-      <div id="book-description" style="line-height: 1.6; color: #444; font-size: 1.1rem;"></div>
-    </div>
+  <div class="book-header">
+    <h1 style="margin: 0 0 10px 0; font-size: 2.2rem; color: #333;">{{ page.book_title }}</h1>
+    <p style="color: #888; font-style: italic; margin-bottom: 25px; font-size: 1.1rem;">{{ page.book_author }}</p>
   </div>
+
+  <div id="loader" style="color: #999; font-style: italic;">Загрузка описания...</div>
+  <div id="book-description" style="line-height: 1.6; color: #444; font-size: 1.1rem;">
+    {{ content }}
+  </div>
+
+  <div style="margin-top: 30px; clear: both;">
+    <a href="{{ page.book_link }}" target="_blank" 
+       style="display: inline-block; background: #fa8569; color: #fff; text-decoration: none; padding: 15px 35px; border-radius: 5px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+      Открыть книгу
+    </a>
+  </div>
+
+  <div style="clear: both;"></div>
 </div>
 
 <script>
-(function() {
+document.addEventListener("DOMContentLoaded", function() {
   const container = document.getElementById('book-description');
+  const loader = document.getElementById('loader');
   const slug = "{{ page.book_slug }}";
-  if (!slug) return;
+  
+  if (slug) {
+    const targetUrl = "https://pro-culinaria.ru/tpost/" + slug;
+    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl);
 
-  fetch('https://api.allorigins.win/get?url=' + encodeURIComponent("https://pro-culinaria.ru/tpost/" + slug))
-    .then(r => r.json())
-    .then(d => {
-      const doc = new DOMParser().parseFromString(d.contents, 'text/html');
-      const content = doc.querySelector('.t-records');
-      if (content) {
-        document.getElementById('loader').style.display = 'none';
+    fetch(proxyUrl)
+      .then(res => res.ok ? res.json() : Promise.reject())
+      .then(data => {
+        const doc = new DOMParser().parseFromString(data.contents, 'text/html');
+        // Ищем контент Тильды
+        const content = doc.querySelector('.t-records') || doc.querySelector('.t603__wrapper');
         
-        // Сначала удаляем всё ненужное прямо в памяти
-        content.querySelectorAll('img, .t-btn, .t-form, script, style').forEach(el => el.remove());
-        
-        // Фильтруем ту самую фразу
-        content.querySelectorAll('p').forEach(p => {
-          if (p.textContent.includes("350 рублей")) p.remove();
-        });
-
-        container.innerHTML = content.innerHTML;
-      }
-    });
-})();
+        if (content) {
+          loader.style.display = 'none';
+          
+          // Удаляем картинки, кнопки, формы и ту самую фразу про 350 рублей
+          content.querySelectorAll('img, script, style, .t-btn, .t-form').forEach(el => el.remove());
+          
+          const paragraphs = content.querySelectorAll('p, li, h2, h3');
+          let html = "";
+          paragraphs.forEach(p => {
+            if (!p.textContent.includes("350 рублей")) {
+              html += p.outerHTML;
+            }
+          });
+          
+          container.innerHTML = html;
+        }
+      })
+      .catch(() => {
+        loader.innerText = 'Описание доступно по кнопке ниже.';
+      });
+  }
+});
 </script>
