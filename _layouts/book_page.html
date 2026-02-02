@@ -4,73 +4,46 @@ layout: default
 
 <div class="book-page-container" style="max-width: 1100px; margin: 0 auto; padding: 40px 20px; font-family: sans-serif;">
   <div style="display: flex; gap: 40px; flex-wrap: wrap;">
-    
     <div style="flex: 0 0 300px; text-align: center;">
-      <img id="book-cover" src="{{ page.book_cover }}" style="width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-bottom: 20px;">
-      <a id="book-link" href="{{ page.book_link }}" target="_blank" style="display: block; background: #fa8569; color: #fff; text-decoration: none; padding: 15px; border-radius: 5px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+      <img src="{{ page.book_cover }}" style="width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-bottom: 20px;">
+      <a href="{{ page.book_link }}" target="_blank" style="display: block; background: #fa8569; color: #fff; text-decoration: none; padding: 15px; border-radius: 5px; font-weight: bold; text-transform: uppercase;">
         Читать книгу
       </a>
     </div>
 
     <div style="flex: 1; min-width: 300px;">
-      <h1 id="book-title" style="margin-top: 0; font-size: 2rem; color: #333;">{{ page.book_title }}</h1>
-      <p id="book-author" style="color: #888; font-style: italic; margin-bottom: 30px;">{{ page.book_author }}</p>
-      
-      <div id="remote-description-container">
-        <div id="loader" style="color: #999;">Загрузка описания...</div>
-        <div id="book-description" style="line-height: 1.6; color: #444; font-size: 1.1rem;"></div>
-      </div>
+      <h1 style="margin-top: 0; font-size: 2rem; color: #333;">{{ page.book_title }}</h1>
+      <p style="color: #888; font-style: italic; margin-bottom: 30px;">{{ page.book_author }}</p>
+      <div id="loader">Загрузка...</div>
+      <div id="book-description" style="line-height: 1.6; color: #444; font-size: 1.1rem;"></div>
     </div>
-
   </div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const descriptionContainer = document.getElementById('book-description');
-  const loader = document.getElementById('loader');
-  const bookSlug = "{{ page.book_slug }}";
-  
-  if (bookSlug) {
-    const targetUrl = "https://pro-culinaria.ru/tpost/" + bookSlug;
-    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl);
+(function() {
+  const container = document.getElementById('book-description');
+  const slug = "{{ page.book_slug }}";
+  if (!slug) return;
 
-    fetch(proxyUrl)
-      .then(response => response.json())
-      .then(data => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'text/html');
-        const content = doc.querySelector('.t-records');
+  fetch('https://api.allorigins.win/get?url=' + encodeURIComponent("https://pro-culinaria.ru/tpost/" + slug))
+    .then(r => r.json())
+    .then(d => {
+      const doc = new DOMParser().parseFromString(d.contents, 'text/html');
+      const content = doc.querySelector('.t-records');
+      if (content) {
+        document.getElementById('loader').style.display = 'none';
         
-        if (content) {
-          loader.style.display = 'none';
-          
-          // 1. Убираем лишние картинки, чтобы не дублировать обложку
-          const images = content.querySelectorAll('img');
-          images.forEach(img => img.remove());
+        // Сначала удаляем всё ненужное прямо в памяти
+        content.querySelectorAll('img, .t-btn, .t-form, script, style').forEach(el => el.remove());
+        
+        // Фильтруем ту самую фразу
+        content.querySelectorAll('p').forEach(p => {
+          if (p.textContent.includes("350 рублей")) p.remove();
+        });
 
-          // 2. Вставляем текст
-          descriptionContainer.innerHTML = content.innerHTML;
-
-          // 3. Прячем ту самую фразу про подписку (ищем её по тексту во всем контейнере)
-          const paragraphs = descriptionContainer.querySelectorAll('p, div');
-          paragraphs.forEach(p => {
-            if (p.innerText.includes("Оформить подписку") && p.innerText.includes("350 рублей")) {
-              p.style.display = 'none';
-            }
-          });
-
-          // 4. Убираем кнопки и формы
-          const extra = descriptionContainer.querySelectorAll('.t-btn, .t-form, script, style');
-          extra.forEach(el => el.remove());
-          
-        } else {
-          loader.innerText = 'Описание временно недоступно.';
-        }
-      })
-      .catch(err => {
-        loader.innerText = 'Ошибка загрузки описания.';
-      });
-  }
-});
+        container.innerHTML = content.innerHTML;
+      }
+    });
+})();
 </script>
