@@ -24,16 +24,10 @@ layout: default
   </div>
 
   <div class="book-sidebar" style="flex: 1; border-left: 1px solid #eee; padding-left: 30px; min-width: 300px;">
-    {% assign book_recipes = site.recipes | where: "book_slug", page.book_slug %}
-    
-    <h3 style="margin-top: 0; font-size: 1.4rem; color: #333; border-bottom: 2px solid #fa8569; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-      Рецепты из книги
-      {% if book_recipes.size > 0 %}
-        <span style="background: #fa8569; color: #fff; font-size: 0.9rem; padding: 2px 10px; border-radius: 20px;">{{ book_recipes.size }}</span>
-      {% endif %}
-    </h3>
+    <h3 style="margin-top: 0; font-size: 1.4rem; color: #333; border-bottom: 2px solid #fa8569; padding-bottom: 10px;">Рецепты из книги</h3>
     
     <div class="mini-recipes-list" style="margin-top: 20px;">
+      {% assign book_recipes = site.recipes | where: "book_slug", page.book_slug %}
       {% for recipe in book_recipes %}
         <a href="{{ recipe.url }}" style="display: flex; align-items: center; text-decoration: none; color: #333; margin-bottom: 15px; transition: 0.3s;" class="recipe-item">
           <img src="{{ recipe.image }}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 6px; margin-right: 15px;">
