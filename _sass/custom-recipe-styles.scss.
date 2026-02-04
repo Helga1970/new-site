@@ -1,0 +1,30 @@
+/* Расширяем основной контейнер только если мы на странице книги */
+.book-page-wrapper {
+    // Выходим за пределы стандартного контейнера
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    
+    // Но ограничиваем контент разумными 1400px, чтобы не разъехалось на весь экран
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    gap: 40px;
+}
+
+/* Настройка сетки рецептов, чтобы всегда было 2 в ряд */
+.mini-recipe-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px;
+}
+
+/* Фикс для заголовков в узком сайдбаре */
+.mini-title {
+    font-size: 0.75rem !important;
+    hyphens: auto; // Чтобы длинные слова переносились
+}
