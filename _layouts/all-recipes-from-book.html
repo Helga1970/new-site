@@ -1,84 +1,364 @@
 ---
 layout: default
+permalink: /all-recipes-from-book/index.html
 ---
 
-<div class="book-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: flex; gap: 40px; font-family: sans-serif;">
-  
-  <div class="book-main-content" style="flex: 2;">
-    <img src="{{ page.book_cover }}" alt="{{ page.book_title }}" 
-         style="float: left; width: 280px; margin: 0 25px 20px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-
-    <h1 style="margin: 0 0 10px 0; font-size: 2.2rem; color: #333;">{{ page.book_title }}</h1>
-    <p style="color: #888; font-style: italic; margin-bottom: 25px;">{{ page.book_author }}</p>
-      
-    <div class="book-description" style="line-height: 1.6; color: #444; font-size: 1.1rem; text-align: justify;">
-      {{ content }}
+<div class="book-page-container">
+  <div class="header-controls">
+  <h1 class="book-title-heading">
+    Все рецепты из книги:
+    <span id="book-name" class="book-name"></span>
+    (<span id="recipes-count">0</span>)
+  </h1>
+  <div class="filter-container">
+  <button class="filter-toggle" id="filter-toggle">
+    <span class="button-text">Фильтр по категории</span>
+    <span class="selected-count"></span>
+  </button>
+  <div class="checkbox-list-container hidden" id="checkbox-list-container">
+    <div class="checkbox-item all-option">
+      <input type="checkbox" id="all-categories" value="all">
+      <label for="all-categories">Все</label>
     </div>
-
-    <div style="margin-top: 30px; clear: both;">
-      <a href="{{ page.book_link }}" target="_blank" 
-         style="display: inline-block; background: #fa8569; color: #fff; text-decoration: none; padding: 15px 35px; border-radius: 5px; font-weight: bold; text-transform: uppercase;">
-        Открыть книгу
-      </a>
     </div>
-  </div>
-
-  <div class="book-sidebar" style="flex: 1; border-left: 1px solid #eee; padding-left: 30px; min-width: 300px;">
-    <h3 style="margin-top: 0; font-size: 1.4rem; color: #333; border-bottom: 2px solid #fa8569; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-      Рецепты из книги
-      <span id="js-recipes-count" style="background: #fa8569; color: #fff; font-size: 0.9rem; padding: 2px 10px; border-radius: 20px; display: none;">0</span>
-    </h3>
-    
-    <div id="js-sidebar-recipes" style="margin-top: 20px;">
-      <p style="color: #999; font-style: italic;">Загрузка...</p>
-    </div>
-  </div>
+</div>
+</div>
+  <div id="recipes-grid" class="recipe-grid"></div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
-    const bookSlug = "{{ page.book_slug }}"; // Берем слаг прямо из Jekyll
+    const pathParts = window.location.pathname.split("/").filter(Boolean);
+    const bookSlug = pathParts[pathParts.length - 1];
     const jsonUrl = `/api/recipes/${bookSlug}.json`;
-    const sidebarGrid = document.getElementById("js-sidebar-recipes");
-    const countBadge = document.getElementById("js-recipes-count");
+
+    const grid = document.getElementById("recipes-grid");
+    const filterToggle = document.getElementById("filter-toggle");
+    const checkboxContainer = document.getElementById("checkbox-list-container");
+    const selectedCountSpan = document.querySelector('.selected-count');
+    const allCategoriesCheckbox = document.getElementById('all-categories');
+    let allRecipes = [];
+    let categoryCounts = {}; // Здесь будут храниться счетчики
+
+    const updateSelectedCount = () => {
+        const checkedBoxes = checkboxContainer.querySelectorAll('input[type="checkbox"]:checked');
+        const count = checkedBoxes.length;
+        if (count > 0 && checkedBoxes[0].value !== 'all') {
+            selectedCountSpan.textContent = `(${count} выбрано)`;
+        } else {
+            selectedCountSpan.textContent = '';
+        }
+    };
+
+    const renderRecipes = (recipesToRender) => {
+        grid.innerHTML = "";
+        if (recipesToRender.length > 0) {
+            recipesToRender.forEach(recipe => {
+                const imageUrl = recipe.featured_image || recipe.book_cover;
+                const card = document.createElement("div");
+                card.className = "recipe-card";
+                card.innerHTML = `
+                    <a href="${recipe.url}">
+                        <div class="recipe-image-wrapper">
+                            <img src="${imageUrl}" alt="${recipe.title}">
+                        </div>
+                        <div class="recipe-title-box">
+                            <h2 class="recipe-title">${recipe.title}</h2>
+                        </div>
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        } else {
+            grid.innerHTML = "<p>К сожалению, рецепты по этой категории не найдены.</p>";
+        }
+    };
 
     try {
         const response = await fetch(jsonUrl);
-        if (!response.ok) throw new Error('JSON не найден');
-        
-        const recipes = await response.json();
-        
-        if (recipes.length > 0) {
-            countBadge.textContent = recipes.length;
-            countBadge.style.display = 'inline-block';
-            sidebarGrid.innerHTML = ""; // Очищаем "Загрузку"
-
-            recipes.forEach(recipe => {
-                const recipeImg = recipe.featured_image || recipe.book_cover;
-                const item = document.createElement("a");
-                item.href = recipe.url;
-                item.className = "sidebar-recipe-item";
-                item.style = "display: flex; align-items: center; text-decoration: none; color: #333; margin-bottom: 15px; transition: 0.2s;";
-                item.innerHTML = `
-                    <img src="${recipeImg}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; margin-right: 15px;">
-                    <span style="font-size: 0.95rem; font-weight: 500; line-height: 1.3;">${recipe.title}</span>
-                `;
-                sidebarGrid.appendChild(item);
-            });
-        } else {
-            sidebarGrid.innerHTML = "<p style='color: #999; font-style: italic;'>Рецептов пока нет.</p>";
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    } catch (e) {
-        console.error("Ошибка сайдбара:", e);
-        sidebarGrid.innerHTML = ""; // Если файла нет, просто скрываем блок
+        
+        allRecipes = await response.json();
+        
+        document.getElementById("book-name").textContent = allRecipes[0].book_title;
+        document.getElementById("recipes-count").textContent = allRecipes.length;
+
+        const categories = [...new Set(allRecipes.flatMap(r => r.categories))].sort();
+
+        // Считаем количество рецептов для каждой категории при загрузке
+        categoryCounts = allRecipes.reduce((counts, recipe) => {
+            if (recipe.categories) {
+                recipe.categories.forEach(category => {
+                    counts[category] = (counts[category] || 0) + 1;
+                });
+            }
+            return counts;
+        }, {});
+        
+        // Создаем элементы без цифр
+        categories.forEach(category => {
+            const checkboxId = `cat-${category.replace(/\s+/g, '-').toLowerCase()}`;
+            const itemDiv = document.createElement("div");
+            itemDiv.className = "checkbox-item";
+            
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = checkboxId;
+            checkbox.value = category;
+
+            const label = document.createElement("label");
+            label.htmlFor = checkboxId;
+            label.textContent = category;
+            
+            itemDiv.appendChild(checkbox);
+            itemDiv.appendChild(label);
+            checkboxContainer.appendChild(itemDiv);
+        });
+
+        renderRecipes(allRecipes);
+
+        filterToggle.addEventListener("click", () => {
+            checkboxContainer.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!filterToggle.contains(e.target) && !checkboxContainer.contains(e.target)) {
+                checkboxContainer.classList.add("hidden");
+            }
+        });
+
+        checkboxContainer.addEventListener("change", (e) => {
+            const changedCheckbox = e.target;
+            const label = changedCheckbox.nextElementSibling;
+            const categoryName = changedCheckbox.value;
+
+            if (changedCheckbox.id === 'all-categories') {
+                checkboxContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    if (cb !== allCategoriesCheckbox) {
+                        cb.checked = false;
+                        cb.nextElementSibling.textContent = cb.value; // Убираем цифры со всех
+                    }
+                });
+            } else {
+                allCategoriesCheckbox.checked = false;
+                
+                // Добавляем или убираем цифру
+                if (changedCheckbox.checked) {
+                    label.textContent = `${categoryName} (${categoryCounts[categoryName] || 0})`;
+                } else {
+                    label.textContent = categoryName;
+                }
+            }
+
+            updateSelectedCount();
+
+            const checkedBoxes = Array.from(checkboxContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+            
+            if (checkedBoxes.length === 0 || checkedBoxes.includes('all')) {
+                renderRecipes(allRecipes);
+            } else {
+                const filteredRecipes = allRecipes.filter(recipe => {
+    if (!recipe.categories) return false;
+    return checkedBoxes.some(cat => recipe.categories.includes(cat));
+});
+                renderRecipes(filteredRecipes);
+            }
+        });
+
+    } catch (error) {
+        console.error("Ошибка при загрузке данных:", error);
+        grid.innerHTML = `<p>Не удалось загрузить рецепты. Пожалуйста, попробуйте позже. (${error.message})</p>`;
     }
 });
 </script>
 
 <style>
-  .sidebar-recipe-item:hover { opacity: 0.7; transform: translateX(5px); }
-  @media (max-width: 900px) {
-    .book-page-wrapper { flex-direction: column; }
-    .book-sidebar { border-left: none; padding-left: 0; border-top: 1px solid #eee; padding-top: 30px; }
+.book-page-container { padding: 20px; }
+.book-page-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.header-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+@media (min-width: 768px) {
+  .header-controls {
+    flex-direction: row;
+    justify-content: space-between;
   }
+}
+.filter-container label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.book-title-heading .book-name {
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+  color: #333;
+}
+.book-title-heading {
+  font-size: 1.5em;
+  font-weight: normal;
+  text-align: left; /* Изменено, чтобы текст был слева */
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .book-title-heading {
+    text-align: center; /* Центрирует на мобильных устройствах */
+  }
+}
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+.recipe-card {
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.recipe-card a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.recipe-image-wrapper {
+  width: 100%;
+  padding-top: 120%;
+  position: relative;
+}
+.recipe-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 95%;
+  object-fit: cover;
+}
+.recipe-title-box {
+  padding: 15px;
+  text-align: center;
+}
+.recipe-title {
+  font-size: 1.1em;
+  margin: 0;
+  color: #333;
+}
+@media (max-width: 768px) {
+  .recipe-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 769px) and (max-width: 1200px) {
+  .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+.recipe-card {
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.recipe-card a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.recipe-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 95%;
+  object-fit: cover;
+}
+.recipe-title {
+  font-size: 1.1em;
+  margin: 0;
+  color: #333;
+}
+@media (max-width: 768px) {
+  .recipe-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 769px) and (max-width: 1200px) {
+  .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+  .filter-container {
+  position: relative; /* Контекст для позиционирования выпадающего списка */
+  width: 250px; /* Фиксированная ширина контейнера */
+}
+.filter-toggle {
+  display: flex; /* Гибкий контейнер для элементов кнопки */
+  justify-content: space-between; /* Распределяет текст и счетчик по краям */
+  align-items: center; /* Выравнивает элементы по центру по вертикали */
+  width: 100%; /* Растягивает кнопку на всю ширину контейнера */
+  padding: 10px 15px; /* Внутренние отступы кнопки */
+  font-size: 1em; /* Размер шрифта */
+  text-align: left; /* Выравнивание текста по левому краю */
+  background-color: #f7f7f7; /* Светло-серый фон кнопки */
+  border: 1px solid #ccc; /* Граница кнопки */
+  border-radius: 5px; /* Скругление углов */
+  cursor: pointer; /* Меняет курсор на "руку" */
+}
+.filter-toggle:focus {
+  outline: none; /* Убирает стандартную обводку при фокусе */
+  border-color: #fa8569; /* Меняет цвет границы при фокусе */
+}
+.selected-count {
+  font-size: 0.9em; /* Уменьшенный размер шрифта для счетчика */
+  color: #666; /* Серый цвет текста счетчика */
+}
+.checkbox-list-container {
+  position: absolute; /* Позиционирует список относительно контейнера */
+  top: 100%; /* Располагает список сразу под кнопкой */
+  left: 0; /* Выравнивает список по левому краю */
+  width: 100%; /* Растягивает список на всю ширину кнопки */
+  background-color: white; /* Белый фон списка */
+  border: 1px solid #ccc; /* Граница списка */
+  border-top: none; /* Убирает верхнюю границу для "прилипания" */
+  border-radius: 0 0 0px 0px; /* Скругляет только нижние углы */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Добавляет тень */
+  z-index: 10; /* Показывает список поверх других элементов */
+  padding: 10px; /* Внутренние отступы списка */
+  max-height: 200px; /* Ограничивает максимальную высоту */
+  overflow-y: auto; /* Добавляет прокрутку, если контент не помещается */
+}
+.hidden {
+  display: none; /* Скрывает элемент, не оставляя места */
+}
+.checkbox-item {
+  display: flex; /* Гибкий контейнер для флажка и текста */
+  align-items: center; /* Выравнивает флажок и текст по центру */
+  margin-bottom: 5px; /* Отступ между элементами списка */
+}
+.checkbox-item input[type="checkbox"] {
+  margin-right: 10px; /* Отступ справа от самого флажка */
+}
+.checkbox-item input[type="checkbox"]:checked + label {
+  color: #fa8569; /* Цвет текста для выбранной категории */
+  font-weight: bold; /* Делает текст жирным */
+}
+.all-option {
+  font-weight: bold; /* Делает текст "Все" жирным */
+  border-bottom: 1px solid #eee; /* Тонкая серая линия снизу */
+  padding-bottom: 5px; /* Отступ снизу от линии */
+  margin-bottom: 5px; /* Отступ между "Все" и другими категориями */
+}
 </style>
