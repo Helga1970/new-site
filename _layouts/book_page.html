@@ -24,7 +24,10 @@ layout: default
   </div>
 
   <div class="book-sidebar" style="flex: 1; border-left: 1px solid #eee; padding-left: 30px; min-width: 300px;">
-    <h3 style="margin-top: 0; font-size: 1.4rem; color: #333; border-bottom: 2px solid #fa8569; padding-bottom: 10px;">Рецепты из книги</h3>
+   <h3 style="margin-top: 0; font-size: 1.4rem; color: #333; border-bottom: 2px solid #fa8569; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+  Все рецепты из книги
+  <span id="js-recipes-count" style="background: #fa8569; color: #fff; font-size: 0.9rem; padding: 2px 10px; border-radius: 20px; display: none;">0</span>
+</h3>
     
     <div class="mini-recipes-list" style="margin-top: 20px;">
       {% assign book_recipes = site.recipes | where: "book_slug", page.book_slug %}
