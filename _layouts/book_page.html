@@ -2,9 +2,9 @@
 layout: default
 ---
 
-<div class="book-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: flex; gap: 30px; font-family: sans-serif;">
+<div class="book-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: flex; gap: 40px; font-family: sans-serif;">
   
-  <div class="book-main-content" style="width: 75%; min-width: 0;">
+  <div class="book-main-content" style="flex: 1; min-width: 0;">
     <img src="{{ page.book_cover }}" alt="{{ page.book_title }}" 
          style="float: left; width: 280px; margin: 0 25px 15px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
 
@@ -23,12 +23,12 @@ layout: default
     </div>
   </div>
 
-  <div class="book-sidebar" style="width: 25%; border-left: 1px solid #eee; padding-left: 20px;">
-    <div class="sidebar-header" style="border-bottom: 2px solid #fa8569; padding-bottom: 10px; margin-bottom: 15px;">
-      <h3 style="margin: 0 0 8px 0; font-size: 1.1rem; color: #333;">Рецепты (<span id="recipes-count">0</span>)</h3>
+  <div class="book-sidebar" style="width: 300px; flex-shrink: 0; border-left: 1px solid #eee; padding-left: 25px;">
+    <div class="sidebar-header" style="border-bottom: 2px solid #fa8569; padding-bottom: 15px; margin-bottom: 20px;">
+      <h3 style="margin: 0 0 10px 0; font-size: 1.2rem; color: #333;">Рецепты (<span id="recipes-count">0</span>)</h3>
       
       <div class="filter-container">
-        <button class="filter-toggle" id="filter-toggle" style="width: 100%; padding: 6px; font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;">
+        <button class="filter-toggle" id="filter-toggle" style="width: 100%; padding: 8px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;">
           <span class="button-text">Фильтр</span>
           <span class="selected-count" style="color: #fa8569; font-weight: bold;"></span>
         </button>
@@ -78,74 +78,57 @@ document.addEventListener("DOMContentLoaded", async function () {
         const response = await fetch(jsonUrl);
         allRecipes = await response.json();
         document.getElementById("recipes-count").textContent = allRecipes.length;
-
         const categories = [...new Set(allRecipes.flatMap(r => r.categories || []))].sort();
         categoryCounts = allRecipes.reduce((counts, recipe) => {
             (recipe.categories || []).forEach(cat => counts[cat] = (counts[cat] || 0) + 1);
             return counts;
         }, {});
-        
         categories.forEach(category => {
-            const checkboxId = `cat-${category.replace(/\s+/g, '-').toLowerCase()}`;
             const itemDiv = document.createElement("div");
             itemDiv.className = "checkbox-item";
-            itemDiv.innerHTML = `<input type="checkbox" id="${checkboxId}" value="${category}"><label for="${checkboxId}">${category}</label>`;
+            itemDiv.innerHTML = `<input type="checkbox" value="${category}"><label>${category}</label>`;
             checkboxContainer.appendChild(itemDiv);
         });
-
         renderRecipes(allRecipes);
         filterToggle.addEventListener("click", () => checkboxContainer.classList.toggle("hidden"));
-        
         checkboxContainer.addEventListener("change", (e) => {
-            if (e.target.id === 'all-categories') {
-                checkboxContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                    if (cb !== allCategoriesCheckbox) {
-                        cb.checked = false;
-                        cb.nextElementSibling.textContent = cb.value;
-                    }
-                });
-            } else {
-                allCategoriesCheckbox.checked = false;
-                e.target.nextElementSibling.textContent = e.target.checked ? `${e.target.value} (${categoryCounts[e.target.value] || 0})` : e.target.value;
-            }
-
             const checkedBoxes = Array.from(checkboxContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
             const filtered = (checkedBoxes.length === 0 || checkedBoxes.includes('all')) 
                 ? allRecipes 
                 : allRecipes.filter(r => (r.categories || []).some(cat => checkedBoxes.includes(cat)));
             renderRecipes(filtered);
-            const count = checkedBoxes.filter(v => v !== 'all').length;
-            selectedCountSpan.textContent = count > 0 ? `(${count})` : '';
+            selectedCountSpan.textContent = checkedBoxes.length > 0 ? `(${checkedBoxes.length})` : '';
         });
-    } catch (e) { grid.innerHTML = ""; }
+    } catch (e) { console.log(e); }
 });
 </script>
 
 <style>
-/* Сайдбар: строго 2 колонки */
+/* Сетка: теперь карточки будут нормального размера */
 .mini-recipe-grid { 
   display: grid; 
   grid-template-columns: 1fr 1fr; 
-  gap: 8px; 
+  gap: 12px; 
 }
-.mini-recipe-card { background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.mini-image-wrapper { width: 100%; aspect-ratio: 1/1; position: relative; }
+.mini-recipe-card { background: #fff; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.08); transition: 0.3s; }
+.mini-recipe-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+.mini-image-wrapper { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; }
 .mini-image-wrapper img { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; }
-.mini-title-box { padding: 4px; text-align: center; min-height: 32px; display: flex; align-items: center; justify-content: center; }
-.mini-title { font-size: 0.65rem; margin: 0; color: #333; line-height: 1.1; font-weight: 600; }
+.mini-title-box { padding: 8px 4px; text-align: center; min-height: 45px; display: flex; align-items: center; justify-content: center; }
+.mini-title { font-size: 0.8rem; margin: 0; color: #333; line-height: 1.2; font-weight: 600; }
 
 .filter-container { position: relative; width: 100%; }
 .checkbox-list-container { 
     position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ddd; 
-    z-index: 100; padding: 6px; max-height: 200px; overflow-y: auto; box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    z-index: 100; padding: 10px; max-height: 250px; overflow-y: auto; box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 .hidden { display: none; }
-.checkbox-item { display: flex; align-items: center; margin-bottom: 4px; font-size: 0.65rem; }
-.checkbox-item input { margin-right: 5px; }
+.checkbox-item { display: flex; align-items: center; margin-bottom: 6px; font-size: 0.8rem; }
+.checkbox-item input { margin-right: 8px; }
 
 @media (max-width: 900px) {
   .book-page-wrapper { flex-direction: column; }
-  .book-main-content, .book-sidebar { width: 100%; padding: 0; border: none; }
-  .mini-recipe-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  .book-sidebar { width: 100%; padding: 0; border: none; }
+  .mini-recipe-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 }
 </style>
