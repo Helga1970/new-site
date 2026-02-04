@@ -2,11 +2,77 @@
 layout: default
 ---
 
-<div class="book-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: flex; gap: 40px; font-family: sans-serif;">
+<style>
+    /* ПРИНУДИТЕЛЬНОЕ РАСШИРЕНИЕ (Взламываем стену родительского шаблона) */
+    .container.main-content, .container, .content {
+        max-width: 1400px !important;
+        width: 95% !important;
+        margin: 0 auto !important;
+    }
+
+    /* Настройка обертки */
+    .book-page-wrapper {
+        max-width: 1400px !important;
+        display: flex !important;
+        gap: 40px;
+        margin-top: 20px;
+    }
+
+    /* Левая колонка — 75% */
+    .book-main-content {
+        width: 75% !important;
+        flex: none !important;
+        min-width: 0;
+    }
+
+    /* Правая колонка — 25% */
+    .book-sidebar {
+        width: 350px !important; /* Фиксируем ширину для 2-х колонок рецептов */
+        flex-shrink: 0 !important;
+        border-left: 1px solid #eee;
+        padding-left: 25px;
+    }
+
+    /* Сетка рецептов: ВСЕГДА 2 В РЯД */
+    .mini-recipe-grid { 
+        display: grid !important; 
+        grid-template-columns: 1fr 1fr !important; 
+        gap: 12px; 
+    }
+
+    /* Обтекание картинки */
+    .book-main-content img.book-cover {
+        float: left !important;
+        width: 300px !important;
+        margin: 0 30px 20px 0 !important;
+    }
+
+    .mini-recipe-card { background: #fff; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.08); transition: 0.3s; }
+    .mini-recipe-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+    .mini-image-wrapper { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; }
+    .mini-image-wrapper img { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; }
+    .mini-title-box { padding: 8px 4px; text-align: center; min-height: 45px; display: flex; align-items: center; justify-content: center; }
+    .mini-title { font-size: 0.75rem !important; margin: 0; color: #333; line-height: 1.2; font-weight: 600; }
+
+    .filter-container { position: relative; width: 100%; }
+    .checkbox-list-container { 
+        position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ddd; 
+        z-index: 100; padding: 10px; max-height: 250px; overflow-y: auto; box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    .hidden { display: none; }
+    .checkbox-item { display: flex; align-items: center; margin-bottom: 6px; font-size: 0.8rem; }
+    .checkbox-item input { margin-right: 8px; }
+
+    @media (max-width: 900px) {
+        .book-page-wrapper { flex-direction: column; }
+        .book-sidebar { width: 100% !important; padding: 0; border: none; }
+    }
+</style>
+
+<div class="book-page-wrapper">
   
-  <div class="book-main-content" style="flex: 1; min-width: 0;">
-    <img src="{{ page.book_cover }}" alt="{{ page.book_title }}" 
-         style="float: left; width: 280px; margin: 0 25px 15px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+  <div class="book-main-content">
+    <img src="{{ page.book_cover }}" alt="{{ page.book_title }}" class="book-cover" style="border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
 
     <h1 style="margin: 0 0 5px 0; font-size: 2.2rem; color: #333; line-height: 1.2;">{{ page.book_title }}</h1>
     <p style="color: #888; font-style: italic; margin-bottom: 20px; font-size: 1.1rem;">{{ page.book_author }}</p>
@@ -23,7 +89,7 @@ layout: default
     </div>
   </div>
 
-  <div class="book-sidebar" style="width: 300px; flex-shrink: 0; border-left: 1px solid #eee; padding-left: 25px;">
+  <div class="book-sidebar">
     <div class="sidebar-header" style="border-bottom: 2px solid #fa8569; padding-bottom: 15px; margin-bottom: 20px;">
       <h3 style="margin: 0 0 10px 0; font-size: 1.2rem; color: #333;">Рецепты (<span id="recipes-count">0</span>)</h3>
       
@@ -40,15 +106,13 @@ layout: default
         </div>
       </div>
     </div>
-    
     <div id="mini-recipes-grid" class="mini-recipe-grid"></div>
   </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
-    const pathParts = window.location.pathname.split("/").filter(Boolean);
-    const bookSlug = pathParts[pathParts.length - 1];
+    const bookSlug = "{{ page.book_slug }}"; 
     const jsonUrl = `/api/recipes/${bookSlug}.json`;
 
     const grid = document.getElementById("mini-recipes-grid");
@@ -57,20 +121,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     const selectedCountSpan = document.querySelector('.selected-count');
     const allCategoriesCheckbox = document.getElementById('all-categories');
     let allRecipes = [];
-    let categoryCounts = {};
 
     const renderRecipes = (recipesToRender) => {
         grid.innerHTML = "";
         recipesToRender.forEach(recipe => {
             const imageUrl = recipe.featured_image || recipe.book_cover;
-            const card = document.createElement("div");
-            card.className = "mini-recipe-card";
-            card.innerHTML = `
-                <a href="${recipe.url}">
-                    <div class="mini-image-wrapper"><img src="${imageUrl}" alt="${recipe.title}"></div>
-                    <div class="mini-title-box"><h2 class="mini-title">${recipe.title}</h2></div>
-                </a>`;
-            grid.appendChild(card);
+            grid.insertAdjacentHTML('beforeend', `
+                <div class="mini-recipe-card">
+                    <a href="${recipe.url}" style="text-decoration:none; color:inherit;">
+                        <div class="mini-image-wrapper"><img src="${imageUrl}" alt="${recipe.title}"></div>
+                        <div class="mini-title-box"><h2 class="mini-title">${recipe.title}</h2></div>
+                    </a>
+                </div>`);
         });
     };
 
@@ -78,57 +140,33 @@ document.addEventListener("DOMContentLoaded", async function () {
         const response = await fetch(jsonUrl);
         allRecipes = await response.json();
         document.getElementById("recipes-count").textContent = allRecipes.length;
+
         const categories = [...new Set(allRecipes.flatMap(r => r.categories || []))].sort();
-        categoryCounts = allRecipes.reduce((counts, recipe) => {
-            (recipe.categories || []).forEach(cat => counts[cat] = (counts[cat] || 0) + 1);
-            return counts;
-        }, {});
         categories.forEach(category => {
             const itemDiv = document.createElement("div");
             itemDiv.className = "checkbox-item";
             itemDiv.innerHTML = `<input type="checkbox" value="${category}"><label>${category}</label>`;
             checkboxContainer.appendChild(itemDiv);
         });
+
         renderRecipes(allRecipes);
         filterToggle.addEventListener("click", () => checkboxContainer.classList.toggle("hidden"));
+
         checkboxContainer.addEventListener("change", (e) => {
+            if (e.target.id === 'all-categories' && e.target.checked) {
+                checkboxContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => { if(cb !== allCategoriesCheckbox) cb.checked = false; });
+            } else if (e.target !== allCategoriesCheckbox) {
+                allCategoriesCheckbox.checked = false;
+            }
+
             const checkedBoxes = Array.from(checkboxContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
             const filtered = (checkedBoxes.length === 0 || checkedBoxes.includes('all')) 
                 ? allRecipes 
                 : allRecipes.filter(r => (r.categories || []).some(cat => checkedBoxes.includes(cat)));
+            
             renderRecipes(filtered);
-            selectedCountSpan.textContent = checkedBoxes.length > 0 ? `(${checkedBoxes.length})` : '';
+            selectedCountSpan.textContent = checkedBoxes.length > 0 && !checkedBoxes.includes('all') ? `(${checkedBoxes.length})` : '';
         });
-    } catch (e) { console.log(e); }
+    } catch (e) { console.error("Error loading recipes:", e); }
 });
 </script>
-
-<style>
-/* Сетка: теперь карточки будут нормального размера */
-.mini-recipe-grid { 
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  gap: 12px; 
-}
-.mini-recipe-card { background: #fff; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.08); transition: 0.3s; }
-.mini-recipe-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
-.mini-image-wrapper { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; }
-.mini-image-wrapper img { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; }
-.mini-title-box { padding: 8px 4px; text-align: center; min-height: 45px; display: flex; align-items: center; justify-content: center; }
-.mini-title { font-size: 0.8rem; margin: 0; color: #333; line-height: 1.2; font-weight: 600; }
-
-.filter-container { position: relative; width: 100%; }
-.checkbox-list-container { 
-    position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ddd; 
-    z-index: 100; padding: 10px; max-height: 250px; overflow-y: auto; box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-}
-.hidden { display: none; }
-.checkbox-item { display: flex; align-items: center; margin-bottom: 6px; font-size: 0.8rem; }
-.checkbox-item input { margin-right: 8px; }
-
-@media (max-width: 900px) {
-  .book-page-wrapper { flex-direction: column; }
-  .book-sidebar { width: 100%; padding: 0; border: none; }
-  .mini-recipe-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-}
-</style>
