@@ -3,62 +3,61 @@ layout: default
 ---
 
 <style>
-    /* 1. РАЗДВИГАЕМ И ЦЕНТРИРУЕМ ВНЕШНИЙ КОНТЕЙНЕР */
-    .container.main-content, .container, .content {
-        max-width: 1300px !important;
-        width: 100% !important;
-        margin: 0 auto !important;
-        padding: 0 !important;
+    /* РАСШИРЯЕМ КОНТЕЙНЕР, ЧТОБЫ ЗАБИТЬ ПУСТОТУ СПРАВА */
+    .container.main-content, .container, .content, .site-content {
+        max-width: 1600px !important; /* Даем максимум места вправо */
+        width: 98% !important;
+        margin-left: 0 !important; /* Держим лево как есть, раз там ок */
+        margin-right: auto !important;
+        padding: 0 40px 0 20px !important;
+        float: none !important;
     }
 
-    /* 2. ГЛАВНАЯ ОБЕРТКА: СТРОГО В ОДИН РЯД */
+    /* ГЛАВНАЯ ОБЕРТКА */
     .book-page-wrapper {
         display: flex !important;
-        flex-direction: row !important; /* Запрещаем сваливаться вниз */
-        flex-wrap: nowrap !important; 
-        justify-content: center !important;
-        gap: 40px !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 60px !important; /* Увеличил зазор между колонками для воздуха */
         width: 100% !important;
-        margin: 40px auto !important;
+        margin-top: 30px !important;
     }
 
-    /* 3. ЛЕВАЯ КОЛОНКА (70% МИНУС ОТСТУП) */
+    /* ЛЕВАЯ КОЛОНКА — ТЕПЕРЬ РАСТЯГИВАЕТСЯ И ЗАБИВАЕТ МЕСТО */
     .book-main-content {
-        width: calc(75% - 40px) !important;
-        flex-shrink: 1 !important;
+        flex: 1 1 auto !important; /* Разрешаем расти */
         min-width: 0;
     }
 
-    /* 4. ПРАВАЯ КОЛОНКА (ФИКСИРОВАННАЯ) */
+    /* ПРАВАЯ КОЛОНКА (САЙДБАР) */
     .book-sidebar {
-        width: 320px !important;
-        flex-shrink: 0 !important; /* Запрещаем сжиматься */
+        width: 380px !important; /* Чуть расширил сайдбар, раз места много */
+        flex-shrink: 0 !important;
         border-left: 1px solid #eee;
-        padding-left: 20px;
+        padding-left: 35px;
     }
 
-    /* 5. КАРТИНКА И ОБТЕКАНИЕ */
+    /* КАРТИНКА */
     .book-cover-img {
         float: left !important;
-        width: 280px !important;
-        height: auto !important;
-        margin: 0 25px 15px 0 !important;
+        width: 320px !important;
+        margin: 0 35px 25px 0 !important;
         border-radius: 8px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
 
-    /* 6. СЕТКА РЕЦЕПТОВ: СТРОГО 2 В РЯД */
+    /* СЕТКА РЕЦЕПТОВ (СТРОГО 2 В РЯД) */
     .mini-recipe-grid { 
         display: grid !important; 
         grid-template-columns: 1fr 1fr !important; 
-        gap: 12px !important; 
+        gap: 18px !important; 
     }
 
     .mini-recipe-card { background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
     .mini-image-wrapper { width: 100%; aspect-ratio: 1/1; position: relative; }
     .mini-image-wrapper img { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; }
-    .mini-title-box { padding: 6px 2px; text-align: center; min-height: 40px; display: flex; align-items: center; justify-content: center; }
-    .mini-title { font-size: 0.7rem !important; margin: 0; color: #333; line-height: 1.2; font-weight: 600; }
+    .mini-title-box { padding: 8px 4px; text-align: center; min-height: 45px; display: flex; align-items: center; justify-content: center; }
+    .mini-title { font-size: 0.8rem !important; margin: 0; color: #333; line-height: 1.2; font-weight: 600; }
 
     .hidden { display: none; }
 </style>
@@ -68,28 +67,33 @@ layout: default
   <div class="book-main-content">
     <img src="{{ page.book_cover }}" alt="{{ page.book_title }}" class="book-cover-img">
 
-    <h1 style="margin: 0 0 5px 0; font-size: 2rem; color: #333; line-height: 1.2;">{{ page.book_title }}</h1>
-    <p style="color: #888; font-style: italic; margin-bottom: 20px;">{{ page.book_author }}</p>
+    <h1 style="margin: 0 0 10px 0; font-size: 2.8rem; color: #333; line-height: 1.1;">{{ page.book_title }}</h1>
+    <p style="color: #888; font-style: italic; margin-bottom: 25px; font-size: 1.3rem;">{{ page.book_author }}</p>
       
-    <div class="book-description" style="line-height: 1.6; color: #444; font-size: 1.05rem; text-align: justify;">
+    <div class="book-description" style="line-height: 1.8; color: #444; font-size: 1.15rem; text-align: justify;">
       {{ content }}
     </div>
 
-    <div style="margin-top: 30px; clear: both;">
+    <div style="margin-top: 40px; clear: both;">
       <a href="{{ page.book_link }}" target="_blank" 
-         style="display: inline-block; background: #fa8569; color: #fff; text-decoration: none; padding: 12px 30px; border-radius: 5px; font-weight: bold; text-transform: uppercase; font-size: 0.85rem;">
+         style="display: inline-block; background: #fa8569; color: #fff; text-decoration: none; padding: 18px 45px; border-radius: 5px; font-weight: bold; text-transform: uppercase; font-size: 1rem;">
         Открыть книгу
       </a>
     </div>
   </div>
 
   <div class="book-sidebar">
-    <div style="border-bottom: 2px solid #fa8569; padding-bottom: 10px; margin-bottom: 15px;">
-      <h3 style="margin: 0; font-size: 1rem; color: #333;">Все рецепты книги (<span id="recipes-count">0</span>)</h3>
-      <div id="filter-container" style="margin-top: 10px; position: relative;">
-        <button id="filter-toggle" style="width: 100%; font-size: 0.75rem; padding: 5px; cursor: pointer;">Фильтр категорий <span id="sel-count"></span></button>
-        <div id="checkbox-list-container" class="hidden" style="position: absolute; background: white; border: 1px solid #ccc; width: 100%; z-index: 10; padding: 10px; font-size: 0.75rem;">
-            <div><input type="checkbox" id="all-cat" value="all"> <label for="all-cat">Все</label></div>
+    <div style="border-bottom: 2px solid #fa8569; padding-bottom: 12px; margin-bottom: 25px;">
+      <h3 style="margin: 0; font-size: 1.2rem; color: #333; font-weight: bold;">Все рецепты из книги (<span id="recipes-count">0</span>)</h3>
+      <div id="filter-container" style="margin-top: 15px; position: relative;">
+        <button id="filter-toggle" style="width: 100%; font-size: 0.85rem; padding: 10px; cursor: pointer; background: #fff; border: 1px solid #ddd; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+            <span>Фильтр категорий</span>
+            <span id="sel-count" style="font-weight: bold; color: #fa8569;"></span>
+        </button>
+        <div id="checkbox-list-container" class="hidden" style="position: absolute; background: white; border: 1px solid #ddd; width: 100%; z-index: 100; padding: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+            <div style="border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 8px;">
+                <input type="checkbox" id="all-cat" value="all"> <label for="all-cat" style="font-weight: bold; font-size: 0.85rem; cursor:pointer;">Все</label>
+            </div>
         </div>
       </div>
     </div>
@@ -121,18 +125,24 @@ document.addEventListener("DOMContentLoaded", async function () {
         const categories = [...new Set(allRecipes.flatMap(r => r.categories || []))].sort();
         categories.forEach(cat => {
             const div = document.createElement("div");
-            div.innerHTML = `<input type="checkbox" value="${cat}"> <label style="font-size:0.75rem;">${cat}</label>`;
+            div.style.marginBottom = "8px";
+            div.innerHTML = `<input type="checkbox" id="c-${cat}" value="${cat}"> <label for="c-${cat}" style="font-size:0.85rem; cursor:pointer; margin-left:8px;">${cat}</label>`;
             checkboxContainer.appendChild(div);
         });
 
         render(allRecipes);
         document.getElementById("filter-toggle").onclick = () => checkboxContainer.classList.toggle("hidden");
 
-        checkboxContainer.onchange = () => {
+        checkboxContainer.onchange = (e) => {
+            if (e.target.id === 'all-cat' && e.target.checked) {
+                checkboxContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => { if(cb.id !== 'all-cat') cb.checked = false; });
+            } else if (e.target.id !== 'all-cat') {
+                document.getElementById('all-cat').checked = false;
+            }
             const boxes = Array.from(checkboxContainer.querySelectorAll('input:checked')).map(b => b.value);
             const filtered = (boxes.length === 0 || boxes.includes('all')) ? allRecipes : allRecipes.filter(r => (r.categories || []).some(c => boxes.includes(c)));
             render(filtered);
-            document.getElementById("sel-count").textContent = boxes.length > 0 ? `(${boxes.length})` : '';
+            document.getElementById("sel-count").textContent = (boxes.length > 0 && !boxes.includes('all')) ? `(${boxes.length})` : '';
         };
     } catch (e) { console.error(e); }
 });
