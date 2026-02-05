@@ -344,12 +344,21 @@ document.addEventListener("DOMContentLoaded", async function () {
   display: none; /* Скрывает элемент, не оставляя места */
 }
 .checkbox-item {
-  display: flex; /* Гибкий контейнер для флажка и текста */
-  align-items: center; /* Выравнивает флажок и текст по центру */
-  margin-bottom: 5px; /* Отступ между элементами списка */
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  margin-bottom: 8px !important;
 }
 .checkbox-item input[type="checkbox"] {
-  margin-right: 10px; /* Отступ справа от самого флажка */
+  margin: 0 10px 0 0 !important;
+  width: auto !important;
+  height: auto !important;
+  flex-shrink: 0 !important;
+}
+.checkbox-item label {
+  margin: 0 !important;
+  line-height: 1 !important;
+  cursor: pointer;
 }
 .checkbox-item input[type="checkbox"]:checked + label {
   color: #fa8569; /* Цвет текста для выбранной категории */
