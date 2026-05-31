@@ -3,7 +3,6 @@ backend:
   repo: Helga1970/new-site
   branch: main
 
-# Исправленные пути: медиа сохраняются в папку, public_folder указывает правильный путь от корня сайта
 media_folder: "_recipes/journal/images"
 public_folder: "/_recipes/journal/images"
 
