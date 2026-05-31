@@ -3,9 +3,9 @@ backend:
   repo: Helga1970/new-site
   branch: main
 
-# Настраиваем сохранение картинок прямо в папку журнала
+# Исправленные пути: медиа сохраняются в папку, public_folder указывает правильный путь от корня сайта
 media_folder: "_recipes/journal/images"
-public_folder: "images"
+public_folder: "/_recipes/journal/images"
 
 collections:
   - name: "recipes_journal"
