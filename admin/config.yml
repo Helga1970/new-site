@@ -1,0 +1,20 @@
+backend:
+  name: git-gateway
+  repo: Helga1970/new-site
+  branch: main
+
+media_folder: "public/images/recipes"
+public_folder: "/images/recipes"
+
+collections:
+  - name: "recipes_journal"
+    label: "Рецепты Журнал"
+    folder: "_recipes/journal"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Название блюда", name: "title", widget: "string" }
+      - { label: "Время приготовления (мин)", name: "time", widget: "number" }
+      - { label: "Главное фото", name: "image", widget: "image" }
+      - { label: "Ингредиенты", name: "ingredients", widget: "text" }
+      - { label: "Инструкция по приготовлению", name: "body", widget: "markdown" }
